@@ -1,6 +1,6 @@
 import _ from 'chalk'
 import { stripIndents } from 'common-tags'
-import { sequelize } from '../models/index'
+import ms from 'ms'
 
 export const COLORS = {
     TIMESTAMP: timestamp => _.hex('#45C5B0')(timestamp),
@@ -103,7 +103,12 @@ export const MESSAGES = {
                 DESCRIPTION: 'Get an invite link for the bot'
             },
             REMIND: {
-                DESCRIPTION: 'Set a custom reminder'
+                DESCRIPTION: 'Set a custom reminder',
+                SUCCESS: time => `successfully set a reminder for \`${ms(ms(time), { long: true })}\``,
+                FINISH: (user, content) => `${user}, reminder to\n> ${content}`,
+
+                ERR_REF_LENGTH: 'reminder reference must be fewer than 32 characters',
+                ERR_CONTENT_LENGTH: 'reminder content must be fewer than 1850 characters',
             },
             SERVER: {
                 DESCRIPTION: 'View the server\'s info'
@@ -141,7 +146,7 @@ export const MESSAGES = {
                 DESCRIPTION: 'Create a custom command with content (text, markdown, attachments) of your choice, usable server-wide',
                 NAME: author => `${author}, what would you like the name of the tag to be?`,
                 CONTENT: author => `${author}, what would you like the content of the tag to be?`,
-                SUCCESS: (name, prefix) => `Successfully created a new tag with the name \`${name}\`, use \`${prefix}${name}\` to try it out`,
+                SUCCESS: (name, prefix) => `successfully created a new tag with the name \`${name}\`, use \`${prefix}${name}\` to try it out`,
 
                 ERR_NAME_LENGTH: 'tag name must be fewer than 32 characters',
                 ERR_CONTENT_LENGTH: 'tag content must be fewer than 1850 characters',
@@ -152,7 +157,7 @@ export const MESSAGES = {
                 ADD: author => `${author}, what tag would you like to add an alias to?`,
                 NAME: (author, name) => `${author}, what would you like the alias for \`${name}\` to be?`,
                 DELETE: author => `${author}, what tag would you like to delete an alias from?`,
-                SUCCESS: (name, alias, add) => `${add ? `Added alias \`${alias}\` to` : `Deleted alias \`${alias}\` from`} \`${name}\``,
+                SUCCESS: (name, alias, add) => `${add ? `added alias \`${alias}\` to` : `deleted alias \`${alias}\` from`} \`${name}\``,
 
                 ERR_ALIAS_LENGTH: 'tag alias must be fewer than 32 characters',
                 ERR_FLAGS: 'no flag provided, please use `--add/--del`',
@@ -162,16 +167,16 @@ export const MESSAGES = {
             DELETE: {
                 DESCRIPTION: 'Delete an exisiting tag',
                 NAME: author => `${author}, what tag would you like to delete?`,
-                SUCCESS: name => `Successfully deleted tag \`${name}\``,
+                SUCCESS: name => `successfully deleted tag \`${name}\``,
 
-                ERR_AUTHOR: 'You can\'t delete a tag authored by another user',
+                ERR_AUTHOR: 'you can\'t delete a tag authored by another user',
                 ERR_EXISTS2: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`,
             },
             EDIT: {
                 DESCRIPTION: 'Edit an existing tag\'s content',
                 NAME: author => `${author}, what tag would you like to edit?`,
                 CONTENT: (author, name) => `${author}, what would you like the new content for \`${name}\` to be?`,
-                SUCCESS: name => `Successfully edited tag \`${name}\``,
+                SUCCESS: name => `successfully edited tag \`${name}\``,
 
                 ERR_AUTHOR: 'you can\'t edit a tag authored by another user',
                 ERR_CONTENT_LENGTH: 'tag content must be fewer than 1850 characters',
@@ -191,54 +196,10 @@ export const MESSAGES = {
     }
 }
 
-export const QUERIES = {
-    HERO: {
-        SIGNATURE(hero) {
-            const result = sequelize.query(
-                `SELECT
-                name,
-                "si.skill", "si.description",
-                "si.lv0", "si.lv10", "si.lv20", "si.lv30"
-                FROM heroes
-                WHERE name = '${hero}'`
-            )
-            return result
-        },
-        FURNITURE(hero) {
-            const result = sequelize.query(
-                `SELECT
-                name,
-                "fn.ability",
-                "fn.lv3", "fn.lv9"
-                FROM heroes
-                WHERE name = '${hero}'`
-            )
-            return result
-        },
-        INFO(hero) {
-            const result = sequelize.query(
-                `SELECT
-                name,
-                title,
-                faction,
-                role,
-                type,
-                class,
-                trait,
-                armor,
-                "si.item",
-                "fn.ability"
-                FROM heroes
-                WHERE name = '${hero}'`
-            )
-            return result || null
-        }
-    }
-}
-
 export const FUNCTIONS = {
     FLATTEN(array, value) {
-        return array[0][0][value]
+        if (value) return array[0][0][value]
+        else return array[0][0]
     },
     CLEAN(input) {
         if (typeof(input) === 'string') {

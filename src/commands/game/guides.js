@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MESSAGES } from '../../utils/constants'
-import paginate from '../../utils/paginator'
+import { paginate } from '../../utils/paginator'
 
 export default class Guides extends Command {
     constructor() {

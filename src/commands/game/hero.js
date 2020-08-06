@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, FUNCTIONS, QUERIES } from '../../utils/constants'
+import { COLORS, MESSAGES, FUNCTIONS } from '../../utils/constants'
+import { PGSQL } from '../../utils/postgresql'
 import { stripIndents } from 'common-tags'
 
 export default class Hero extends Command {
@@ -26,7 +27,7 @@ export default class Hero extends Command {
     }
 
     async exec(message, { hero }) {
-        const result = await QUERIES.HERO.INFO(hero)
+        const result = await PGSQL.HERO.INFO(hero)
         const prefix = this.handler.prefix(message)
 
         const heroEmbed = new MessageEmbed()

@@ -1,9 +1,8 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { sequelize } from '../../models/index'
-import { MESSAGES, COLORS } from '../../utils/constants';
-import { Op } from 'sequelize';
+import { MESSAGES, COLORS, FUNCTIONS } from '../../utils/constants';
 import { MessageEmbed } from 'discord.js';
+import { PGSQL } from '../../utils/postgresql';
 
 export default class TagSearch extends Command {
     constructor() {
@@ -33,21 +32,11 @@ export default class TagSearch extends Command {
 
 		if (name.length > 32) return message.util.reply(MESSAGES.COMMANDS.TAGS.SEARCH.ERR_NAME_LENGTH)
 
-        const tags = await sequelize.models.tags.findAll({
-            where: {
-                [Op.or]: {
-                    name: {
-                        [Op.like]: `%${name}%`
-                    },
-                    aliases: {
-                        [Op.contains]: [`${name}`]
-                    }
-                }
-            }
-        })
+        const result = await PGSQL.TAGS.SEARCH(name, message)
+        const tags = FUNCTIONS.FLATTEN(result)
 
-        for (const tag of tags) {
-            results.push(tag.dataValues.name)
+        for (const tag of [tags]) {
+            results.push(tag.name)
         }
 
         const resultEmbed = new MessageEmbed()

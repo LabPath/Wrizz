@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
-import { sequelize } from '../../models/index'
 import { MESSAGES } from '../../utils/constants';
+import { PGSQL } from '../../utils/postgresql';
 
 export default class TagDelete extends Command {
     constructor() {
@@ -27,13 +27,9 @@ export default class TagDelete extends Command {
 
 	async exec(message, { tag }) {
         if (tag.name.length > 32) return message.util.reply(MESSAGES.COMMANDS.TAGS.DELETE.ERR_LENGTH)
-        if (tag.user !== message.author.id) return message.util.reply(MESSAGES.COMMANDS.TAGS.DELETE.ERR_AUTHOR)
+        if (tag.author !== message.author.id) return message.util.reply(MESSAGES.COMMANDS.TAGS.DELETE.ERR_AUTHOR)
 
-        await sequelize.models.tags.destroy({
-            where: {
-                id: tag.id
-            }
-        })
+        await PGSQL.TAGS.DELETE(tag)
 
 		return message.util.reply(MESSAGES.COMMANDS.TAGS.DELETE.SUCCESS(tag.name))
 	}

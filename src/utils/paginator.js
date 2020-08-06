@@ -5,7 +5,7 @@
  * @param {number} timeout Time in ms until the page becomes static
  */
 
-export default paginate = async (message, pages, emojis = ['◀️', '▶️'], timeout = 120000) => {
+export const paginate = async (message, pages, emojis = ['◀️', '▶️'], timeout = 120000) => {
 	if (!message && !message.channel) throw new Error('Channel is inaccessible.');
 	if (!pages) throw new Error('Pages are not given.');
     if (emojis.length !== 2) throw new Error('< 2 emojis provided');

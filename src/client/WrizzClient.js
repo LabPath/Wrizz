@@ -8,6 +8,7 @@ import { sequelize } from '../models/index'
 import { Util } from 'discord.js'
 import { join } from 'path'
 import { Op } from 'sequelize'
+import { PGSQL } from '../utils/postgresql'
 
 export default class WrizzClient extends AkairoClient {
     constructor() {
@@ -42,15 +43,14 @@ export default class WrizzClient extends AkairoClient {
 
         this.commandHandler.resolver.addType('tag', async (message, phrase) => {
             if (!message.guild || !phrase) return Flag.fail(phrase);
-
             phrase = Util.cleanContent(phrase.toLowerCase(), message);
 
-			const tag = await sequelize.models.tags.findOne({
-                where: {
-                    [Op.or]: [{ name: phrase }, { aliases: phrase }],
-                    guildID: message.guild.id
-                }
-            })
+            const result = await PGSQL.TAGS.TYPE(phrase, message)
+            
+            let tag;
+
+            if (typeof result[0][0] === 'undefined') tag = null
+            else tag = FUNCTIONS.FLATTEN(result)
 
 			return tag || Flag.fail(phrase);
         });
@@ -59,12 +59,12 @@ export default class WrizzClient extends AkairoClient {
             if (!message.guild || !phrase) return Flag.fail(phrase);
             phrase.split(',').forEach(str => Util.cleanContent(str.trim().toLowerCase(), message));
 
-			const tag = await sequelize.models.tags.findOne({
-                where: {
-                    [Op.or]: [{ name: phrase }, { aliases: phrase }],
-                    guildID: message.guild.id
-                }
-            })
+			const result = await PGSQL.TAGS.TYPE(phrase, message)
+            
+            let tag;
+
+            if (typeof result[0][0] === 'undefined') tag = null
+            else tag = FUNCTIONS.FLATTEN(result)
 
 			return tag ? Flag.fail(tag.name) : phrase;
         });
@@ -73,7 +73,7 @@ export default class WrizzClient extends AkairoClient {
             if (!message.guild || !phrase) return Flag.fail(phrase);
             phrase = Util.cleanContent(phrase.toLowerCase(), message);
 
-            const result = await sequelize.query(`SELECT * FROM heroes WHERE LOWER(name) = '${phrase}'`)
+            const result = await PGSQL.HERO.TYPE(phrase)
 
             let hero;
             

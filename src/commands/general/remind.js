@@ -1,9 +1,10 @@
 import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
-import { MESSAGES } from '../../utils/constants'
+import { MESSAGES, COLORS } from '../../utils/constants'
 import { sequelize } from '../../models/index'
 import moment from 'moment'
 import ms from 'ms'
+import { MessageEmbed } from 'discord.js'
 
 export default class Reminder extends Command {
     constructor() {
@@ -62,6 +63,7 @@ export default class Reminder extends Command {
         const time = new Date(moment().add(val, key)).getTime() || 0
 
         this.client.remind.add({
+            id: Math.random(),
             guildID: message.guild.id,
             channelID: message.channel.id,
             userID: message.author.id,
@@ -70,5 +72,18 @@ export default class Reminder extends Command {
             startAt: Date.now(),
             endAt: time
         })
+
+        try {
+            const remEmbed = new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setTitle('Reminder Receipt')
+            .addField('❯ Duration', `\`${ms(ms(duration), { long: true })}\` from now`)
+            .addField('❯ Content', content)
+            .setColor(COLORS.DEFAULT)
+
+            return message.author.send(remEmbed)
+        } catch (err) {
+            return message.util.reply(MESSAGES.COMMANDS.GENERAL.REMIND.SUCCESS(duration))
+        }
     }
 }

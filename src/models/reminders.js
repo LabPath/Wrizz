@@ -5,7 +5,7 @@ export const Reminders = (sequelize, DataTypes) => {
         userID: DataTypes.STRING,
         reference: DataTypes.TEXT,
         content: DataTypes.TEXT,
-        startAt: DataTypes.DATE,
-        endAt: DataTypes.DATE,
+        startAt: DataTypes.BIGINT,
+        endAt: DataTypes.BIGINT,
     })
 }

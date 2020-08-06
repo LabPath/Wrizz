@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, QUERIES, FUNCTIONS } from '../../utils/constants'
+import { COLORS, MESSAGES, FUNCTIONS } from '../../utils/constants'
+import { PGSQL } from '../../utils/postgresql'
 
 export default class Signature extends Command {
     constructor() {
@@ -40,7 +41,7 @@ export default class Signature extends Command {
     }
 
     async exec(message, { hero, level }) {
-        const result = await QUERIES.HERO.SIGNATURE(hero)
+        const result = await PGSQL.HERO.SIGNATURE(hero)
 
         const fnEmbed = new MessageEmbed()
         .setAuthor(`${hero}  |  ${FUNCTIONS.FLATTEN(result, 'si.skill')}`)

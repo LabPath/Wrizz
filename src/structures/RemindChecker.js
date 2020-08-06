@@ -1,5 +1,7 @@
 import { sequelize } from '../models/index'
-import { Op } from 'sequelize';
+import { MessageEmbed } from 'discord.js'
+import { PGSQL } from '../utils/postgresql';
+import { MESSAGES, COLORS } from '../utils/constants';
 
 export default class RemindChecker {
 	constructor(client, { checkRate = 5 * 60 * 1000 } = {}) {
@@ -9,42 +11,33 @@ export default class RemindChecker {
 	}
 
     async add(remind) {
-        await sequelize.models.reminders.create({
-            guildID: remind.guildID,
-            channelID: remind.channelID,
-            userID: remind.userID,
-            reference: remind.reference,
-            content: remind.content,
-            startAt: remind.startAt,
-            endAt: remind.endAt,
-        })
+        await PGSQL.REMINDERS.ADD(remind)
 
-        console.log(remind)
         if ((remind.endAt ? remind.endAt : 0) < Date.now() + this.checkRate) this.continue(remind);
     }
 
 	async finish(remind) {
-        // const guild = this.client.guilds.cache.get(remind.guildID)
-        // const channel = guild.channels.cache.get(remind.channelID)
         const user = this.client.users.cache.get(remind.userID)
+        const guild = this.client.guilds.cache.get(remind.guildID)
+        const channel = guild.channels.cache.get(remind.channelID)
 
         try {
-            user.send(remind.content)
+            const remEmbed = new MessageEmbed()
+            .setAuthor(user.tag, user.displayAvatarURL())
+            .setTitle(remind.reference)
+            .addField('❯ Content', remind.content)
+            .setColor(COLORS.DEFAULT)
+
+            user.send(remEmbed)
         } catch (err) {
-            return // channel.send(remind.content)
+            return channel.send(MESSAGES.COMMANDS.GENERAL.REMIND.FINISH(user, remind.content))
         }
 
 		const schedule = this.queued.get(remind.id);
-		if (schedule) {
-            this.client.clearTimeout(schedule);
-            return this.queued.delete(remind.id);
-        }
+		if (schedule) this.client.clearTimeout(schedule);
+        this.queued.delete(remind.id);
 
-        await sequelize.models.reminders.destroy({
-            where: {
-                [Op.and]: [{ id: remind.id }, { userID: remind.userID }]
-            }
-        })
+        await PGSQL.REMINDERS.FINISH(remind)
 	}
 
 	async forget(remind) {
@@ -52,11 +45,7 @@ export default class RemindChecker {
 		if (schedule) this.client.clearTimeout(schedule);
 		this.queued.delete(remind.id);
 
-        await sequelize.models.reminders.destroy({
-            where: {
-                [Op.and]: [{ id: remind.id }, { userID: remind.userID }]
-            }
-        })
+        await PGSQL.REMINDERS.FORGET(remind)
 	}
 
 	continue(remind) {
@@ -68,7 +57,7 @@ export default class RemindChecker {
 	}
 
 	async init() {
-		await this.check();
+        await this.check();
 		this.checkInterval = this.client.setInterval(this.check.bind(this), this.checkRate);
 	}
 
@@ -76,7 +65,7 @@ export default class RemindChecker {
 		const reminders = await sequelize.models.reminders.findAll()
 
 		for (const reminder of reminders) {
-			if (this.queued.has(reminder.id)) continue;
+            if (this.queued.has(reminder.id)) continue;
 
 			if ((reminder.endAt ? reminder.endAt : 0) < Date.now()) this.finish(reminder);
 			else this.continue(reminder);

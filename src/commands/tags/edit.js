@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
 import { MESSAGES } from '../../utils/constants';
-import { sequelize } from '../../models';
+import { PGSQL } from '../../utils/postgresql';
 
 export default class TagEdit extends Command {
 	constructor() {
@@ -35,7 +35,7 @@ export default class TagEdit extends Command {
 	}
 
     async exec(message, { tag, content }) {
-		if (tag.user !== message.author.id) return message.util.reply(MESSAGES.COMMANDS.TAGS.EDIT.ERR_AUTHOR);
+		if (tag.author !== message.author.id) return message.util.reply(MESSAGES.COMMANDS.TAGS.EDIT.ERR_AUTHOR);
         if (content.length > 1850) return message.util.reply(MESSAGES.COMMANDS.TAGS.EDIT.ERR_CONTENT_LENGTH);
 
 		if (content) {
@@ -43,15 +43,8 @@ export default class TagEdit extends Command {
 			if (message.attachments.first()) content += `\n${message.attachments.first().url}`;
 		}
 
-		await sequelize.models.tags.update({
-            content: content,
-            edits: tag.edits++
-        }, {
-            where: {
-                name: tag.name
-            }
-        })
-
+        await PGSQL.TAGS.EDIT(tag, content, message)
+        
 		return message.util.reply(MESSAGES.COMMANDS.TAGS.EDIT.SUCCESS(tag.name));
 	}
 }

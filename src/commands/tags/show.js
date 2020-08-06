@@ -1,8 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES } from '../../utils/constants';
-import { sequelize } from '../../models/index'
-import { Op } from 'sequelize'
+import { MESSAGES, FUNCTIONS } from '../../utils/constants';
+import { PGSQL } from '../../utils/postgresql'
 
 export default class TagShow extends Command {
     constructor() {
@@ -29,16 +28,11 @@ export default class TagShow extends Command {
 	async exec(message, { name }) {
         name = Util.cleanContent(name, message);
 
-        const tag = await sequelize.models.tags.findOne({
-            where: {
-                [Op.or]: [{ name: name }, { aliases: name }],
-                guildID: message.guild.id
-            }
-        })
+        const result = await PGSQL.TAGS.SHOW(name, message)
+        if (!result) return
 
-        if (!tag) return
+        const tag = FUNCTIONS.FLATTEN(result, 'content')
 
-        await tag.increment('uses')
-		return message.util.send(tag.content);
+		return message.util.send(tag);
 	}
 }

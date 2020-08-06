@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, FUNCTIONS, QUERIES } from '../../utils/constants'
+import { COLORS, MESSAGES, FUNCTIONS } from '../../utils/constants'
+import { PGSQL } from '../../utils/postgresql'
 
 export default class Furniture extends Command {
     constructor() {
@@ -25,7 +26,7 @@ export default class Furniture extends Command {
     }
 
     async exec(message, { hero }) {
-        const result = await QUERIES.HERO.FURNITURE(hero)
+        const result = await PGSQL.HERO.FURNITURE(hero)
         
         const fnEmbed = new MessageEmbed()
         .setAuthor(`${hero}  |  ${FUNCTIONS.FLATTEN(result, 'fn.ability')}`)

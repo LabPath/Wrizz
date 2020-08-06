@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { MESSAGES } from '../../utils/constants';
-import { sequelize } from '../../models';
+import { PGSQL } from '../../utils/postgresql';
 
 export default class Alias extends Command {
 	constructor() {
@@ -64,14 +64,7 @@ export default class Alias extends Command {
 			return message.util.reply(MESSAGES.COMMANDS.TAGS.ALIAS.ERR_FLAGS);
         }
 
-        console.log(tag.aliases)
-		await sequelize.models.tags.update({
-            aliases: tag.aliases
-        }, {
-            where: {
-                name: tag.name
-            }
-        })
+		await PGSQL.TAGS.ALIAS(tag)
 
 		return message.util.reply(MESSAGES.COMMANDS.TAGS.ALIAS.SUCCESS(tag.name, alias, add));
 	}

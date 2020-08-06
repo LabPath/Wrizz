@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { sequelize } from '../../models/index'
 import { MESSAGES } from '../../utils/constants';
+import { PGSQL } from '../../utils/postgresql';
 
 export default class TagAdd extends Command {
     constructor() {
@@ -35,6 +35,7 @@ export default class TagAdd extends Command {
 	}
 
 	async exec(message, { name, content }) {
+        const prefix = this.handler.prefix(message)
         name = Util.cleanContent(name.toLowerCase(), message);
 
 		if (name.length > 32) return message.util.reply(MESSAGES.COMMANDS.TAGS.ADD.ERR_NAME_LENGTH)
@@ -43,14 +44,8 @@ export default class TagAdd extends Command {
         content = Util.cleanContent(content, message);
         if (message.attachments.first()) content += `\n${message.attachments.first().url}`;
 
-        await sequelize.models.tags.create({
-            name: name,
-            aliases: [],
-            content: content,
-            author: message.author.id,
-            guildID: message.guild.id,
-        })
+        await PGSQL.TAGS.ADD(name, content, message)
 
-		return message.util.reply(MESSAGES.COMMANDS.TAGS.ADD.SUCCESS(name, this.handler.prefix(message)))
+		return message.util.reply(MESSAGES.COMMANDS.TAGS.ADD.SUCCESS(name, prefix))
 	}
 }
