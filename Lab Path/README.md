@@ -1,5 +1,5 @@
 <h1 align=center>Lab Path Folder</h1>
-This folder contains assets related to the subreddit and discord.
+This folder contains assets related to the subreddit and discord. Maps folder will be updated every couple months or whenever I feel like it
 
 <div align=center>
     <h1>

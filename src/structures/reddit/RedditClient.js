@@ -71,8 +71,8 @@ export default class RedditClient {
         return true;
     }
 
-    async isValid(subreddit) {
-        const res = await get(`https://reddit.com/r/${subreddit}/about.json`).catch(() => null);
+    async isValid(sub) {
+        const res = await get(`https://reddit.com/r/${sub}/about.json`).catch(() => null);
 
         if (!res) return false;
         if (res.status !== 200) return false;

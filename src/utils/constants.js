@@ -54,27 +54,6 @@ export const MESSAGES = {
             }
         },
 
-        GENERAL: {
-            HELP: {
-                DESCRIPTION: 'View specific info on a command or a full list'
-            },
-            INVITE: {
-                DESCRIPTION: 'Get an invite link for the bot'
-            },
-            REMIND: {
-                DESCRIPTION: 'Set a custom reminder'
-            },
-            SERVER: {
-                DESCRIPTION: 'View the server\'s info'
-            },
-            STATS: {
-                DESCRIPTION: 'View the bot\s info'
-            },
-            USER: {
-                DESCRIPTION: 'View a user\`s info',
-            }
-        },
-
         GAME: {
             EMBLEMS: {
                 DESCRIPTION: 'View the emblem requirements for SI level ups'
@@ -84,6 +63,9 @@ export const MESSAGES = {
                 HERO: author => `${author}, which hero's furniture would you like to view?`,
 
                 ERR_EXISTS: (author, hero) => `${author}, a hero with the name ${hero} doesn't exist`
+            },
+            GUIDES: {
+                DESCRIPTION: ''
             },
             HERO: {
                 DESCRIPTION: 'View a hero\'s general info',
@@ -110,6 +92,27 @@ export const MESSAGES = {
 
                 ERR_EXISTS: (author, hero) => `${author}, a hero with the name ${hero} doesn't exist`,
                 ERR_EXISTS2: (author, level) => `${author}, ${level} is an invalid level unlock`
+            }
+        },
+
+        GENERAL: {
+            HELP: {
+                DESCRIPTION: 'View specific info on a command or a full list'
+            },
+            INVITE: {
+                DESCRIPTION: 'Get an invite link for the bot'
+            },
+            REMIND: {
+                DESCRIPTION: 'Set a custom reminder'
+            },
+            SERVER: {
+                DESCRIPTION: 'View the server\'s info'
+            },
+            STATS: {
+                DESCRIPTION: 'View the bot\s info'
+            },
+            USER: {
+                DESCRIPTION: 'View a user\`s info',
             }
         },
 
