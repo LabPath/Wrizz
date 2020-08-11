@@ -8,16 +8,16 @@ export default class TagSearch extends Command {
     constructor() {
 		super('tag-search', {
             aliases: ['search', 'find'],
-			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.SEARCH.DESCRIPTION,
 				usage: '<query>',
-			},
+            },
+            category: 'tag',
 			args: [
 				{
                     id: 'name',
+                    type: 'lowercase',
                     match: 'content',
-					type: 'lowercase',
 					prompt: {
 						start: message => MESSAGES.COMMANDS.TAGS.SEARCH.QUERY(message.author),
 					},

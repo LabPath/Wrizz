@@ -1,22 +1,21 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags'
-import moment from 'moment'
 import { COLORS, MESSAGES } from '../../utils/constants';
+import moment from 'moment'
 
 export default class User extends Command {
     constructor() {
         super('user', {
             aliases: ['user', 'user-info'],
-            category: 'general',
             description: {
                 content: MESSAGES.COMMANDS.GENERAL.USER.DESCRIPTION,
                 usage: '[user]'
             },
+            category: 'general',
             args: [
                 {
                     id: 'member',
-                    match: 'content',
                     type: 'member',
                     default: message => message.member
                 }

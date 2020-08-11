@@ -1,7 +1,6 @@
 import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
 import { MESSAGES, COLORS } from '../../utils/constants'
-import { sequelize } from '../../models/index'
 import moment from 'moment'
 import ms from 'ms'
 import { MessageEmbed } from 'discord.js'

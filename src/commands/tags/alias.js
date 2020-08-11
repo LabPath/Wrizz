@@ -6,12 +6,12 @@ export default class Alias extends Command {
 	constructor() {
 		super('tag-alias', {
             aliases: ['alias', 'pseudo'],
-			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.ALIAS.DESCRIPTION,
 				usage: '<--[add|del]> <name> <alias>',
 				examples: ['--add stupid stoopid', '--del stewpid stupid'],
-			},
+            },
+            category: 'tag',
 			flags: ['--add', '--del'],
 		});
 	}
@@ -35,15 +35,15 @@ export default class Alias extends Command {
 		};
 
 		const alias = yield add ? {
-            match: 'rest',
             type: 'existingTag',
+            match: 'rest',
             prompt: {
                 start: message => MESSAGES.COMMANDS.TAGS.ALIAS.NAME(message.author),
                 retry: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.ALIAS.ERR_EXISTS(message.author, phrase)
-            },
+            }
         } : {
-            match: 'rest',
             type: 'string',
+            match: 'rest',
             prompt: {
                 start: message => MESSAGES.COMMANDS.TAGS.ALIAS.DELETE(message.author),
                 retry: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.ALIAS.ERR_EXISTS2(message.author, phrase)

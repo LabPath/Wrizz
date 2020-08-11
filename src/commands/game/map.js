@@ -13,7 +13,7 @@ export default class Map extends Command {
             description: {
                 content: MESSAGES.COMMANDS.GAME.MAP.DESCRIPTION,
                 usage: '[--date=YYYY-MM-DD]',
-                example: ['--date=2020-01-25', '--date=Feb 11', '--date=Apr 06 2020']
+                examples: ['--date=2020-01-25', '--date=Feb 11', '--date=Apr 06 2020']
             },
             category: 'game',
             args: [

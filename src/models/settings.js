@@ -8,5 +8,5 @@ export const Settings = (sequelize, DataTypes) => {
             type: DataTypes.JSONB,
             defaultValue: []
         }
-    })
+    }, { timestamps: false })
 }

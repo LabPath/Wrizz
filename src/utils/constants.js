@@ -45,12 +45,25 @@ export const MESSAGES = {
 
     COMMANDS: {
         CONFIG: {
+            MOD: {
+                DESCRIPTION: 'Enable Moderation features',
+                DISABLED: 'disabled Moderation features',
+                ENABLED: 'enabled Moderation features'
+            },
+
             PREFIX: {
                 DESCRIPTION: 'Set the bot prefix',
-                ERR_LENGTH: 'Prefix must be fewer than 5 characters',
+                ERR_LENGTH: 'Prefix must be fewer than 3 characters',
                 CURRENT: (guild, prefix) => `The current prefix for ${guild} is \`${prefix}\``,
                 RESET: prefix => `Successfully reset the bot prefix to \`${prefix}\``,
                 SUCCESS: prefix => `Successfully set the bot prefix to \`${prefix}\``
+            },
+
+            STAFFROLE: {
+                DESCRIPTION: 'Set the staff role',
+                SUCCESS: role => `successfully set the staff role to \`${role}\``,
+
+                ERR_EXISTS: role => `a role with the name \`${role}\` doesn't exist`,
             }
         },
 
@@ -62,7 +75,7 @@ export const MESSAGES = {
                 DESCRIPTION: 'View a hero\'s furniture ability upgrades',
                 HERO: author => `${author}, which hero's furniture would you like to view?`,
 
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name ${hero} doesn't exist`
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
             },
             GUIDES: {
                 DESCRIPTION: ''
@@ -71,27 +84,28 @@ export const MESSAGES = {
                 DESCRIPTION: 'View a hero\'s general info',
                 NAME: author => `${author}, which hero would you like to view?`,
 
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name ${hero} doesn't exist`
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
             },
             MAP: {
                 DESCRIPTION: stripIndents`
                     View the latest Arcane Labyrinth map or query a map by date
+                    
                     ❯ Accepted date strings
                     • YYYY-MM-DD
                     • MMM DD
                     • MMM DD YYYY`,
 
                 ERR_FETCH: 'There was an error while fetching the latest map',
-                ERR_NO_MAP: date => `Unable to find a map with a date of ${date}`,
-                ERR_DATE: date => `${date} is an invalid date string`
+                ERR_NO_MAP: date => `Unable to find a map with a date of \`${date}\``,
+                ERR_DATE: date => `\`${date}\` is an invalid date string`
             },
             SIGNATURE: {
                 DESCRIPTION: 'View a hero\'s signature item upgrades',
                 HERO: author => `${author}, which hero's signature item would you like to view?`,
                 LEVEL: author => `${author}, which level unlock would you like to view?`,
 
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name ${hero} doesn't exist`,
-                ERR_EXISTS2: (author, level) => `${author}, ${level} is an invalid level unlock`
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`,
+                ERR_EXISTS2: (author, level) => `${author}, \`${level}\` is an invalid level unlock`
             }
         },
 
@@ -110,14 +124,38 @@ export const MESSAGES = {
                 ERR_REF_LENGTH: 'reminder reference must be fewer than 32 characters',
                 ERR_CONTENT_LENGTH: 'reminder content must be fewer than 1850 characters',
             },
+            ROLE: {
+                DESCRIPTION: 'Assign yourself a role',
+                ADD: author => `${author}, what role would you like to join?`,
+                LEAVE: author => `${author}, what role would you like to leave?`,
+                SUCCESS: (join, role) => `Successfully ${join ? 'joined' : 'left'} \`${role}\``,
+
+                ERR_EXISTS: (author, role) => `${author}, a role with the name \`${role}\` doesn't exist`,
+                ERR_PERMS: role => `you can't join \`${role}\``,
+                ERR_HAVE: role => `you don't have \`${role}\``
+            },
             SERVER: {
                 DESCRIPTION: 'View the server\'s info'
             },
             STATS: {
-                DESCRIPTION: 'View the bot\s info'
+                DESCRIPTION: 'View the bot\'s info'
             },
             USER: {
                 DESCRIPTION: 'View a user\`s info',
+            }
+        },
+
+        MOD: {
+            BAN: {
+                DESCRIPTION: 'Ban a user'
+            },
+            CLOSE: {
+                SUCCESS: id => `successfully closed suggestion \`${id}\``,
+
+                ERR_EXISTS: id => `a suggestion with ID \`${id}\` doesn't exist`
+            },
+            SOFTBAN: {
+                DESCRIPTION: 'Softban a user'
             }
         },
 
@@ -134,7 +172,7 @@ export const MESSAGES = {
             RELOAD: {
                 DESCRIPTION: 'Reload a command or all',
                 ALL: 'successfully reloaded all commands',
-                SUCCESS: command => `successfully reloaded ${command}`
+                SUCCESS: command => `successfully reloaded \`${command}\``
             }
         },
 

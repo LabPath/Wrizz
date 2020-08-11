@@ -7,12 +7,12 @@ export default class TagAdd extends Command {
     constructor() {
 		super('tag-add', {
             aliases: ['add', 'create'],
-			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.ADD.DESCRIPTION,
 				usage: '<name> <content>',
 				examples: ['name lorem ipsum dolor sit amet'],
-			},
+            },
+            category: 'tag',
 			args: [
 				{
 					id: 'name',
@@ -24,8 +24,8 @@ export default class TagAdd extends Command {
 				},
 				{
 					id: 'content',
-					match: 'rest',
-					type: 'string',
+                    type: 'string',
+                    match: 'rest',
 					prompt: {
 						start: message => MESSAGES.COMMANDS.TAGS.ADD.CONTENT(message.author)
 					},

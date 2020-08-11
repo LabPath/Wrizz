@@ -1,14 +1,12 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, Flag } from 'discord-akairo'
 import RedditWatcher from '../structures/reddit/RedditWatcher'
 import SettingsProvider from '../structures/SettingsProvider'
-import RemindChecker from '../structures/RemindChecker'
-import { TYPE, EVENT, logger } from '../utils/logger'
+import ReminderHandler from '../structures/ReminderHandler'
 import { COLORS, MESSAGES, FUNCTIONS } from '../utils/constants'
-import { sequelize } from '../models/index'
+import { TYPE, EVENT, logger } from '../utils/logger'
+import { PGSQL } from '../utils/postgresql'
 import { Util } from 'discord.js'
 import { join } from 'path'
-import { Op } from 'sequelize'
-import { PGSQL } from '../utils/postgresql'
 
 export default class WrizzClient extends AkairoClient {
     constructor() {
@@ -16,7 +14,7 @@ export default class WrizzClient extends AkairoClient {
 
         this.logger = logger
         this.settings = new SettingsProvider()
-        this.remind = new RemindChecker(this)
+        this.remind = new ReminderHandler(this)
 
         this.commandHandler = new CommandHandler(this, {
             directory: join(__dirname, '../commands'),

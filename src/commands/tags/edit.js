@@ -7,11 +7,11 @@ export default class TagEdit extends Command {
 	constructor() {
 		super('tag-edit', {
             aliases: ['edit', 'modify'],
-			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.EDIT.DESCRIPTION,
 				usage: '<name> <content>',
-			},
+            },
+            category: 'tag',
 		});
 	}
 
@@ -24,8 +24,8 @@ export default class TagEdit extends Command {
 		};
 
 		const content = yield {
-            match: 'rest',
             type: 'string',
+            match: 'rest',
             prompt: {
                 start: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.EDIT.CONTENT(message.author, phrase),
             },

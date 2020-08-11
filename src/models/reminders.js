@@ -7,5 +7,5 @@ export const Reminders = (sequelize, DataTypes) => {
         content: DataTypes.TEXT,
         startAt: DataTypes.BIGINT,
         endAt: DataTypes.BIGINT,
-    })
+    }, { timestamps: false })
 }

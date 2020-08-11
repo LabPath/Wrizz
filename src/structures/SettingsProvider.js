@@ -1,6 +1,7 @@
 import { Provider } from 'discord-akairo'
 import { Guild } from 'discord.js'
 import { sequelize } from '../models/index'
+import { PGSQL } from '../utils/postgresql'
 
 export default class SettingsProvider extends Provider {
     constructor(model = sequelize) {
@@ -22,7 +23,7 @@ export default class SettingsProvider extends Provider {
         const id = this.constructor.getGuildID(guild)
         if (this.items.has(id)) {
             const value = this.items.get(id)[key]
-            return value === null ? defaultValue : value
+            return !value ? defaultValue : value
         }
         return defaultValue
     }
@@ -32,8 +33,8 @@ export default class SettingsProvider extends Provider {
         const data = this.items.get(id) || {}
         data[key] = value
         this.items.set(id, data)
-
-        return await this.model.models.settings.upsert({ guildID: id, settings: data })
+        
+        return await PGSQL.SETTINGS.SET(id, data)
     }
 
     async delete(guild, key) {

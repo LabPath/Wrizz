@@ -3,7 +3,7 @@ import { MessageEmbed } from 'discord.js'
 import { PGSQL } from '../utils/postgresql';
 import { MESSAGES, COLORS } from '../utils/constants';
 
-export default class RemindChecker {
+export default class ReminderHandler {
 	constructor(client, { checkRate = 5 * 60 * 1000 } = {}) {
         this.checkRate = checkRate;
         this.client = client

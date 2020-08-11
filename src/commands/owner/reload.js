@@ -5,12 +5,12 @@ export default class Reload extends Command {
     constructor() {
         super('reload', {
             aliases: ['reload'],
-            ownerOnly: true,
             description: {
                 content: MESSAGES.COMMANDS.OWNER.RELOAD.DESCRIPTION,
                 usage: '[command]'
             },
             category: 'owner',
+            ownerOnly: true,
             args: [
                 {
                     id: 'command',

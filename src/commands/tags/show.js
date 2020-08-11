@@ -29,7 +29,7 @@ export default class TagShow extends Command {
         name = Util.cleanContent(name, message);
 
         const result = await PGSQL.TAGS.SHOW(name, message)
-        if (!result) return
+        if (!result[0][0]) return
 
         const tag = FUNCTIONS.FLATTEN(result, 'content')
 

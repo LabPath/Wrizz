@@ -67,9 +67,7 @@ export const PGSQL = {
                     reference,
                     content,
                     "startAt",
-                    "endAt",
-                    "createdAt",
-                    "updatedAt"
+                    "endAt"
                 )
                 VALUES (
                     '${remind.guildID}',
@@ -79,8 +77,6 @@ export const PGSQL = {
                     '${remind.content}',
                     '${remind.startAt}',
                     '${remind.endAt}',
-                    'NOW()',
-                    'NOW()'
                 )
             `)
         },
@@ -100,6 +96,51 @@ export const PGSQL = {
                 WHERE "userID" = '${remind.userID}'
             `)
         },
+    },
+
+    SETTINGS: {
+        SET(id, data) {
+            sequelize.query(`
+                INSERT INTO settings (
+                    "guildID", 
+                    settings
+                )
+                VALUES (
+                    '${id}', 
+                    '${JSON.stringify(data)}'
+                ) 
+                ON CONFLICT ("guildID") 
+                DO UPDATE 
+                SET settings = '${JSON.stringify(data)}'
+            `)
+        }
+    },
+
+    SUGGEST: {
+        NEW(author, guild, id) {
+            sequelize.query(`
+                INSERT INTO suggestions (
+                    "guildID",
+                    "userID",
+                    "reference"
+                )
+                VALUES (
+                    '${guild}',
+                    '${author}',
+                    '${id}'
+                )
+            `)
+        },
+
+        CLOSE(guild, id) {
+            const result = sequelize.query(`
+                DELETE FROM suggestions
+                WHERE reference = '${id}'
+                AND "guildID" = '${guild}'
+                RETURNING reference
+            `)
+            return result || false
+        }
     },
 
     TAGS: {
@@ -136,8 +177,7 @@ export const PGSQL = {
 
         DELETE(tag) {
             sequelize.query(`
-                DELETE
-                FROM tags
+                DELETE FROM tags
                 WHERE id = ${tag.id}
             `)
         },
@@ -146,7 +186,8 @@ export const PGSQL = {
             sequelize.query(`
                 UPDATE tags
                 SET content = '${content}',
-                    edits = ${tag.edits} + 1
+                    edits = ${tag.edits} + 1,
+                    updatedAt = NOW()
                 WHERE name = '${tag.name}'
                 AND "guildID" = '${message.guild.id}'
             `)

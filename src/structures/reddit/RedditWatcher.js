@@ -2,6 +2,7 @@ import RedditClient from './RedditClient'
 import RedditEmbed from './RedditEmbed'
 import { COLORS } from '../../utils/constants'
 import { TYPE, EVENT } from '../../utils/logger';
+import cs from 'clean-stack'
 
 export default class RedditWatcher {
     constructor(client) {
@@ -16,8 +17,8 @@ export default class RedditWatcher {
         await this.reddit.add('Lab_path')
         this.reddit
             .on('ready', () => this.client.logger.info('Connected to Reddit', { type: COLORS._REDDIT(TYPE.REDDIT), event: COLORS.CONNECT(EVENT.CONNECT)}))
-            .on('post', data => channel.send('<@740004956513501224>', new RedditEmbed({ post: data[0], title: 'Arcane Labyrinth' })))
-            .on('error', err => console.log(cleanStack(err.stack)))
+            .on('post', data => channel.send('<@&725477327215132693>', new RedditEmbed({ post: data[0], title: 'Arcane Labyrinth' })))
+            .on('error', err => console.log(cs(err.stack)))
 
         await this.reddit.start()
     }

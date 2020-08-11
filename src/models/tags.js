@@ -8,14 +8,6 @@ export const Tags = (sequelize, DataTypes) => {
         aliases: DataTypes.JSONB,
         guildID: DataTypes.STRING,
         author: DataTypes.STRING,
-        createdAt: {
-            allowNull: false,
-            type: DataTypes.DATE
-        },
-        updatedAt: {
-            allowNull: false,
-            type: DataTypes.DATE
-        },
         uses: {
             type: DataTypes.INTEGER,
             defaultValue: 0
@@ -23,6 +15,6 @@ export const Tags = (sequelize, DataTypes) => {
         edits: {
             type: DataTypes.INTEGER,
             defaultValue: 0
-        },
+        }
     })
 }

@@ -6,16 +6,16 @@ export default class TagDelete extends Command {
     constructor() {
 		super('tag-delete', {
             aliases: ['delete', 'del', 'remove'],
-			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.DELETE.DESCRIPTION,
 				usage: '<name>',
-			},
+            },
+            category: 'tag',
 			args: [
 				{
                     id: 'tag',
+                    type: 'tag',
                     match: 'content',
-					type: 'tag',
 					prompt: {
 						start: message => MESSAGES.COMMANDS.TAGS.DELETE.NAME(message.author),
 						retry: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.DELETE.ERR_EXISTS2(message.author, phrase)
