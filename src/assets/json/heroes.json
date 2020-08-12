@@ -167,7 +167,7 @@
             "armor": "Plate"
         },
         "si": {
-            "item": "armor of Ruin",
+            "item": "Armor of Ruin",
             "desc": "Twisted armor that represents the very evil it protects",
             "skill": "Immolate",
             "lv0": "Enemies with less than 30% health will be stunned for a short period of time",
@@ -1635,6 +1635,32 @@
             "ability": "Ferocity Burst",
             "lv3": "Ukyo's Attack Rating is increased by 6% each time he deals damage to an enemy. This ability can be stacked up to6 times. If an enemy dodges, mitigates or is immune to one of Ukyo's attacks, he will lose 3 layers of his increased Attack Rating",
             "lv9": "Ability can be stacked up to 15 times"
+        }
+    },
+    {
+        "hero": {
+            "name": "Ezio",
+            "title": "Auditore da Firenze",
+            "faction": "Dimensional",
+            "role": "Assassin",
+            "type": "Agility",
+            "class": "Ranger",
+            "trait": "Dura's Celerity",
+            "armor": "Leather"
+        },
+        "si": {
+            "item": "Hidden Blade",
+            "desc": "Through studying pages from Altair's codex, Leonardo da Vinci was able to provide Ezio an upgraded Hidden Blade. As a symbol of the Assassin, Ezio will use the Hidden Blade until the end of his career",
+            "skill": "Assassin's Target",
+            "lv0": "Each time Ezio defeats an enemy, all holds enemies marked with 'Execution Threshold' markers have their thresholds raised by 50% for the following 10 seconds. This ability cannot be stacked",
+            "lv10": "Each time Ezio defeats an enemy he receives 35% less damage from enemies for 10 seconds. This ability cannot be stacked",
+            "lv20": "Each time Ezio defeats an enemy he receives 55% less damage from enemies for 10 seconds. This ability cannot be stacked",
+            "lv30": "Each time Ezio defeats an enemy his \"Smoke Bomb\" ability is triggered"
+        },
+        "fn": {
+            "ability": "Master Assassin",
+            "lv3": "All negative control abilities are removed from Ezio whenever a deadly strike is dealt to an enemy as a result of his \"Eagle Vision\" ability",
+            "lv9": "Ezio gains 500 Energy points at the beginning of battles"
         }
     }
 ]
