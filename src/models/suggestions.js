@@ -3,5 +3,6 @@ export const Suggestions = (sequelize, DataTypes) => {
         guildID: DataTypes.STRING,
         userID: DataTypes.STRING,
         reference: DataTypes.STRING,
+        messageID: DataTypes.STRING
     }, { timestamps: false })
 }

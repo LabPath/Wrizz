@@ -23,15 +23,14 @@ export default class Help extends Command {
 
     async exec(message, { cmd }) {
         const prefix = this.handler.prefix(message)
-        const mod = this.client.settings.get(message.guild, 'modFeatures')
 
         if (!cmd) {
             const helpEmbed = new MessageEmbed()
             .setAuthor('Command List', this.client.user.displayAvatarURL())
+            .setDescription('[Support Server](https://discord.gg/JCVtRpK)')
             .setColor(COLORS.DEFAULT)
 
             for (const category of this.handler.categories.values()) {
-                if (!mod && category.id === 'mod') continue
                 helpEmbed.addField(`❯ ${capitalCase(category.id)}`, category.filter(cmd => cmd.aliases.length > 0).map(cmd => `\`${cmd.aliases[0]}\``).join(' '))
             }
             return message.util.send(helpEmbed)

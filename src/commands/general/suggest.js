@@ -11,7 +11,7 @@ export default class Suggest extends Command {
         super('suggest', {
             aliases: ['suggest', 'suggestion'],
             description: {
-                content: MESSAGES.COMMANDS.GENERAL.REMIND.DESCRIPTION,
+                content: MESSAGES.COMMANDS.GENERAL.SUGGEST.DESCRIPTION,
                 usage: '<suggestion>',
                 examples: ['do something cool']
             },
@@ -30,10 +30,14 @@ export default class Suggest extends Command {
     }
 
     async exec(message, { content }) {
-        const channel = message.guild.channels.cache.find(_ => _.name === 'suggestions')
+        const channel = this.client.settings.get(message.guild, 'suggestChannel')
         
-        if (message.channel.id !== channel.id) {
-            return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CHANNEL)
+        if (!channel) {
+            return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.DISABLED(message.guild.name))
+        }
+
+        if (message.channel.id !== channel) {
+            return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CHANNEL(channel))
         }
 
         const _id = id({ length: 6 })
@@ -52,7 +56,7 @@ export default class Suggest extends Command {
         const msg = await message.util.send(suggestEmbed)
         await msg.react('🔼')
         await msg.react('🔽')
-
-        await PGSQL.SUGGEST.NEW(message.author.id, message.guild.id, _id)
+        
+        await PGSQL.SUGGEST.NEW(message.author.id, message.guild.id, _id, msg.id)
     }
 }

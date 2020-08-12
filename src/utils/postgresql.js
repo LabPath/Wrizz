@@ -117,17 +117,19 @@ export const PGSQL = {
     },
 
     SUGGEST: {
-        NEW(author, guild, id) {
+        NEW(author, guild, refID, msgID) {
             sequelize.query(`
                 INSERT INTO suggestions (
                     "guildID",
                     "userID",
-                    "reference"
+                    "reference",
+                    "messageID"
                 )
                 VALUES (
                     '${guild}',
                     '${author}',
-                    '${id}'
+                    '${refID}',
+                    '${msgID}'
                 )
             `)
         },
@@ -137,7 +139,9 @@ export const PGSQL = {
                 DELETE FROM suggestions
                 WHERE reference = '${id}'
                 AND "guildID" = '${guild}'
-                RETURNING reference
+                RETURNING 
+                reference,
+                "messageID"
             `)
             return result || false
         }

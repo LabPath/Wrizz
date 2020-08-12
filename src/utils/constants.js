@@ -44,11 +44,109 @@ export const MESSAGES = {
     },
 
     COMMANDS: {
-        CONFIG: {
-            MOD: {
-                DESCRIPTION: 'Enable Moderation features',
-                DISABLED: 'disabled Moderation features',
-                ENABLED: 'enabled Moderation features'
+        GAME: {
+            EMBLEMS: {
+                DESCRIPTION: 'View the emblem requirements for SI level ups'
+            },
+
+            FURNITURE: {
+                DESCRIPTION: 'View a hero\'s furniture ability upgrades',
+                HERO: author => `${author}, which hero's furniture would you like to view?`,
+
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
+            },
+
+            GUIDES: {
+                DESCRIPTION: ''
+            },
+
+            HERO: {
+                DESCRIPTION: 'View a hero\'s general info',
+                NAME: author => `${author}, which hero would you like to view?`,
+
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
+            },
+
+            MAP: {
+                DESCRIPTION: stripIndents`
+                    View the latest Arcane Labyrinth map or query a map by date
+                    
+                    ❯ Accepted date strings
+                    • YYYY-MM-DD
+                    • MMM DD
+                    • MMM DD YYYY`,
+
+                ERR_FETCH: 'There was an error while fetching the latest map',
+                ERR_NO_MAP: date => `Unable to find a map with a date of \`${date}\``,
+                ERR_DATE: date => `\`${date}\` is an invalid date string`
+            },
+
+            SIGNATURE: {
+                DESCRIPTION: 'View a hero\'s signature item upgrades',
+                HERO: author => `${author}, which hero's signature item would you like to view?`,
+                LEVEL: author => `${author}, which level unlock would you like to view?`,
+
+                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`,
+                ERR_EXISTS2: (author, level) => `${author}, \`${level}\` is an invalid level unlock`
+            }
+        },
+
+        GENERAL: {
+            HELP: {
+                DESCRIPTION: 'View specific info on a command or a full list'
+            },
+
+            INVITE: {
+                DESCRIPTION: 'Get an invite link for the bot'
+            },
+
+            REMIND: {
+                DESCRIPTION: 'Set a custom reminder',
+                SUCCESS: time => `successfully set a reminder for \`${ms(ms(time), { long: true })}\``,
+                FINISH: (user, content) => `${user}, reminder to\n> ${content}`,
+
+                ERR_REF_LENGTH: 'reminder reference must be fewer than 32 characters',
+                ERR_CONTENT_LENGTH: 'reminder content must be fewer than 1850 characters',
+            },
+
+            ROLE: {
+                DESCRIPTION: 'Assign yourself a role',
+                ADD: author => `${author}, what role would you like to join?`,
+                LEAVE: author => `${author}, what role would you like to leave?`,
+                SUCCESS: (join, role) => `Successfully ${join ? 'joined' : 'left'} \`${role}\``,
+
+                ERR_EXISTS: (author, role) => `${author}, a role with the name \`${role}\` doesn't exist`,
+                ERR_PERMS: role => `you can't join \`${role}\``,
+                ERR_HAVE: role => `you don't have \`${role}\``
+            },
+
+            SERVER: {
+                DESCRIPTION: 'View the server\'s info'
+            },
+
+            STATS: {
+                DESCRIPTION: 'View the bot\'s info'
+            },
+
+            SUGGEST: {
+                DESCRIPTION: 'Suggest a feature',
+                CONTENT: author => `${author}, what would you like to suggest?`,
+                DISABLED: guild => `suggestions are disabled in \`${guild}\``,
+
+                ERR_CONTENT_LENGTH: 'suggestion content must be fewer than 1850 characters',
+                ERR_CHANNEL: channel => `you can only make suggestions in <#${channel}>`
+            },
+
+            USER: {
+                DESCRIPTION: 'View a user\`s info',
+            }
+        },
+
+        MOD: {
+            CLOSE: {
+                SUCCESS: id => `successfully closed suggestion \`${id}\``,
+
+                ERR_EXISTS: id => `a suggestion with ID \`${id}\` doesn't exist`
             },
 
             PREFIX: {
@@ -64,98 +162,14 @@ export const MESSAGES = {
                 SUCCESS: role => `successfully set the staff role to \`${role}\``,
 
                 ERR_EXISTS: role => `a role with the name \`${role}\` doesn't exist`,
-            }
-        },
+            },
 
-        GAME: {
-            EMBLEMS: {
-                DESCRIPTION: 'View the emblem requirements for SI level ups'
-            },
-            FURNITURE: {
-                DESCRIPTION: 'View a hero\'s furniture ability upgrades',
-                HERO: author => `${author}, which hero's furniture would you like to view?`,
+            SUGGESTIONS: {
+                DESCRIPTION: 'Set the suggestions channel',
+                CHANNEL: author => `${author}, what channel would you like to limit suggestions to?`,
+                SUCCESS: channel => `successfully set suggestion channel to \`#${channel}\``,
 
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
-            },
-            GUIDES: {
-                DESCRIPTION: ''
-            },
-            HERO: {
-                DESCRIPTION: 'View a hero\'s general info',
-                NAME: author => `${author}, which hero would you like to view?`,
-
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`
-            },
-            MAP: {
-                DESCRIPTION: stripIndents`
-                    View the latest Arcane Labyrinth map or query a map by date
-                    
-                    ❯ Accepted date strings
-                    • YYYY-MM-DD
-                    • MMM DD
-                    • MMM DD YYYY`,
-
-                ERR_FETCH: 'There was an error while fetching the latest map',
-                ERR_NO_MAP: date => `Unable to find a map with a date of \`${date}\``,
-                ERR_DATE: date => `\`${date}\` is an invalid date string`
-            },
-            SIGNATURE: {
-                DESCRIPTION: 'View a hero\'s signature item upgrades',
-                HERO: author => `${author}, which hero's signature item would you like to view?`,
-                LEVEL: author => `${author}, which level unlock would you like to view?`,
-
-                ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`,
-                ERR_EXISTS2: (author, level) => `${author}, \`${level}\` is an invalid level unlock`
-            }
-        },
-
-        GENERAL: {
-            HELP: {
-                DESCRIPTION: 'View specific info on a command or a full list'
-            },
-            INVITE: {
-                DESCRIPTION: 'Get an invite link for the bot'
-            },
-            REMIND: {
-                DESCRIPTION: 'Set a custom reminder',
-                SUCCESS: time => `successfully set a reminder for \`${ms(ms(time), { long: true })}\``,
-                FINISH: (user, content) => `${user}, reminder to\n> ${content}`,
-
-                ERR_REF_LENGTH: 'reminder reference must be fewer than 32 characters',
-                ERR_CONTENT_LENGTH: 'reminder content must be fewer than 1850 characters',
-            },
-            ROLE: {
-                DESCRIPTION: 'Assign yourself a role',
-                ADD: author => `${author}, what role would you like to join?`,
-                LEAVE: author => `${author}, what role would you like to leave?`,
-                SUCCESS: (join, role) => `Successfully ${join ? 'joined' : 'left'} \`${role}\``,
-
-                ERR_EXISTS: (author, role) => `${author}, a role with the name \`${role}\` doesn't exist`,
-                ERR_PERMS: role => `you can't join \`${role}\``,
-                ERR_HAVE: role => `you don't have \`${role}\``
-            },
-            SERVER: {
-                DESCRIPTION: 'View the server\'s info'
-            },
-            STATS: {
-                DESCRIPTION: 'View the bot\'s info'
-            },
-            USER: {
-                DESCRIPTION: 'View a user\`s info',
-            }
-        },
-
-        MOD: {
-            BAN: {
-                DESCRIPTION: 'Ban a user'
-            },
-            CLOSE: {
-                SUCCESS: id => `successfully closed suggestion \`${id}\``,
-
-                ERR_EXISTS: id => `a suggestion with ID \`${id}\` doesn't exist`
-            },
-            SOFTBAN: {
-                DESCRIPTION: 'Softban a user'
+                ERR_EXISTS: (author, channel) => `${author}, a channel with the name/ID \`${channel}\` doesn't exist`
             }
         },
 
@@ -163,12 +177,15 @@ export const MESSAGES = {
             EVAL: {
                 DESCRIPTION: 'Execute JS code'
             },
+
             GUILD: {
                 DESCRIPTION: 'View the top 25 or less guilds'
             },
+
             KILL: {
                 DESCRIPTION: 'Kill the current client session'
             },
+
             RELOAD: {
                 DESCRIPTION: 'Reload a command or all',
                 ALL: 'successfully reloaded all commands',
@@ -190,6 +207,7 @@ export const MESSAGES = {
                 ERR_CONTENT_LENGTH: 'tag content must be fewer than 1850 characters',
                 ERR_EXISTS: (author, name) => `${author}, a tag with the name/alias \`${name}\` already exists`,
             },
+
             ALIAS: {
                 DESCRIPTION: 'Add another name to an exisiting tag',
                 ADD: author => `${author}, what tag would you like to add an alias to?`,
@@ -202,6 +220,7 @@ export const MESSAGES = {
                 ERR_EXISTS: (author, name) => `${author}, a tag with the name/alias \`${name}\` already exists`,
                 ERR_EXISTS2: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`,
             },
+
             DELETE: {
                 DESCRIPTION: 'Delete an exisiting tag',
                 NAME: author => `${author}, what tag would you like to delete?`,
@@ -210,6 +229,7 @@ export const MESSAGES = {
                 ERR_AUTHOR: 'you can\'t delete a tag authored by another user',
                 ERR_EXISTS2: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`,
             },
+
             EDIT: {
                 DESCRIPTION: 'Edit an existing tag\'s content',
                 NAME: author => `${author}, what tag would you like to edit?`,
@@ -220,12 +240,14 @@ export const MESSAGES = {
                 ERR_CONTENT_LENGTH: 'tag content must be fewer than 1850 characters',
                 ERR_EXISTS2: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`,
             },
+
             SEARCH: {
                 DESCRIPTION: 'Find a tag with a wildcard search that matches tag names and aliases',
                 QUERY: author => `${author}, what tag would you like to ssearch for?`,
 
                 ERR_NAME_LENGTH: 'tag name must be fewer than 32 characters',
             },
+            
             SHOW: {
                 DESCRIPTION: 'View a tag\'s content',
                 NAME: author => `${author}, what tag would you like to view?`,
@@ -239,6 +261,7 @@ export const FUNCTIONS = {
         if (value) return array[0][0][value]
         else return array[0][0]
     },
+
     CLEAN(input) {
         if (typeof(input) === 'string') {
             return input

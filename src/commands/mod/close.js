@@ -22,12 +22,19 @@ export default class Close extends Command {
     }
 
     async exec(message, { id }) {
-        const closed = await PGSQL.SUGGEST.CLOSE(message.guild.id, id)
+        message.delete()
+
+        const suggestion = await PGSQL.SUGGEST.CLOSE(message.guild.id, id)
         
-        if (!closed[0][0]) {
+        if (!suggestion[0][0]) {
             return message.util.reply(MESSAGES.COMMANDS.MOD.CLOSE.ERR_EXISTS(id))
+                .then(msg => msg.delete({ timeout: 10000 }))
         }
 
+        const msg = await message.channel.messages.fetch(suggestion[0][0].messageID)
+        msg.delete()
+
         return message.util.reply(MESSAGES.COMMANDS.MOD.CLOSE.SUCCESS(id))
+            .then(msg => msg.delete({ timeout: 10000 }))
     }
 }

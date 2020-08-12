@@ -5,7 +5,7 @@ export default class MessageInvalid extends Listener {
 		super('messageInvalid', {
 			emitter: 'commandHandler',
 			event: 'messageInvalid',
-			category: 'commandHandler',
+			category: 'listeners',
 		});
 	}
 

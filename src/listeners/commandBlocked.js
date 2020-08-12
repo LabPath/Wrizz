@@ -5,7 +5,7 @@ export default class CommandBlocked extends Listener {
 		super('commandBlocked', {
 			emitter: 'commandHandler',
 			event: 'commandBlocked',
-			category: 'commandHandler',
+			category: 'listeners',
 		});
 	}
 
