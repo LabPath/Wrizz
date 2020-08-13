@@ -1,6 +1,6 @@
 export const Settings = (sequelize, DataTypes) => {
     sequelize.define('settings', {
-        guildID: {
+        guild_id: {
             type: DataTypes.STRING,
             allowNull: false
         },

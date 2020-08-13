@@ -5,9 +5,9 @@ export const PGSQL = {
         FURNITURE(hero) {
             const result = sequelize.query(`
                 SELECT name,
-                       "fn.ability",
-                       "fn.lv3", 
-                       "fn.lv9"
+                       fn_ability,
+                       fn_lv3, 
+                       fn_lv9
                 FROM heroes
                 WHERE name = '${hero}'
             `)
@@ -24,8 +24,8 @@ export const PGSQL = {
                        class,
                        trait,
                        armor,
-                       "si.item",
-                       "fn.ability"
+                       si_item,
+                       fn_ability
                 FROM heroes
                 WHERE name = '${hero}'`
             )
@@ -35,12 +35,12 @@ export const PGSQL = {
         SIGNATURE(hero) {
             const result = sequelize.query(`
                 SELECT name,
-                       "si.skill", 
-                       "si.description",
-                       "si.lv0", 
-                       "si.lv10", 
-                       "si.lv20", 
-                       "si.lv30"
+                       si_skill, 
+                       si_description,
+                       si_lv0, 
+                       si_lv10, 
+                       si_lv20, 
+                       si_lv30
                 FROM heroes
                 WHERE name = '${hero}'
             `)
@@ -61,13 +61,13 @@ export const PGSQL = {
         ADD(remind) {
             sequelize.query(`
                 INSERT INTO reminders (
-                    "guildID",
-                    "channelID",
-                    "userID",
+                    guild_id,
+                    channel_id,
+                    user_id,
                     reference,
                     content,
-                    "startAt",
-                    "endAt"
+                    start,
+                    end
                 )
                 VALUES (
                     '${remind.guildID}',
@@ -85,7 +85,7 @@ export const PGSQL = {
             sequelize.query(`
                 DELETE
                 FROM reminders
-                WHERE "userID" = '${remind.userID}'
+                WHERE user_id = '${remind.userID}'
             `)
         },
     
@@ -93,7 +93,7 @@ export const PGSQL = {
             sequelize.query(`
                 DELETE
                 FROM reminders
-                WHERE "userID" = '${remind.userID}'
+                WHERE user_id = '${remind.userID}'
             `)
         },
     },
@@ -102,14 +102,14 @@ export const PGSQL = {
         SET(id, data) {
             sequelize.query(`
                 INSERT INTO settings (
-                    "guildID", 
+                    guild_id, 
                     settings
                 )
                 VALUES (
                     '${id}', 
                     '${JSON.stringify(data)}'
                 ) 
-                ON CONFLICT ("guildID") 
+                ON CONFLICT guild_id 
                 DO UPDATE 
                 SET settings = '${JSON.stringify(data)}'
             `)
@@ -120,10 +120,10 @@ export const PGSQL = {
         NEW(author, guild, refID, msgID) {
             sequelize.query(`
                 INSERT INTO suggestions (
-                    "guildID",
-                    "userID",
-                    "reference",
-                    "messageID"
+                    guild_id,
+                    user_id,
+                    reference,
+                    message_id
                 )
                 VALUES (
                     '${guild}',
@@ -138,10 +138,10 @@ export const PGSQL = {
             const result = sequelize.query(`
                 DELETE FROM suggestions
                 WHERE reference = '${id}'
-                AND "guildID" = '${guild}'
+                AND guild_id = '${guild}'
                 RETURNING 
                 reference,
-                "messageID"
+                message_id
             `)
             return result || false
         }
@@ -155,9 +155,9 @@ export const PGSQL = {
                     aliases, 
                     content, 
                     author, 
-                    "guildID",
-                    "createdAt",
-                    "updatedAt"
+                    guild_id,
+                    created_at,
+                    updated_at
                 )
                 VALUES (
                     '${name}', 
@@ -174,7 +174,7 @@ export const PGSQL = {
         ALIAS(tag) {
             sequelize.query(`
                 UPDATE tags
-                SET aliases = '["${tag.aliases}"]'
+                SET aliases = '${[JSON.stringify(tag.aliases)]}'
                 WHERE name = '${tag.name}'
             `)
         },
@@ -191,9 +191,9 @@ export const PGSQL = {
                 UPDATE tags
                 SET content = '${content}',
                     edits = ${tag.edits} + 1,
-                    updatedAt = NOW()
+                    updated_at = NOW()
                 WHERE name = '${tag.name}'
-                AND "guildID" = '${message.guild.id}'
+                AND guild_id = '${message.guild.id}'
             `)
         },
 
@@ -201,9 +201,11 @@ export const PGSQL = {
             const result = sequelize.query(`
                 SELECT *
                 FROM tags
-                WHERE "guildID" = '${message.guild.id}'
+                WHERE guild_id = '${message.guild.id}'
                 AND name LIKE '%${name}%' 
-                OR array_to_string(ARRAY[aliases], ',') LIKE '%${name}%'
+                OR array_to_string(
+                    ARRAY[aliases], ','
+                ) LIKE '%${name}%'
             `)
             return result
         },
@@ -212,7 +214,7 @@ export const PGSQL = {
             const result = sequelize.query(`
                 UPDATE tags
                 SET uses = uses + 1
-                WHERE "guildID" = '${message.guild.id}'
+                WHERE guild_id = '${message.guild.id}'
                 AND name = '${name}'
                 OR aliases @> '["${name}"]'
                 RETURNING content
@@ -224,7 +226,7 @@ export const PGSQL = {
             const result = sequelize.query(`
                 SELECT *
                 FROM tags
-                WHERE "guildID" = '${message.guild.id}'
+                WHERE guild_id = '${message.guild.id}'
                 AND name = '${phrase}'
                 OR aliases @> '["${phrase}"]'
             `)

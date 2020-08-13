@@ -27,7 +27,7 @@ export default class TagEdit extends Command {
             type: 'string',
             match: 'rest',
             prompt: {
-                start: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.EDIT.CONTENT(message.author, phrase),
+                start: message => MESSAGES.COMMANDS.TAGS.EDIT.CONTENT(message.author)
             },
         };
 
@@ -39,8 +39,11 @@ export default class TagEdit extends Command {
         if (content.length > 1850) return message.util.reply(MESSAGES.COMMANDS.TAGS.EDIT.ERR_CONTENT_LENGTH);
 
 		if (content) {
-			content = Util.cleanContent(content, message);
-			if (message.attachments.first()) content += `\n${message.attachments.first().url}`;
+            content = Util.cleanContent(content, message);
+            
+			if (message.attachments.first()) {
+                content += `\n${message.attachments.first().url}`;
+            }
 		}
 
         await PGSQL.TAGS.EDIT(tag, content, message)

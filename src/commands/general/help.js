@@ -39,10 +39,11 @@ export default class Help extends Command {
         const cmdEmbed = new MessageEmbed()
         .setAuthor(`${capitalCase(cmd.category.id)}  |  ${prefix + cmd.aliases[0]}`)
         .setDescription(cmd.description.content)
+        .addField('❯ Aliases', 
+            cmd.aliases.length > 1 
+                ? `\`${cmd.aliases.slice(1).join('` `')}\`` 
+                : 'No Aliases')
         .setColor(COLORS.DEFAULT)
-
-        if (cmd.aliases.length > 1)
-        cmdEmbed.addField('❯ Aliases', `\`${cmd.aliases.slice(1).join('` `')}\``)
 
         if (cmd.description.hasOwnProperty('usage'))
         cmdEmbed.addField('❯ Usage', `\`${prefix + cmd.aliases[0]} ${cmd.description.usage}\``)

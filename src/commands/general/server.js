@@ -7,7 +7,7 @@ import moment from 'moment'
 export default class Server extends Command {
 	constructor() {
 		super('server', {
-			aliases: ['server', 'server-info', 'info'],
+			aliases: ['server', 'server-info'],
 			description: {
 				content: MESSAGES.COMMANDS.GENERAL.SERVER.DESCRIPTION,
 			},

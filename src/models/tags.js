@@ -6,7 +6,7 @@ export const Tags = (sequelize, DataTypes) => {
         },
         content: DataTypes.TEXT,
         aliases: DataTypes.JSONB,
-        guildID: DataTypes.STRING,
+        guild_id: DataTypes.STRING,
         author: DataTypes.STRING,
         uses: {
             type: DataTypes.INTEGER,
@@ -16,5 +16,9 @@ export const Tags = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 0
         }
+    }, 
+    { 
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
     })
 }

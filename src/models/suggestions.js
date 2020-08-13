@@ -1,8 +1,8 @@
 export const Suggestions = (sequelize, DataTypes) => {
     sequelize.define('suggestions', {
-        guildID: DataTypes.STRING,
-        userID: DataTypes.STRING,
+        guild_id: DataTypes.STRING,
+        user_id: DataTypes.STRING,
         reference: DataTypes.STRING,
-        messageID: DataTypes.STRING
+        message_id: DataTypes.STRING
     }, { timestamps: false })
 }

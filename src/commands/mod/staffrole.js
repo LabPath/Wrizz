@@ -15,9 +15,9 @@ export default class StaffRole extends Command {
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{
-					id: 'role',
+                    id: 'role',
+                    type: 'role',
 					match: 'content',
-					type: 'role',
 				},
 			],
 		});

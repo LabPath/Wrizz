@@ -1633,7 +1633,7 @@
         },
         "fn": {
             "ability": "Ferocity Burst",
-            "lv3": "Ukyo's Attack Rating is increased by 6% each time he deals damage to an enemy. This ability can be stacked up to6 times. If an enemy dodges, mitigates or is immune to one of Ukyo's attacks, he will lose 3 layers of his increased Attack Rating",
+            "lv3": "Ukyo's Attack Rating is increased by 6% each time he deals damage to an enemy. This ability can be stacked up to 6 times. If an enemy dodges, mitigates or is immune to one of Ukyo's attacks, he will lose 3 layers of his increased Attack Rating",
             "lv9": "Ability can be stacked up to 15 times"
         }
     },

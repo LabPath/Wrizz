@@ -233,12 +233,19 @@ export const MESSAGES = {
             EDIT: {
                 DESCRIPTION: 'Edit an existing tag\'s content',
                 NAME: author => `${author}, what tag would you like to edit?`,
-                CONTENT: (author, name) => `${author}, what would you like the new content for \`${name}\` to be?`,
+                CONTENT: author => `${author}, what would you like the new content to be?`,
                 SUCCESS: name => `successfully edited tag \`${name}\``,
 
                 ERR_AUTHOR: 'you can\'t edit a tag authored by another user',
                 ERR_CONTENT_LENGTH: 'tag content must be fewer than 1850 characters',
                 ERR_EXISTS2: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`,
+            },
+
+            INFO: {
+                DESCRIPTION: 'View a tag\'s info',
+                NAME: author => `${author}, what tag would you like to view?`,
+
+                ERR_EXISTS: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`
             },
 
             SEARCH: {
