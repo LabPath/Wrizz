@@ -690,9 +690,9 @@
             "item": "Shadow Stinger",
             "desc": "A crossbow, accurate and light. Perfect for a skulking kill or cunning ambush",
             "skill": "Madness",
-            "lv0": "Vurk’s \"Mania\" ability now fires 3 crossbow bolts per aftack, however the additional bolts will deal 60% damage",
-            "lv10": "Additional crossbow bolt damage increased to 70% damage",
-            "lv20": "Additional crossbow bolt damage increased to 80% damage",
+            "lv0": "Vurk’s \"Mania\" ability now fires 3 crossbow bolts per aftack, however the additional bolts will deal 80% damage",
+            "lv10": "Additional crossbow bolt damage increased to 100% damage",
+            "lv20": "Additional crossbow bolt damage increased to 120% damage",
             "lv30": "The \"Mania\" ability now fires 5 crossbow bolts per attack"
         },
         "fn": {
