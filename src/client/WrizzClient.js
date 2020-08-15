@@ -63,7 +63,7 @@ export default class WrizzClient extends AkairoClient {
 
             if (typeof result[0][0] === 'undefined') tag = null
             else tag = FUNCTIONS.FLATTEN(result)
-
+            
 			return tag ? Flag.fail(tag.name) : phrase;
         });
 

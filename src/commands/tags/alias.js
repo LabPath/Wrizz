@@ -21,7 +21,8 @@ export default class Alias extends Command {
 			type: 'tag',
 			prompt: {
 				start: message => MESSAGES.COMMANDS.TAGS.ALIAS.ADD(message.author),
-				retry: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.ALIAS.ERR_EXISTS2(message.author, phrase)},
+                retry: (message, { phrase }) => MESSAGES.COMMANDS.TAGS.ALIAS.ERR_EXISTS2(message.author, phrase)
+            },
 		};
 
 		const add = yield {

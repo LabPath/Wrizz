@@ -113,11 +113,7 @@ export const MESSAGES = {
                 DESCRIPTION: 'Assign yourself a role',
                 ADD: author => `${author}, what role would you like to join?`,
                 LEAVE: author => `${author}, what role would you like to leave?`,
-                SUCCESS: (join, role) => `Successfully ${join ? 'joined' : 'left'} \`${role}\``,
-
-                ERR_EXISTS: (author, role) => `${author}, a role with the name \`${role}\` doesn't exist`,
-                ERR_PERMS: role => `you can't join \`${role}\``,
-                ERR_HAVE: role => `you don't have \`${role}\``
+                SUCCESS: (hasRole, role) => `Successfully ${!hasRole ? 'joined' : 'left'} \`${role}\``,
             },
 
             SERVER: {
@@ -211,7 +207,7 @@ export const MESSAGES = {
             ALIAS: {
                 DESCRIPTION: 'Add another name to an exisiting tag',
                 ADD: author => `${author}, what tag would you like to add an alias to?`,
-                NAME: (author, name) => `${author}, what would you like the alias for \`${name}\` to be?`,
+                NAME: author => `${author}, what would you like the alias to be?`,
                 DELETE: author => `${author}, what tag would you like to delete an alias from?`,
                 SUCCESS: (name, alias, add) => `${add ? `added alias \`${alias}\` to` : `deleted alias \`${alias}\` from`} \`${name}\``,
 

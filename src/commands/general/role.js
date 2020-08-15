@@ -12,67 +12,39 @@ export default class Role extends Command {
 				examples: ['@role', 'rolename'],
 			},
             category: 'general',
-            flags: ['--join', '--leave']
+            args: [
+                {
+                    id: 'role',
+                    type: 'role',
+                    match: 'content',
+                }
+            ]
 		});
     }
     
-    *args() {
-        const join = yield {
-            match: 'flag',
-            flag: '--join'
-        };
+	async exec(message, { role }) {
+        if (!role) return message.delete()
 
-        const leave = yield {
-            match: 'flag',
-            flag: '--leave'
-        };
+        const hasRole = message.member.roles.cache.has(role.id)
 
-        const role = yield join ? {
-            type: 'role',
-            match: 'rest',
-            prompt: {
-                start: message => MESSAGES.COMMANDS.GENERAL.ROLE.JOIN(message.author),
-                retry: (message, { phrase }) => MESSAGES.COMMANDS.GENERAL.ROLE.ERR_EXISTS(message.author, phrase)
-            }
-        } : {
-            type: 'role',
-            match: 'rest',
-            prompt: {
-                start: message => MESSAGES.COMMANDS.GENERAL.ROLE.LEAVE(message.author),
-                retry: (message, { phrase }) => MESSAGES.COMMANDS.GENERAL.ROLE.ERR_EXISTS(message.author, phrase)
-            }
-        }
-
-        return { join, leave, role }
-    }
-
-	async exec(message, { join, leave, role }) {
-        if (join) {
+        if (!hasRole) {
             try {
                 message.delete()
                 await message.member.roles.add(role)
 
                 try {
-                    await message.author.send(MESSAGES.COMMANDS.GENERAL.ROLE.SUCCESS(join, role.name))
+                    await message.author.send(MESSAGES.COMMANDS.GENERAL.ROLE.SUCCESS(hasRole, role.name))
                 } catch {}
-            } catch {
-                const msg = await message.util.reply(MESSAGES.COMMANDS.GENERAL.ROLE.ERR_PERMS(role.name))
-                msg.delete({ timeout: 5000 })
-            }
-        } else if (leave) {
+            } catch {}
+        } else {
             try {
                 message.delete()
                 await message.member.roles.remove(role)
 
                 try {
-                    await message.author.send(MESSAGES.COMMANDS.GENERAL.ROLE.SUCCESS(join, role.name))
+                    await message.author.send(MESSAGES.COMMANDS.GENERAL.ROLE.SUCCESS(hasRole, role.name))
                 } catch {}
-            } catch {
-                const msg = await message.util.reply(MESSAGES.COMMANDS.GENERAL.ROLE.ERR_HAVE(role.name))
-                msg.delete({ timeout: 5000 })
-            }
-        } else {
-            return
+            } catch {}
         }
 	}
 }
