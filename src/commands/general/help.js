@@ -26,7 +26,7 @@ export default class Help extends Command {
 
         if (!cmd) {
             const helpEmbed = new MessageEmbed()
-            .setAuthor('Command List', this.client.user.displayAvatarURL())
+            .setAuthor(`Command List  |  Prefix: ${prefix}`, this.client.user.displayAvatarURL())
             .setDescription('[Support Server](https://discord.gg/JCVtRpK)')
             .setColor(COLORS.DEFAULT)
 
