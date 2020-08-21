@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, FUNCTIONS } from '../../utils/constants'
+import { COLORS, MESSAGES, flatten } from '../../utils/constants'
 import { PGSQL } from '../../utils/postgresql'
 
 export default class Signature extends Command {
@@ -44,18 +44,18 @@ export default class Signature extends Command {
         const result = await PGSQL.HERO.SIGNATURE(hero)
 
         const fnEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${FUNCTIONS.FLATTEN(result, 'si.skill')}`)
-        .setDescription(`*${FUNCTIONS.FLATTEN(result, 'si.description')}*`)
-        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}`, FUNCTIONS.FLATTEN(result, `si.lv${level}`))
+        .setAuthor(`${hero}  |  ${flatten(result, 'si_skill')}`)
+        .setDescription(`*${flatten(result, 'si_description')}*`)
+        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}`, flatten(result, `si_lv${level}`))
         .setColor(COLORS[level])
 
         if (level === 'all') {
             fnEmbed.fields = []
             fnEmbed
-                .addField('Unlock', FUNCTIONS.FLATTEN(result, `si.lv0`))
-                .addField('+10 Unlock', FUNCTIONS.FLATTEN(result, `si.lv10`))
-                .addField('+20 Unlock', FUNCTIONS.FLATTEN(result, `si.lv20`))
-                .addField('+30 Unlock', FUNCTIONS.FLATTEN(result, `si.lv30`))
+                .addField('Unlock', flatten(result, 'si_lv0'))
+                .addField('+10 Unlock', flatten(result, 'si_lv10'))
+                .addField('+20 Unlock', flatten(result, 'si_lv20'))
+                .addField('+30 Unlock', flatten(result, 'si_lv30'))
                 .setColor(COLORS.DEFAULT)
         }
 

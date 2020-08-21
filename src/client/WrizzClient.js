@@ -2,7 +2,7 @@ import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, Flag }
 import RedditWatcher from '../structures/reddit/RedditWatcher'
 import SettingsProvider from '../structures/SettingsProvider'
 import ReminderHandler from '../structures/ReminderHandler'
-import { COLORS, MESSAGES, FUNCTIONS } from '../utils/constants'
+import { COLORS, MESSAGES, flatten } from '../utils/constants'
 import { TYPE, EVENT, logger } from '../utils/logger'
 import { PGSQL } from '../utils/postgresql'
 import { Util } from 'discord.js'
@@ -48,7 +48,7 @@ export default class WrizzClient extends AkairoClient {
             let tag;
 
             if (typeof result[0][0] === 'undefined') tag = null
-            else tag = FUNCTIONS.FLATTEN(result)
+            else tag = flatten(result)
 
 			return tag || Flag.fail(phrase);
         });
@@ -62,7 +62,7 @@ export default class WrizzClient extends AkairoClient {
             let tag;
 
             if (typeof result[0][0] === 'undefined') tag = null
-            else tag = FUNCTIONS.FLATTEN(result)
+            else tag = flatten(result)
             
 			return tag ? Flag.fail(tag.name) : phrase;
         });
@@ -76,7 +76,7 @@ export default class WrizzClient extends AkairoClient {
             let hero;
             
             if (typeof result[0][0] === 'undefined') hero = null
-            else hero = FUNCTIONS.FLATTEN(result, 'name')
+            else hero = flatten(result, 'name')
 
 			return hero || Flag.fail(phrase);
         });

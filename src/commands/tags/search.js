@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES, COLORS, FUNCTIONS } from '../../utils/constants';
+import { MESSAGES, COLORS, flatten } from '../../utils/constants';
 import { MessageEmbed } from 'discord.js';
 import { PGSQL } from '../../utils/postgresql';
 
@@ -33,7 +33,7 @@ export default class TagSearch extends Command {
 		if (name.length > 32) return message.util.reply(MESSAGES.COMMANDS.TAGS.SEARCH.ERR_NAME_LENGTH)
 
         const result = await PGSQL.TAGS.SEARCH(name, message)
-        const tags = FUNCTIONS.FLATTEN(result)
+        const tags = flatten(result)
 
         for (const tag of [tags]) {
             results.push(tag.name)

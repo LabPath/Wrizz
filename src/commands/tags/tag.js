@@ -14,6 +14,8 @@ export default class Tag extends Command {
                     'alias --del foo fee',
                     'delete foo',
                     'edit foo baz',
+                    'info foo',
+                    'show foo',
                     'search foo'
                 ]
 			},
@@ -33,7 +35,7 @@ export default class Tag extends Command {
 			],
 			otherwise: message => {
                 const prefix = this.handler.prefix(message)
-                return MESSAGES.COMMANDS.TAGS.INFO(prefix)
+                return MESSAGES.COMMANDS.TAGS.INFO.METHODS(prefix)
             }
 		};
 

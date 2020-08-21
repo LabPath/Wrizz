@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES, FUNCTIONS } from '../../utils/constants';
+import { MESSAGES, flatten } from '../../utils/constants';
 import { PGSQL } from '../../utils/postgresql'
 
 export default class TagShow extends Command {
@@ -31,7 +31,7 @@ export default class TagShow extends Command {
         const result = await PGSQL.TAGS.SHOW(name, message)
         if (!result[0][0]) return
 
-        const tag = FUNCTIONS.FLATTEN(result, 'content')
+        const tag = flatten(result, 'content')
 
 		return message.util.send(tag);
 	}

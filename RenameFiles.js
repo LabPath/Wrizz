@@ -1,13 +1,12 @@
-const { readdirSync, renameSync } = require('fs')
-const { resolve } = require('path')
+import { readdirSync, renameSync } from 'fs'
+import { resolve } from 'path'
+import { randomID } from './src/utils/constants'
+import moment from 'moment'
 
-const moment = require('moment')
-const randomID = require('crypto-random-string')
-
-const dir = resolve( /* FOLDER PATH */)
+const dir = resolve( /* FOLDER PATH */ )
 const files = readdirSync(dir)
 
-const id = randomID({ length: 10 })
+const id = randomID(10)
 const date = 'YYYY-MM-DD'
 
 // NAME FORMAT: Lab_Path<YYYY-MM-DD>#10DigitNum

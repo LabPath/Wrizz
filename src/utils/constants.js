@@ -240,6 +240,7 @@ export const MESSAGES = {
             INFO: {
                 DESCRIPTION: 'View a tag\'s info',
                 NAME: author => `${author}, what tag would you like to view?`,
+                METHODS: prefix => `Use \`${prefix}help\` tag to view available methods`,
 
                 ERR_EXISTS: (author, name) => `${author}, a tag with the name/alias \`${name}\` doesn't exist`
             },
@@ -256,22 +257,30 @@ export const MESSAGES = {
                 NAME: author => `${author}, what tag would you like to view?`,
             }
         }
+    },
+}
+
+export const clean = input => {
+    if (typeof(input) === 'string') {
+        return input
+            .replace(/`/g, `\`${String.fromCharCode(8203)}`)
+            .replace(/@/g,  `@${String.fromCharCode(8203)}`);
+    } else {
+        return input;
     }
 }
 
-export const FUNCTIONS = {
-    FLATTEN(array, value) {
-        if (value) return array[0][0][value]
-        else return array[0][0]
-    },
+export const randomID = (length, string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') => {
+    let result = '';
+    string.split('')
 
-    CLEAN(input) {
-        if (typeof(input) === 'string') {
-            return input
-                .replace(/`/g, `\`${String.fromCharCode(8203)}`)
-                .replace(/@/g,  `@${String.fromCharCode(8203)}`);
-        } else {
-            return input;
-        }
+    for (let i = length; i > 0; --i) {
+        result += string[Math.floor(Math.random() * string.length)];
     }
+    return result;
+}
+
+export const flatten = (array, key, depth = 1,) => {
+    if (key) return array.flat(depth)[0][key]
+    return array.flat(depth)[0]
 }

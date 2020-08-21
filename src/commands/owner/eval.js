@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo'
 import { stripIndents } from 'common-tags'
 import { inspect } from 'util'
-import { FUNCTIONS } from '../../utils/constants';
+import { MESSAGES, clean } from '../../utils/constants';
 
 export default class Eval extends Command {
     constructor() {
@@ -27,12 +27,12 @@ export default class Eval extends Command {
                 evaled = inspect(evaled)
                 return message.util.send(stripIndents`
                     Input: \`\`\`js\n${code}\`\`\`
-                    Output: \`\`\`js\n${FUNCTIONS.CLEAN(evaled)}\`\`\``);
+                    Output: \`\`\`js\n${clean(evaled)}\`\`\``);
             }
         } catch (err) {
             return message.util.send(stripIndents`
                 Input: \`\`\`js\n${code}\`\`\`
-                Error: \`\`\`js\n${FUNCTIONS.CLEAN(err)}\`\`\``)
+                Error: \`\`\`js\n${clean(err)}\`\`\``)
         }
     }
 }

@@ -15,9 +15,8 @@
     "change-case": "^4.1.1",
     "clean-stack": "^3.0.0",
     "common-tags": "^1.8.0",
-    "crypto-random-string": "^3.2.0",
     "discord-akairo": "^8.0.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
@@ -31,6 +30,7 @@
     "request": "^2.88.2",
     "sequelize": "^6.3.4",
     "superagent": "^5.3.1",
+    "underscore": "^1.10.2",
     "winston": "^3.3.3",
     "ws": "^7.3.1",
     "zip-a-folder": "0.0.12"

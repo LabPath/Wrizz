@@ -1,10 +1,9 @@
 import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
-import { MESSAGES, COLORS } from '../../utils/constants'
+import { MESSAGES, COLORS, randomID } from '../../utils/constants'
 import { MessageEmbed } from 'discord.js'
 import { PGSQL } from '../../utils/postgresql'
 import moment from 'moment'
-import id from 'crypto-random-string'
 
 export default class Suggest extends Command {
     constructor() {
@@ -40,15 +39,13 @@ export default class Suggest extends Command {
             return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CHANNEL(channel))
         }
 
-        const _id = id({ length: 6 })
-
         if (content.length > 1850) return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CONTENT_LENGTH);
         content = Util.cleanContent(content, message);
 
         const suggestEmbed = new MessageEmbed()
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
         .setDescription(content)
-        .setFooter(`ID: ${_id} | ${moment().format('MMMM DD, YYYY @ HH:mm:ss')}`)
+        .setFooter(`ID: ${randomID(6)} | ${moment().format('MMMM DD, YYYY @ HH:mm:ss')}`)
         .setColor(COLORS.DEFAULT)
 
         if (message.attachments.first()) suggestEmbed.setImage(message.attachments.first().url)
