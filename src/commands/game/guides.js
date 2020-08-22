@@ -21,12 +21,12 @@ export default class Guides extends Command {
             " *dude this list is getting longer than cvs receipts* "
             — Bread`)
         .addField('❯ Guides', stripIndents`
-            • [General](https://app.gitbook.com/@thevortexspirit/s/guides/relevant-guides/general)
-            • [Mechanics](https://app.gitbook.com/@thevortexspirit/s/guides/relevant-guides/mechanics)
-            • [Gameplay](https://app.gitbook.com/@thevortexspirit/s/guides/relevant-guides/gameplay)
-            • [Events](https://app.gitbook.com/@thevortexspirit/s/guides/relevant-guides/events)`, true)
+            • [General](https://app.gitbook.com/@bread/s/guides/relevant-guides/general)
+            • [Mechanics](https://app.gitbook.com/@bread/s/guides/relevant-guides/mechanics)
+            • [Gameplay](https://app.gitbook.com/@bread/s/guides/relevant-guides/gameplay)
+            • [Events](https://app.gitbook.com/@bread/s/guides/relevant-guides/events)`, true)
         .addField('❯ Resources', stripIndents`
-            • [Guide Collection](https://app.gitbook.com/@thevortexspirit/s/guides/)
+            • [Guide Collection](https://app.gitbook.com/@bread/s/guides/)
             • [r/Whitesushii](https://www.reddit.com/r/whitesushii/)`, true)
         .setColor(COLORS.DEFAULT)
 
