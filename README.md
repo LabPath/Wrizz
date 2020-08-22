@@ -17,10 +17,6 @@
 
 </div>
 
-<h1 align=center>Info</h1> 
-
-Wrizz is a dedicated [AFK Arena](https://www.afkarena.com/) Discord bot that was originally developed to assist with the Arcane Labyrinth and the [r/LabPath](https://www.reddit.com/r/Lab_path/) subreddit, but has evolved into providing useful resources to access in-game information.
-
 <br></br>
 
 [js-badge]: https://img.shields.io/badge/MADE%20WITH-JAVASCRIPT-red?style=for-the-badge&color=F2D223&logo=javascript
