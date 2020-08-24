@@ -43,7 +43,6 @@ export default class TagInfo extends Command {
             • Edits: ${tag.edits}`)
         .addField('❯ Created At', moment(tag.created_at).format('MM/DD/YYYY @ HH:mm:ss'))
         .addField('❯ Updated At', moment(tag.updated_at).format('MM/DD/YYYY @ HH:mm:ss'))
-
         .setColor(COLORS.DEFAULT)
 
 		return message.util.send(infoEmbed);

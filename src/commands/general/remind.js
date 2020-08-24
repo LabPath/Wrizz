@@ -26,7 +26,7 @@ export default class Reminder extends Command {
 					},
 					prompt: {
 						start: message => MESSAGES.COMMANDS.GENERAL.REMIND.DURATION(message.author),
-						retry: message => MESSAGES.COMMANDS.GENERAL.REMIND.ERR_DURATION(message.author),
+						retry: (message, { phrase }) => MESSAGES.COMMANDS.GENERAL.REMIND.ERR_DURATION(message.author, phrase)
 					},
                 },
                 {
@@ -57,32 +57,30 @@ export default class Reminder extends Command {
         content = Util.cleanContent(content, message);
         if (message.attachments.first()) content += `\n${message.attachments.first().url}`;
 
-        const val = duration.match(/(?<=).\d(?=\w)/)
+        const val = duration.match(/(?<=)\d(?=\w)/)
         const key = duration.match(/(?<=\d)[s|m|h|d]/);
         const time = new Date(moment().add(val, key)).getTime() || 0
 
         this.client.remind.add({
-            id: Math.random(),
-            guildID: message.guild.id,
-            channelID: message.channel.id,
-            userID: message.author.id,
-            reference: reference,
+            author: message.author.id,
+            guild_id: message.guild.id,
+            channel_id: message.channel.id,
             content: content,
-            startAt: Date.now(),
-            endAt: time
+            reference: reference,
+            start: Date.now(),
+            end: time,
+            id: Math.random()
         })
 
-        try {
-            const remEmbed = new MessageEmbed()
-            .setAuthor(message.author.tag, message.author.displayAvatarURL())
-            .setTitle('Reminder Receipt')
-            .addField('❯ Duration', `\`${ms(ms(duration), { long: true })}\` from now`)
-            .addField('❯ Content', content)
-            .setColor(COLORS.DEFAULT)
+        const remEmbed = new MessageEmbed()
+        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setTitle('Reminder Receipt')
+        .addField('❯ Duration', `\`${ms(ms(duration), { long: true })}\` from now`)
+        .addField('❯ Content', content)
+        .setColor(COLORS.DEFAULT)
 
-            return message.author.send(remEmbed)
-        } catch (err) {
-            return message.util.reply(MESSAGES.COMMANDS.GENERAL.REMIND.SUCCESS(duration))
-        }
+        return message.author.send(remEmbed).catch(() => {
+            message.util.reply(MESSAGES.COMMANDS.GENERAL.REMIND.SUCCESS(duration))
+        })
     }
 }

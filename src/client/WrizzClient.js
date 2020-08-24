@@ -15,7 +15,8 @@ export default class WrizzClient extends AkairoClient {
         this.logger = logger
         this.settings = new SettingsProvider()
         this.remind = new ReminderHandler(this)
-
+        this.redditWatcher = new RedditWatcher(this)
+        
         this.commandHandler = new CommandHandler(this, {
             directory: join(__dirname, '../commands'),
             prefix: message => this.settings.get(message.guild, 'prefix', process.env.PREFIX),
@@ -37,7 +38,6 @@ export default class WrizzClient extends AkairoClient {
 
         this.inhibitorHandler = new InhibitorHandler(this, { directory: join(__dirname, '../inhibitors') })
         this.listenerHandler = new ListenerHandler(this, { directory: join(__dirname, '../listeners') })
-        this.redditWatcher = new RedditWatcher(this)
 
         this.commandHandler.resolver.addType('tag', async (message, phrase) => {
             if (!message.guild || !phrase) return Flag.fail(phrase);

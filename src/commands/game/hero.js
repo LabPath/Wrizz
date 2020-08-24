@@ -26,23 +26,25 @@ export default class Hero extends Command {
     }
 
     async exec(message, { hero }) {
-        const result = await PGSQL.HERO.INFO(hero)
         const prefix = this.handler.prefix(message)
+        
+        let result = await PGSQL.HERO.INFO(hero)
+        result = flatten(result)
 
         const heroEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${flatten(result, 'title')}`)
+        .setAuthor(`${hero}  |  ${result.title}`)
         .setDescription(stripIndents`
             *\`${prefix}si ${hero}\` to view the hero's signature item
             \`${prefix}fn ${hero}\` to view the hero's furniture ability*`)
-        .addField('Faction', flatten(result, 'faction'), true)
-        .addField('Role', flatten(result, 'role'), true)
-        .addField('Type', flatten(result, 'type'), true)
-        .addField('Class', flatten(result, 'class'), true)
-        .addField('Trait', flatten(result, 'trait'), true)
-        .addField('Armor', flatten(result, 'armor'), true)
-        .addField('Signature Item', flatten(result, 'si_item'), true)
-        .addField('Furniture Ability', flatten(result, 'furniture'), true)
-        .setColor(COLORS[flatten(result, 'faction').toUpperCase()])
+        .addField('Faction', result.faction, true)
+        .addField('Role', result.role, true)
+        .addField('Type', result.type, true)
+        .addField('Class', result.class, true)
+        .addField('Trait', result.trait, true)
+        .addField('Armor', result.armor, true)
+        .addField('Signature Item', result.si_item, true)
+        .addField('Furniture Ability', result.fn_ability, true)
+        .setColor(COLORS[result.faction.toUpperCase()])
 
         return message.util.send(heroEmbed)
     }

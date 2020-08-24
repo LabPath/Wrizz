@@ -1,6 +1,7 @@
 import _ from 'chalk'
-import { stripIndents } from 'common-tags'
 import ms from 'ms'
+import { read } from 'jimp'
+import { stripIndents } from 'common-tags'
 
 export const COLORS = {
     TIMESTAMP: timestamp => _.hex('#45C5B0')(timestamp),
@@ -102,9 +103,12 @@ export const MESSAGES = {
 
             REMIND: {
                 DESCRIPTION: 'Set a custom reminder',
+                DURATION: author => `${author}, how long would you like this reminder to last?`,
+                CONTENT: author => `${author}, what would you like the content for the reminder to be?`,
                 SUCCESS: time => `successfully set a reminder for \`${ms(ms(time), { long: true })}\``,
                 FINISH: (user, content) => `${user}, reminder to\n> ${content}`,
 
+                ERR_DURATION: (author, time) => `${author}, \`${time}\` is an invalid duration`,
                 ERR_REF_LENGTH: 'reminder reference must be fewer than 32 characters',
                 ERR_CONTENT_LENGTH: 'reminder content must be fewer than 1850 characters',
             },
@@ -283,4 +287,28 @@ export const randomID = (length, string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJK
 export const flatten = (array, key, depth = 1,) => {
     if (key) return array.flat(depth)[0][key]
     return array.flat(depth)[0]
+}
+
+  
+export const comma = (number, places = 1, units = ['', 'K', 'M', 'B']) => {
+    const sign = Math.sign(number) >= 0;
+    number = Math.abs(number);
+  
+    const tier = (Math.log10(number) / 3) | 0;
+    if (tier === 0) return number.toString();
+  
+    const suffix = units[tier];
+    if (!suffix) throw new RangeError();
+  
+    const scaled = number / Math.pow(10, tier * 3);
+  
+    return (!sign ? '-' : '') + scaled.toFixed(places) + suffix;
+}
+
+export const circle = async (image) => {
+    let img = await read(image)
+    img.resize(285, 285)
+    img.circle()
+
+    return await img.getBufferAsync('image/png')
 }

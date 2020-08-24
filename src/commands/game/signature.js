@@ -29,36 +29,33 @@ export default class Signature extends Command {
                         return num
                     },
                     match: 'option',
-                    flag: '--level=',
-                    default: 'all',
-                    prompt: {
-                        start: message => MESSAGES.COMMANDS.GAME.SIGNATURE.LEVEL(message.author),
-                        retry: (message, { phrase }) => MESSAGES.COMMANDS.GAME.SIGNATURE.ERR_EXISTS2(message.author, phrase)
-                    }
+                    flag: ['--level=', '-lvl='],
+                    default: 'all'
                 }
             ]
         })
     }
 
     async exec(message, { hero, level }) {
-        const result = await PGSQL.HERO.SIGNATURE(hero)
+        let result = await PGSQL.HERO.SIGNATURE(hero)
+        result = flatten(result)
 
-        const fnEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${flatten(result, 'si_skill')}`)
-        .setDescription(`*${flatten(result, 'si_description')}*`)
-        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}`, flatten(result, `si_lv${level}`))
+        const siEmbed = new MessageEmbed()
+        .setAuthor(`${hero}  |  ${result.si_item}`)
+        .setDescription(`*${result.si_desc}*`)
+        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${result.si_skill}`, result[`si_lv${level}`])
         .setColor(COLORS[level])
 
         if (level === 'all') {
-            fnEmbed.fields = []
-            fnEmbed
-                .addField('Unlock', flatten(result, 'si_lv0'))
-                .addField('+10 Unlock', flatten(result, 'si_lv10'))
-                .addField('+20 Unlock', flatten(result, 'si_lv20'))
-                .addField('+30 Unlock', flatten(result, 'si_lv30'))
+            siEmbed.fields = []
+            siEmbed
+                .addField('Unlock', result.si_lv0)
+                .addField('+10 Unlock', result.si_lv10)
+                .addField('+20 Unlock', result.si_lv20)
+                .addField('+30 Unlock', result.si_lv30)
                 .setColor(COLORS.DEFAULT)
         }
 
-        return message.util.send(fnEmbed)
+        return message.util.send(siEmbed)
     }
 }

@@ -35,8 +35,9 @@ export const PGSQL = {
         SIGNATURE(hero) {
             const result = sequelize.query(`
                 SELECT name,
+                       si_item,
                        si_skill, 
-                       si_description,
+                       si_desc,
                        si_lv0, 
                        si_lv10, 
                        si_lv20, 
@@ -57,35 +58,50 @@ export const PGSQL = {
         }
     },
 
+    PROFILE: {
+        ADD(user) {
+
+        },
+
+        FETCH(user) {
+            const result = sequelize.query(`
+                SELECT *
+                FROM players
+                WHERE author = '${user}'
+            `)
+            return result || null
+        }
+    },
+
     REMINDERS: {
         ADD(remind) {
             sequelize.query(`
                 INSERT INTO reminders (
+                    author,
                     guild_id,
                     channel_id,
-                    user_id,
                     reference,
-                    content,
-                    start,
-                    end
+                    _content,
+                    _start,
+                    _end
                 )
                 VALUES (
-                    '${remind.guildID}',
-                    '${remind.channelID}',
-                    '${remind.userID}',
+                    '${remind.author}',
+                    '${remind.guild_id}',
+                    '${remind.channel_id}',
                     '${remind.reference}',
                     '${remind.content}',
-                    '${remind.startAt}',
-                    '${remind.endAt}',
+                    '${remind.start}',
+                    '${remind.end}'
                 )
             `)
         },
 
-        FINISH(remind) {
+        FINISH(author) {
             sequelize.query(`
                 DELETE
                 FROM reminders
-                WHERE user_id = '${remind.userID}'
+                WHERE author = '${author}'
             `)
         },
     
@@ -93,7 +109,7 @@ export const PGSQL = {
             sequelize.query(`
                 DELETE
                 FROM reminders
-                WHERE user_id = '${remind.userID}'
+                WHERE author = '${remind.author}'
             `)
         },
     },
@@ -117,19 +133,19 @@ export const PGSQL = {
     },
 
     SUGGEST: {
-        NEW(author, guild, refID, msgID) {
+        NEW(author, guild, suggestID, msgID) {
             sequelize.query(`
                 INSERT INTO suggestions (
+                    author,
                     guild_id,
-                    user_id,
-                    reference,
-                    message_id
+                    message_id,
+                    suggest_id
                 )
                 VALUES (
                     '${guild}',
                     '${author}',
-                    '${refID}',
-                    '${msgID}'
+                    '${msgID}',
+                    '${suggestID}'
                 )
             `)
         },
@@ -137,10 +153,10 @@ export const PGSQL = {
         CLOSE(guild, id) {
             const result = sequelize.query(`
                 DELETE FROM suggestions
-                WHERE reference = '${id}'
+                WHERE suggest_id = '${id}'
                 AND guild_id = '${guild}'
                 RETURNING 
-                reference,
+                suggest_id,
                 message_id
             `)
             return result || false
@@ -151,11 +167,11 @@ export const PGSQL = {
         ADD(name, content, message) {
             sequelize.query(`
                 INSERT INTO tags (
+                    author, 
+                    guild_id,
                     name, 
                     aliases, 
                     content, 
-                    author, 
-                    guild_id,
                     created_at,
                     updated_at
                 )

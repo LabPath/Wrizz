@@ -1,13 +1,13 @@
 export const Tags = (sequelize, DataTypes) => {
     sequelize.define('tags', {
+        author: DataTypes.STRING,
+        guild_id: DataTypes.STRING,
         name: {
             type: DataTypes.STRING,
             unique: true
         },
         content: DataTypes.TEXT,
         aliases: DataTypes.JSONB,
-        guild_id: DataTypes.STRING,
-        author: DataTypes.STRING,
         uses: {
             type: DataTypes.INTEGER,
             defaultValue: 0

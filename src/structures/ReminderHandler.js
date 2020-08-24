@@ -4,7 +4,7 @@ import { PGSQL } from '../utils/postgresql';
 import { MESSAGES, COLORS } from '../utils/constants';
 
 export default class ReminderHandler {
-	constructor(client, { checkRate = 5 * 60 * 1000 } = {}) {
+	constructor(client, { checkRate = 10000 } = {}) {
         this.checkRate = checkRate;
         this.client = client
         this.queued = new Map()
@@ -13,31 +13,32 @@ export default class ReminderHandler {
     async add(remind) {
         await PGSQL.REMINDERS.ADD(remind)
 
-        if ((remind.endAt ? remind.endAt : 0) < Date.now() + this.checkRate) this.continue(remind);
+        if ((remind.end ? remind.end : 0) < Date.now() + this.checkRate) {
+            this.continue(remind);
+        }
     }
 
 	async finish(remind) {
-        const user = this.client.users.cache.get(remind.userID)
-        const guild = this.client.guilds.cache.get(remind.guildID)
-        const channel = guild.channels.cache.get(remind.channelID)
+        setTimeout(async () => { // Timeout bc I'm too lazy to force the cache
+            const user = this.client.users.cache.get(remind.author)
+            const channel = this.client.channels.cache.get(remind.channel_id)
 
-        try {
             const remEmbed = new MessageEmbed()
             .setAuthor(user.tag, user.displayAvatarURL())
             .setTitle(remind.reference)
-            .addField('❯ Content', remind.content)
+            .addField('❯ Content', remind._content)
             .setColor(COLORS.DEFAULT)
 
-            user.send(remEmbed)
-        } catch (err) {
-            return channel.send(MESSAGES.COMMANDS.GENERAL.REMIND.FINISH(user, remind.content))
-        }
+            user.send(remEmbed).catch(() => {
+                channel.send(MESSAGES.COMMANDS.GENERAL.REMIND.FINISH(user, remind._content))
+            })
 
-		const schedule = this.queued.get(remind.id);
-		if (schedule) this.client.clearTimeout(schedule);
-        this.queued.delete(remind.id);
+            const schedule = this.queued.get(remind.id);
+            if (schedule) this.client.clearTimeout(schedule);
+            this.queued.delete(remind.id);
 
-        await PGSQL.REMINDERS.FINISH(remind)
+            await PGSQL.REMINDERS.FINISH(remind.author)
+        }, 3000)
 	}
 
 	async forget(remind) {
@@ -51,24 +52,26 @@ export default class ReminderHandler {
 	continue(remind) {
 		this.queued.set(remind.id,
 			this.client.setTimeout(() => {
-				this.finish(remind);
-            }, (remind.endAt ? remind.endAt : 0) - Date.now())
+                this.finish(remind);
+            }, (remind.end ? remind.end : 0) - Date.now())
         );
 	}
 
 	async init() {
         await this.check();
-		this.checkInterval = this.client.setInterval(this.check.bind(this), this.checkRate);
 	}
 
 	async check() {
 		const reminders = await sequelize.models.reminders.findAll()
 
-		for (const reminder of reminders) {
-            if (this.queued.has(reminder.id)) continue;
+		for (const remind of reminders) {
+            if (this.queued.has(remind.id)) continue;
 
-			if ((reminder.endAt ? reminder.endAt : 0) < Date.now()) this.finish(reminder);
-			else this.continue(reminder);
+			if ((remind._end ? remind._end : 0) < Date.now()) {
+                this.finish(remind);
+            } else {
+                this.continue(remind);
+            }
 		}
 	}
 }
