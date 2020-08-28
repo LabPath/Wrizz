@@ -31,7 +31,7 @@ export default class Close extends Command {
                 .then(msg => msg.delete({ timeout: 10000 }))
         }
 
-        const msg = await message.channel.messages.fetch(suggestion[0][0].messageID)
+        const msg = await message.channel.messages.fetch(suggestion[0][0].message_id)
         msg.delete()
 
         return message.util.reply(MESSAGES.COMMANDS.MOD.CLOSE.SUCCESS(id))
