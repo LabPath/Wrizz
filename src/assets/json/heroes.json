@@ -1561,6 +1561,32 @@
     },
     {
         "hero": {
+            "name": "Theowyn",
+            "title": "The Willowing Widow",
+            "faction": "Graveborn",
+            "role": "Continuous Damage",
+            "type": "Agility",
+            "class": "Ranger",
+            "trait": "Dura's Celerity",
+            "armor": "Leather"
+        },
+        "si": {
+            "item": "Crown of Thorns",
+            "desc": "Trapped by a crown of thorns, even in death, the wearer is humiliated by what it symbolizes. The crown acts as a constant reminder of the fell deeds perpetrated by its wearer, who even in death, is doomed to wear it for an eternity",
+            "skill": "Sorrowful Affliction",
+            "lv0": "This ability is activated every 15 seconds of battle. The 1 enemies which have dealt the highest amount of damage to Theowyn within the last 15 seconds shall be afflicted by the effects of Theowyn’s \"Spectral Curse\" ability",
+            "lv10": "The Attack Ratings of cursed targets are decreased by 20% for 8 seconds",
+            "lv20": "Number of enemies targeted by this ability is increased to 2",
+            "lv30": "Number of enemies targeted by this ability is increased to 3"
+        },
+        "fn": {
+            "ability": "Entangled Souls",
+            "lv3": "Enemies cannot recover energy when they are afflicted by the \"Haunting Specter\" ability",
+            "lv9": "Enemies afflicted by the \"Haunting Specter\" ability now give 100% of the energy they would have recovered to Theowyn"
+        }
+    },
+    {
+        "hero": {
             "name": "Nakoruru",
             "title": "Nature's Guardian",
             "faction": "Dimensional",
