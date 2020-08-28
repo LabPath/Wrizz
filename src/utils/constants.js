@@ -2,36 +2,37 @@ import _ from 'chalk'
 import ms from 'ms'
 import { read } from 'jimp'
 import { stripIndents } from 'common-tags'
+import { MessageEmbed } from 'discord.js'
 
 export const COLORS = {
-    TIMESTAMP: timestamp => _.hex('#45C5B0')(timestamp),
-    LABEL: label => _.hex('#4DC3FF')(label),
-    INIT: init => _.hex('8BC84D')(init),
-    DEBUG: debug => _.hex('FFC44D')(debug),
-    ERROR: error => _.hex('EC0000')(error),
-    WARN: warn => _.hex('FFA420')(warn),
-    READY: ready => _.hex('8BC84D')(ready),
-    DESTROY: destroy => _.hex('4DC3FF')(destroy),
-    CONNECT: connect => _.hex('8BC84D')(connect),
+    INIT: init             => _.hex('B1CCE5')(init),
+    WARN: warn             => _.hex('FFA420')(warn),
+    DEBUG: debug           => _.hex('FFC44D')(debug),
+    ERROR: error           => _.hex('EC0000')(error),
+    READY: ready           => _.hex('B1CCE5')(ready),
+    AKAIRO: akairo         => _.hex('A5051E')(akairo),
+    _REDDIT: reddit        => _.hex('FF5700')(reddit),
+    DESTROY: destroy       => _.hex('4DC3FF')(destroy),
+    CONNECT: connect       => _.hex('B1CCE5')(connect),
+    DISCORD: discord       => _.hex('7289DA')(discord),
+    REJECTION: rejection   => _.hex('FFA420')(rejection),
     DISCONNECT: disconnect => _.hex('4DC3FF')(disconnect),
-    AKAIRO: akairo => _.hex('872030')(akairo),
-    DISCORD: discord => _.hex('7289DA')(discord),
-    UNHANDLED_REJECTION: rejection => _.hex('FFA420')(rejection),
-    _REDDIT: reddit => _.hex('FF5700')(reddit),
 
-    DEFAULT: '249EA0',
-    REDDIT: 'FF5700',
     0: '6C369D',
     10: '6C369D',
     20: 'F1C232',
     30: 'CC0300',
-    LIGHTBEARER: '009FCC',
-    GRAVEBORN: '006C04',
+    JOIN: '26DE81',
+    LEAVE: 'FC5C65',
+    REDDIT: 'FF5700',
     MAULER: 'FFC300',
     WILDER: '4EF771',
-    CELESTIAL: 'FEFEFE',
+    DEFAULT: '249EA0',
     HYPOGEAN: '7E00A0',
-    DIMENSIONAL: '9498FF',
+    GRAVEBORN: '006C04',
+    CELESTIAL: 'FEFEFE',
+    LIGHTBEARER: '009FCC',
+    DIMENSIONAL: '9498FF'
 }
 
 export const MESSAGES = {
@@ -80,6 +81,10 @@ export const MESSAGES = {
                 ERR_FETCH: 'There was an error while fetching the latest map',
                 ERR_NO_MAP: date => `Unable to find a map with a date of \`${date}\``,
                 ERR_DATE: date => `\`${date}\` is an invalid date string`
+            },
+
+            PROFILE: {
+                ERR_EXISTS: prefix => `you haven\'t set up your profile yet, use \`${prefix}setprofile\``
             },
 
             SIGNATURE: {
@@ -164,12 +169,24 @@ export const MESSAGES = {
                 ERR_EXISTS: role => `a role with the name \`${role}\` doesn't exist`,
             },
 
-            SUGGESTIONS: {
+            SETCHANNEL: {
                 DESCRIPTION: 'Set the suggestions channel',
-                CHANNEL: author => `${author}, what channel would you like to limit suggestions to?`,
-                SUCCESS: channel => `successfully set suggestion channel to \`#${channel}\``,
+                CONTENT: author => `${author}, what channel would you like to limit suggestions to?`,
+                EMBED: author => new MessageEmbed()
+                .setDescription(stripIndents`
+                    Type one of the following numbers
+                    to set a channel
+                    \`\`\`ocaml
+                    [1] Moderation Logs
+                    [2] Member Logs
+                    [3] Suggestions\`\`\``)
+                .setFooter(author.tag, author.displayAvatarURL())
+                .setColor(COLORS.DEFAULT),
+                CHANNEL: (type, author) => `${author}, what would you like the ${type} channel to be?`,
+                SUCCESS: (num, channel) => `successfully set the ${num === 1 ? 'Moderation Logs' : num === 2 ? 'Member Logs' : 'Suggestions'} channel to \`#${channel}\``,
 
-                ERR_EXISTS: (author, channel) => `${author}, a channel with the name/ID \`${channel}\` doesn't exist`
+                ERR_EXISTS: (author, channel) => `${author}, a channel with the name/ID \`${channel}\` doesn't exist`,
+                ERR_OPTION: (author, option) => `${author}, ${option} is an invalid option`
             }
         },
 
