@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
-import { COLORS } from '../utils/constants'
+import { COLORS } from '../../utils/constants'
 import moment from 'moment'
 
 export default class GuildMemberRemove extends Listener {
