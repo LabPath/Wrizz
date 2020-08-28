@@ -118,15 +118,16 @@ export const PGSQL = {
         SET(id, data) {
             sequelize.query(`
                 INSERT INTO settings (
-                    guild_id, 
+                    guild_id,
                     settings
                 )
                 VALUES (
-                    '${id}', 
+                    '${id}',
                     '${JSON.stringify(data)}'
-                ) 
-                ON CONFLICT guild_id 
-                DO UPDATE 
+                )
+                ON CONFLICT 
+                ON CONSTRAINT guild_id
+                DO UPDATE
                 SET settings = '${JSON.stringify(data)}'
             `)
         }
@@ -142,8 +143,8 @@ export const PGSQL = {
                     suggest_id
                 )
                 VALUES (
-                    '${guild}',
                     '${author}',
+                    '${guild}',
                     '${msgID}',
                     '${suggestID}'
                 )
