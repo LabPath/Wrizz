@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
-import { TYPE, EVENT } from '../utils/logger';
-import { COLORS } from '../utils/constants'
+import { TYPE, EVENT } from '../../utils/logger';
+import { COLORS } from '../../utils/constants'
 
 export default class ReadyListener extends Listener {
     constructor() {
