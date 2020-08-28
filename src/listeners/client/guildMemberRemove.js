@@ -3,22 +3,23 @@ import { MessageEmbed } from 'discord.js';
 import { COLORS } from '../utils/constants'
 import moment from 'moment'
 
-export default class GuildMemberAdd extends Listener {
+export default class GuildMemberRemove extends Listener {
 	constructor() {
-		super('guildMemberAdd', {
+		super('guildMemberRemove', {
 			emitter: 'client',
-			event: 'guildMemberAdd',
+            event: 'guildMemberRemove',
+            category: 'client'
 		});
 	}
 
-	async exec(member) {
+	exec(member) {
         const memberlogs = this.client.settings.get(member.guild, 'memberlogs');
 
 		if (memberlogs) {
 			const embed = new MessageEmbed()
             .setAuthor(`${member.user.tag} | ${member.id}`, member.user.displayAvatarURL())
             .setFooter(`${member.guild.memberCount} Members • ${moment().format('MMMM DD, YYYY - hh:mm:ss A')}`)
-            .setColor(COLORS.JOIN)
+            .setColor(COLORS.LEAVE)
 
 			return this.client.channels.cache.get(memberlogs).send(embed);
 		}

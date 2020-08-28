@@ -7,7 +7,7 @@ export default class ReadyListener extends Listener {
         super('ready', {
             emitter: 'client',
             event: 'ready',
-            category: 'listeners'
+            category: 'client'
         })
     }
 

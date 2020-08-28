@@ -5,11 +5,11 @@ export default class CommandBlocked extends Listener {
 		super('commandBlocked', {
 			emitter: 'commandHandler',
 			event: 'commandBlocked',
-			category: 'listeners',
+			category: 'handler',
 		});
 	}
 
-	async exec() {
+	async exec(message) {
         return
     }
 }
