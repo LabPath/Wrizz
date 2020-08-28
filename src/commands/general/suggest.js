@@ -23,29 +23,47 @@ export default class Suggest extends Command {
                     prompt: {
                         start: message => MESSAGES.COMMANDS.GENERAL.SUGGEST.CONTENT(message.author)
                     }
+                },
+                {
+                    id: 'sudo',
+                    type: 'member',
+                    match: 'option',
+                    flag: '--sudo='
                 }
             ]
         });
     }
 
-    async exec(message, { content }) {
+    async exec(message, { content, sudo }) {
+        message.delete()
+
+        let member = message.member
+
+        if (sudo) {
+            if (message.member.hasPermission('MANAGE_GUILD')) member = sudo
+            else return
+        }
+
         const channel = this.client.settings.get(message.guild, 'suggestChannel')
         
         if (!channel) {
             return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.DISABLED(message.guild.name))
+                .then(msg => msg.delete({ timeout: 10000 }))
         }
 
         if (message.channel.id !== channel) {
             return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CHANNEL(channel))
+                .then(msg => msg.delete({ timeout: 10000 }))
         }
 
         if (content.length > 1850) return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.ERR_CONTENT_LENGTH);
         content = Util.cleanContent(content, message);
 
+        const _id = randomID(6)
         const suggestEmbed = new MessageEmbed()
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setAuthor(member.user.tag, member.user.displayAvatarURL())
         .setDescription(content)
-        .setFooter(`ID: ${randomID(6)} | ${moment().format('MMMM DD, YYYY @ HH:mm:ss')}`)
+        .setFooter(`ID: ${_id} • ${moment().format('MMMM DD, YYYY - hh:mm:ss A')}`)
         .setColor(COLORS.DEFAULT)
 
         if (message.attachments.first()) suggestEmbed.setImage(message.attachments.first().url)
