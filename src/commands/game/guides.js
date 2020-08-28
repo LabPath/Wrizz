@@ -26,7 +26,7 @@ export default class Guides extends Command {
             • [Gameplay](https://app.gitbook.com/@bread/s/guides/relevant-guides/gameplay)
             • [Events](https://app.gitbook.com/@bread/s/guides/relevant-guides/events)`, true)
         .addField('❯ Resources', stripIndents`
-            • [Guide Collection](https://app.gitbook.com/@bread/s/guides/)
+            • [Guide Collection](https://bread.gitbook.io/guides/)
             • [r/Whitesushii](https://www.reddit.com/r/whitesushii/)`, true)
         .setColor(COLORS.DEFAULT)
 
