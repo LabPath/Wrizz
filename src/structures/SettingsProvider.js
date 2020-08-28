@@ -14,7 +14,8 @@ export default class SettingsProvider extends Provider {
         await this.model.sync().then(async() => {
             const settings = await this.model.models.settings.findAll()
             for (const setting of settings) {
-                this.items.set(setting.guildID, setting.settings)
+                this.items.set(setting.guild_id, setting.settings)
+
             }
         })
     }
@@ -33,8 +34,8 @@ export default class SettingsProvider extends Provider {
         const data = this.items.get(id) || {}
         data[key] = value
         this.items.set(id, data)
-        
-        return await PGSQL.SETTINGS.SET(id, data)
+
+        return PGSQL.SETTINGS.SET(id, data)
     }
 
     async delete(guild, key) {
@@ -42,7 +43,7 @@ export default class SettingsProvider extends Provider {
         const data = this.items.get(id) || {}
         delete data[key]
 
-        return await this.model.models.settings.upsert({ guildID: id, settings: data })
+        return await this.model.models.settings.upsert({ guild_id: id, settings: data })
     }
 
     async clear(guild) {
@@ -55,6 +56,6 @@ export default class SettingsProvider extends Provider {
         if (guild instanceof Guild) return guild.id
         if (guild === 'global' || guild === null) return '0'
         if (typeof guild === 'string' && /^\d+$/.test(guild)) return guild
-        throw new TypeError('Invalid guild specified. Must be a Guild instance, Guild ID, "global", or null')
+        throw new TypeError(`${guild} is not a valid instance of Guild`)
     }
 }
