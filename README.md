@@ -31,7 +31,7 @@
 [vsc-badge]: https://img.shields.io/badge/IDE-VISUAL%20STUDIO%20CODE-WHITE?style=for-the-badge&logo=visual-studio-code&color=23a8f2&logoColor=23a8f2
 [vsc-link]: https://code.visualstudio.com/
 
-[npm-badge]: https://img.shields.io/badge/DISCORD.JS-v12.2.0-white?style=for-the-badge&logo=npm&color=cb3837
+[npm-badge]: https://img.shields.io/badge/DISCORD.JS-v12.3.1-white?style=for-the-badge&logo=npm&color=cb3837
 [npm-link]: https://github.com/discordjs/discord.js
 
 [host-badge]: https://img.shields.io/badge/HOSTED%20WITH-DIGITAL%20OCEAN-white?style=for-the-badge&logo=digitalocean&color=0080ff&logoColor=0080ff
