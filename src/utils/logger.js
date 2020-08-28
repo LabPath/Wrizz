@@ -1,19 +1,19 @@
-import { createLogger, format, transports } from 'winston'
+import { createLogger, format, transports, addColors } from 'winston'
 import { COLORS } from '../utils/constants'
 
 export const TYPE = {
-    UNHANDLED_REJECTION: 'REJECTION',
-    DISCORD: 'DISCORD',
     AKAIRO: 'AKAIRO',
-    REDDIT: 'REDDIT'
+    REDDIT: 'REDDIT',
+    DISCORD: 'DISCORD',
+    REJECTION: 'REJECTION'
 }
 
 export const EVENT = {
     INIT: 'INIT',
-    DEBUG: 'DEBUG',
-    ERROR: 'ERROR',
     WARN: 'WARN',
+    ERROR: 'ERROR',
     READY: 'READY',
+    DEBUG: 'DEBUG',
     DESTROY: 'DESTROY',
     CONNECT: 'CONNECT',
     DISCONNECT: 'DISCONNECT'
@@ -21,18 +21,14 @@ export const EVENT = {
 
 export const logger = createLogger({
     format: format.combine(
+        format.colorize({ level: true, colors: { info: 'black whiteBG' } }),
+        format.timestamp({ format: 'MM-DDThh:mm:ssa'}),
         format.errors({ stack: true }),
-        format.label({ label: 'CLIENT' }),
-        format.timestamp({ format: 'YYYY-MM-DDThh:mm:ssa'}),
-        format.printf((info) => {
-            const { timestamp, label, level, message, type, event } = info
-            return `<${COLORS.TIMESTAMP(timestamp)}> [${COLORS.LABEL(label)}](${level.toUpperCase()})+${type}${event ? `@${event}` : ''}: ${message}`
+        format.printf(info => {
+            const { timestamp, level, message, type, event } = info
+            return `${timestamp} ${level} ${type}${event ? `#${event}` : ''}: ${message}`
         })
     ),
-    transports: [
-        new transports.Console({
-            format: format.colorize({ level: true }),
-            level: 'info'
-        })
-    ]
+
+    transports: [new transports.Console({ level: 'info' })]
 })
