@@ -1,14 +1,11 @@
 import { Command } from 'discord-akairo'
-import { MESSAGES } from '../../utils/constants';
+import { MESSAGES, COLORS } from '../../utils/constants';
+import { EVENT } from '../../utils/logger';
 
 export default class Reload extends Command {
     constructor() {
         super('reload', {
             aliases: ['reload'],
-            description: {
-                content: MESSAGES.COMMANDS.OWNER.RELOAD.DESCRIPTION,
-                usage: '[command]'
-            },
             category: 'owner',
             ownerOnly: true,
             args: [
@@ -20,14 +17,18 @@ export default class Reload extends Command {
         })
     }
 
-    async exec(message, { command }) {
+    async exec({ command }) {
 
         if (!command) {
             this.client.commandHandler.reloadAll()
-            return message.util.reply(MESSAGES.COMMANDS.OWNER.RELOAD.ALL)
+            return this.client.logger.info('Reloaded all commands', {
+                type: COLORS.AKAIRO,
+            })
         }
 
         this.client.commandHandler.reload(command)
-        return message.util.reply(MESSAGES.COMMANDS.OWNER.RELOAD.SUCCESS(command))
+        return this.client.logger.info(`Reloaded ${command}`, {
+            type: COLORS.AKAIRO,
+        })
     }
 }

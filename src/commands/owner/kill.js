@@ -6,9 +6,6 @@ export default class Kill extends Command {
     constructor() {
         super('kill', {
             aliases: ['kill', 'off'],
-            description: {
-                content: MESSAGES.COMMANDS.OWNER.KILL.DESCRIPTION
-            },
             category: 'owner',
             ownerOnly: true,
         })
