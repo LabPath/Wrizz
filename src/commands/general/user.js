@@ -31,13 +31,13 @@ export default class User extends Command {
         .setAuthor(`${user.tag} (${user.id})`)
         .setThumbnail(user.displayAvatarURL({ dynamic: true }))
         .addField('❯ General', stripIndents`
-            • Created On: ${moment(user.createdAt).format('MMMM DD, YYYY')}
+            • Created On: ${moment(user.createdAt).format('MMMM D, YYYY')}
             • Status: ${user.presence.status}
             • Activity: ${presence.length ? presence[0].name : 'None'}`)
         .addField('❯ Server', stripIndents`
-            • Joined On: ${moment(member.joinedAt).format('MMMM DD, YYYY')}
+            • Joined On: ${moment(member.joinedAt).format('MMMM D, YYYY')}
             • Nickname: ${member.nickname || 'None'}
-            • Boost Since: ${member.premiumSince ? moment(member.premiumSince).format('MMMM DD, YYY') : 'N/A'}
+            • Boost Since: ${member.premiumSince ? moment(member.premiumSince).format('MMMM D, YYY') : 'N/A'}
             • Top Role: ${member.roles.highest}`)
         .setColor(COLORS.DEFAULT)
 

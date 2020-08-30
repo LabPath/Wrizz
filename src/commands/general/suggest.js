@@ -63,7 +63,7 @@ export default class Suggest extends Command {
         const suggestEmbed = new MessageEmbed()
         .setAuthor(member.user.tag, member.user.displayAvatarURL())
         .setDescription(content)
-        .setFooter(`ID: ${_id} • ${moment().format('MMMM DD, YYYY - hh:mm:ss A')}`)
+        .setFooter(`ID: ${_id} • ${moment().format('MMMM D, YYYY - hh:mm:ss A')}`)
         .setColor(COLORS.DEFAULT)
 
         if (message.attachments.first()) suggestEmbed.setImage(message.attachments.first().url)
