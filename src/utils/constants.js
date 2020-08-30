@@ -102,10 +102,6 @@ export const MESSAGES = {
                 DESCRIPTION: 'View specific info on a command or a full list'
             },
 
-            INVITE: {
-                DESCRIPTION: 'Get an invite link for the bot'
-            },
-
             REMIND: {
                 DESCRIPTION: 'Set a custom reminder',
                 DURATION: author => `${author}, how long would you like this reminder to last?`,
@@ -187,26 +183,6 @@ export const MESSAGES = {
 
                 ERR_EXISTS: (author, channel) => `${author}, a channel with the name/ID \`${channel}\` doesn't exist`,
                 ERR_OPTION: (author, option) => `${author}, ${option} is an invalid option`
-            }
-        },
-
-        OWNER: {
-            EVAL: {
-                DESCRIPTION: 'Execute JS code'
-            },
-
-            GUILD: {
-                DESCRIPTION: 'View the top 25 or less guilds'
-            },
-
-            KILL: {
-                DESCRIPTION: 'Kill the current client session'
-            },
-
-            RELOAD: {
-                DESCRIPTION: 'Reload a command or all',
-                ALL: 'successfully reloaded all commands',
-                SUCCESS: command => `successfully reloaded \`${command}\``
             }
         },
 
