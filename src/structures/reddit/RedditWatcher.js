@@ -13,6 +13,7 @@ export default class RedditWatcher {
     async init() {
         const guild = this.client.guilds.cache.get(process.env.GUILD_ID)
         const channel = guild.channels.cache.get(process.env.CHANNEL_ID)
+        const role = guild.roles.cache.get('725477327215132693')
 
         this.reddit.on('ready', () => {
                 this.client.logger.info('Connected to Reddit', { 
@@ -21,7 +22,7 @@ export default class RedditWatcher {
                 })
             })
         .on('post', data => {
-            channel.send('<@&725477327215132693>', new RedditEmbed(data[0]))
+            channel.send(role ? role : '', new RedditEmbed(data[0]))
         })
         .on('error', err => console.log(cs(err.stack)))
 

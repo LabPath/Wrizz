@@ -31,7 +31,7 @@ export default class Map extends Command {
         if (!date) {
             try {
                 const { body } = await get('https://www.reddit.com/r/Lab_path/new.json?sort=new').query({ limit: 1 });
-                return message.util.send(new RedditEmbed({ post: body.data.children[0].data, title: 'Arcane Labyrinth' }));
+                return message.util.send(new RedditEmbed(body.data.children[0].data));
             } catch (err) {
                 return message.util.send(MESSAGES.COMMANDS.GAME.MAP.ERR_FETCH)
             }
