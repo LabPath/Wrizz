@@ -1,17 +1,17 @@
 import { MessageEmbed } from 'discord.js'
+import { CLRS } from '../../utils/constants'
 import moment from 'moment-timezone'
-import { COLORS } from '../../utils/constants'
 
 export default class RedditEmbed extends MessageEmbed {
-    constructor(post) {
+    constructor(post, cmd) {
         super()
-        
-        this.post = post
+    
+        const time = moment.tz(post.created_utc * 1000, 'America/New_York')
 
-        this.setTitle(`${moment.tz('America/New_York').add(1, 'd').format('MMMM DD, YYYY')}`)
-        this.setURL(`https://reddit.com/${this.post.permalink}`)
-        this.setImage(this.post.url)
-        this.setFooter(`Posted by u/${this.post.author} | ${moment.tz(this.post.created_utc * 1000, 'America/New_York').format('h:mm:ss A')}`)
-        this.setColor(COLORS.REDDIT)
+        if (cmd) this.setTitle(`${time.add(1, 'd').format('MMMM DD, YYYY')}`)
+        this.setURL(`https://reddit.com/${post.permalink}`)
+        this.setImage(post.url)
+        this.setFooter(`Posted by u/${post.author} | ${time.format('h:mm:ss A')}`)
+        this.setColor(CLRS.REDDIT)
     }
 }
