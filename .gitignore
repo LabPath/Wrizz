@@ -3,3 +3,7 @@ node_modules/*
 tmp/*
 
 .env
+
+logs/*
+
+src/commands/owner/test.js
