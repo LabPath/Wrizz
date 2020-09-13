@@ -1,34 +1,54 @@
-import { createLogger, format, transports, addColors } from 'winston'
-import { COLORS } from '../utils/constants'
+import { createLogger, format, transports } from 'winston'
+import _ from 'chalk'
 
 export const TYPE = {
+    PGSQL: 'PGSQL',
     AKAIRO: 'AKAIRO',
     REDDIT: 'REDDIT',
     DISCORD: 'DISCORD',
     REJECTION: 'REJECTION'
 }
 
-export const EVENT = {
+export const EVT = {
     INIT: 'INIT',
-    WARN: 'WARN',
     ERROR: 'ERROR',
     READY: 'READY',
-    DEBUG: 'DEBUG',
+    COMMAND: 'COMMAND',
     DESTROY: 'DESTROY',
     CONNECT: 'CONNECT',
     DISCONNECT: 'DISCONNECT'
 }
 
+const { combine, timestamp, errors, printf } = format
+
 export const logger = createLogger({
-    format: format.combine(
-        format.colorize({ level: true, colors: { info: 'black whiteBG' } }),
-        format.timestamp({ format: 'MM-DDThh:mm:ssa'}),
-        format.errors({ stack: true }),
-        format.printf(info => {
-            const { timestamp, level, message, type, event } = info
-            return `${timestamp} ${level} ${type}${event ? `#${event}` : ''}: ${message}`
+    format: combine(
+        timestamp({ format: 'YYYY-MM-DDThh:mm:ssa'}),
+        errors({ stack: true }),
+        printf(info => {
+            let { timestamp, level, message, type, event } = info
+            
+            return `${timestamp} ${clr(level)} ${type}${event ? `#${event}` : ''}: ${message}`
         })
     ),
 
-    transports: [new transports.Console({ level: 'info' })]
+    transports: [
+        new transports.Console({ 
+            level: 'info'
+        }),
+
+        new transports.File({
+            filename: 'logs/errors.log',
+            level: 'error'
+        })
+    ]
 })
+
+const clr = (level) => {
+    level = level.toUpperCase()
+
+    if (level === 'INFO') level = _.black.bgWhite(level)
+    else if (level === 'ERROR') level = _.white.bgRed(level)
+    
+    return level
+}
