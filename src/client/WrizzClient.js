@@ -2,8 +2,8 @@ import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, Flag }
 import RedditWatcher from '../structures/reddit/RedditWatcher'
 import SettingsProvider from '../structures/SettingsProvider'
 import ReminderHandler from '../structures/ReminderHandler'
-import { COLORS, MESSAGES, flatten } from '../utils/constants'
-import { TYPE, EVENT, logger } from '../utils/logger'
+import { CLRS, MESSAGES, flatten } from '../utils/constants'
+import { TYPE, EVT, logger } from '../utils/logger'
 import { PGSQL } from '../utils/postgresql'
 import { Util } from 'discord.js'
 import { join } from 'path'
@@ -92,15 +92,15 @@ export default class WrizzClient extends AkairoClient {
         })
 
         this.commandHandler.loadAll()
-        this.logger.info('Commands loaded', { type: COLORS.AKAIRO(TYPE.AKAIRO), event: COLORS.INIT(EVENT.INIT) })
+        this.logger.info('Commands loaded', { type: CLRS.AKAIRO(TYPE.AKAIRO), event: CLRS.INIT(EVT.INIT) })
         this.inhibitorHandler.loadAll()
-        this.logger.info('Inhibitors loaded', { type: COLORS.AKAIRO(TYPE.AKAIRO), event: COLORS.INIT(EVENT.INIT) })
+        this.logger.info('Inhibitors loaded', { type: CLRS.AKAIRO(TYPE.AKAIRO), event: CLRS.INIT(EVT.INIT) })
         this.listenerHandler.loadAll()
-        this.logger.info('Listeners loaded', { type: COLORS.AKAIRO(TYPE.AKAIRO), event: COLORS.INIT(EVENT.INIT) })
+        this.logger.info('Listeners loaded', { type: CLRS.AKAIRO(TYPE.AKAIRO), event: CLRS.INIT(EVT.INIT) })
         await this.settings.init()
-        this.logger.info('Settings loaded', { type: COLORS.AKAIRO(TYPE.AKAIRO), event: COLORS.INIT(EVENT.INIT) })
+        this.logger.info('Settings loaded', { type: CLRS.AKAIRO(TYPE.AKAIRO), event: CLRS.INIT(EVT.INIT) })
         await this.remind.init()
-        this.logger.info('Reminders loaded', { type: COLORS.AKAIRO(TYPE.AKAIRO), event: COLORS.INIT(EVENT.INIT) })
+        this.logger.info('Reminders loaded', { type: CLRS.AKAIRO(TYPE.AKAIRO), event: CLRS.INIT(EVT.INIT) })
     }
 
     async start() {
