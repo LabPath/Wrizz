@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
-import { MESSAGES, COLORS } from '../../utils/constants'
+import { MESSAGES, CLRS } from '../../utils/constants'
 import moment from 'moment'
 import ms from 'ms'
 import { MessageEmbed } from 'discord.js'
@@ -77,7 +77,7 @@ export default class Reminder extends Command {
         .setTitle('Reminder Receipt')
         .addField('❯ Duration', `\`${ms(ms(duration), { long: true })}\` from now`)
         .addField('❯ Content', content)
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         return message.author.send(remEmbed).catch(() => {
             message.util.reply(MESSAGES.COMMANDS.GENERAL.REMIND.SUCCESS(duration))

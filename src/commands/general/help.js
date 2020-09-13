@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
-import { COLORS, MESSAGES } from '../../utils/constants';
+import { CLRS, MESSAGES } from '../../utils/constants';
 import { capitalCase } from 'change-case'
 
 export default class Help extends Command {
@@ -27,7 +27,7 @@ export default class Help extends Command {
         if (!cmd) {
             const helpEmbed = new MessageEmbed()
             .setAuthor(`Command List  |  Prefix: ${prefix}`, this.client.user.displayAvatarURL())
-            .setColor(COLORS.DEFAULT)
+            .setColor(CLRS.DEFAULT)
 
             for (const category of this.handler.categories.values()) {
                 helpEmbed.addField(`❯ ${capitalCase(category.id)}`, category.filter(cmd => cmd.aliases.length > 0).map(cmd => `\`${cmd.aliases[0]}\``).join(' '))
@@ -42,7 +42,7 @@ export default class Help extends Command {
             cmd.aliases.length > 1 
                 ? `\`${cmd.aliases.slice(1).join('` `')}\`` 
                 : 'No Aliases')
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         if (cmd.description.hasOwnProperty('usage'))
         cmdEmbed.addField('❯ Usage', `\`${prefix + cmd.aliases[0]} ${cmd.description.usage}\``)

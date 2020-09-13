@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, flatten } from '../../utils/constants'
+import { CLRS, MESSAGES, flatten } from '../../utils/constants'
 import { PGSQL } from '../../utils/postgresql'
 
 export default class Signature extends Command {
@@ -44,7 +44,7 @@ export default class Signature extends Command {
         .setAuthor(`${hero}  |  ${result.si_item}`)
         .setDescription(`*${result.si_desc}*`)
         .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${result.si_skill}`, result[`si_lv${level}`])
-        .setColor(COLORS[level])
+        .setColor(CLRS[level])
 
         if (level === 'all') {
             siEmbed.fields = []
@@ -53,7 +53,7 @@ export default class Signature extends Command {
                 .addField('+10 Unlock', result.si_lv10)
                 .addField('+20 Unlock', result.si_lv20)
                 .addField('+30 Unlock', result.si_lv30)
-                .setColor(COLORS.DEFAULT)
+                .setColor(CLRS.DEFAULT)
         }
 
         return message.util.send(siEmbed)

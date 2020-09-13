@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import { MESSAGES, COLORS } from '../../utils/constants';
+import { MESSAGES, CLRS } from '../../utils/constants';
 import { MessageEmbed } from 'discord.js';
 import { stripIndents } from 'common-tags'
 import moment from 'moment'
@@ -37,7 +37,7 @@ export default class Server extends Command {
             • DnD: ${filter('dnd')}
             • Bots: ${guild.members.cache.filter(_ => _.user.bot).size}`, true)
         .setFooter(`Created On: ${moment(guild.createdAt).format('MMMM D, YYYY  |  dddd, hh:mm A')}`)
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         return message.util.send(guildEmbed);
     }

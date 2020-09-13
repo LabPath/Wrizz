@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, flatten } from '../../utils/constants'
+import { CLRS, MESSAGES, flatten } from '../../utils/constants'
 import { PGSQL } from '../../utils/postgresql'
 
 export default class Furniture extends Command {
@@ -32,7 +32,7 @@ export default class Furniture extends Command {
         .setAuthor(`${hero}  |  ${flatten(result, 'fn_ability')}`)
         .addField('3/3 Mythic Furniture', flatten(result, 'fn_lv3'))
         .addField('9/9 Mythic Furniture', flatten(result, 'fn_lv9'))
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         return message.util.send(fnEmbed)
     }

@@ -1,7 +1,7 @@
 import RedditClient from './RedditClient'
 import RedditEmbed from './RedditEmbed'
-import { TYPE, EVENT } from '../../utils/logger';
-import { COLORS } from '../../utils/constants'
+import { TYPE, EVT } from '../../utils/logger';
+import { CLRS } from '../../utils/constants'
 import cs from 'clean-stack'
 
 export default class RedditWatcher {
@@ -17,12 +17,12 @@ export default class RedditWatcher {
 
         this.reddit.on('ready', () => {
                 this.client.logger.info('Connected to Reddit', { 
-                    type: COLORS._REDDIT(TYPE.REDDIT), 
-                    event: COLORS.CONNECT(EVENT.CONNECT)
+                    type: CLRS._REDDIT(TYPE.REDDIT), 
+                    event: CLRS.CONNECT(EVT.CONNECT)
                 })
             })
         .on('post', data => {
-            channel.send(role ? role : '', new RedditEmbed(data[0]))
+            channel.send(role ? role : '', new RedditEmbed(data[0], false))
         })
         .on('error', err => console.log(cs(err.stack)))
 

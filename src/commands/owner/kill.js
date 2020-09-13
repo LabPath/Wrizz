@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
-import { COLORS, MESSAGES } from '../../utils/constants';
-import { TYPE, EVENT } from '../../utils/logger';
+import { CLRS, MESSAGES } from '../../utils/constants';
+import { TYPE, EVT } from '../../utils/logger';
 
 export default class Kill extends Command {
     constructor() {
@@ -13,8 +13,8 @@ export default class Kill extends Command {
 
     async exec() {
         this.client.logger.info('Session killed', {
-            type: COLORS.DISCORD(TYPE.DISCORD),
-            event: COLORS.DESTROY(EVENT.DESTROY)
+            type: CLRS.DISCORD(TYPE.DISCORD),
+            event: CLRS.DESTROY(EVT.DESTROY)
         })
 
         await this.client.destroy()

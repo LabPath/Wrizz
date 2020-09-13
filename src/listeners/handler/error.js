@@ -1,5 +1,6 @@
 import { Listener } from 'discord-akairo';
-import { TYPE, EVENT } from '../../utils/logger'
+import { TYPE, EVT } from '../../utils/logger'
+import { CLRS } from '../../utils/constants';
 
 export default class Error extends Listener {
 	constructor() {
@@ -11,6 +12,9 @@ export default class Error extends Listener {
 	}
 
 	exec(error) {
-		this.client.logger.error(error, { type: TYPE.AKAIRO, event: EVENT.ERROR });
+		this.client.logger.error(error, {
+            type: CLRS.AKAIRO(TYPE.AKAIRO),
+            event: CLRS.ERROR(EVT.ERROR)
+        });
 	}
 }

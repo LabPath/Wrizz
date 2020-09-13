@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { COLORS, MESSAGES, flatten } from '../../utils/constants'
+import { CLRS, MESSAGES, flatten } from '../../utils/constants'
 import { PGSQL } from '../../utils/postgresql'
 import { stripIndents } from 'common-tags'
 export default class Hero extends Command {
@@ -44,7 +44,7 @@ export default class Hero extends Command {
         .addField('Armor', result.armor, true)
         .addField('Signature Item', result.si_item, true)
         .addField('Furniture Ability', result.fn_ability, true)
-        .setColor(COLORS[result.faction.toUpperCase()])
+        .setColor(CLRS[result.faction.toUpperCase()])
 
         return message.util.send(heroEmbed)
     }

@@ -1,7 +1,7 @@
 import { sequelize } from '../models/index'
 import { MessageEmbed } from 'discord.js'
 import { PGSQL } from '../utils/postgresql';
-import { MESSAGES, COLORS } from '../utils/constants';
+import { MESSAGES, CLRS } from '../utils/constants';
 
 export default class ReminderHandler {
 	constructor(client, { checkRate = 10000 } = {}) {
@@ -27,7 +27,7 @@ export default class ReminderHandler {
             .setAuthor(user.tag, user.displayAvatarURL())
             .setTitle(remind.reference)
             .addField('❯ Content', remind._content)
-            .setColor(COLORS.DEFAULT)
+            .setColor(CLRS.DEFAULT)
 
             user.send(remEmbed).catch(() => {
                 channel.send(MESSAGES.COMMANDS.GENERAL.REMIND.FINISH(user, remind._content))

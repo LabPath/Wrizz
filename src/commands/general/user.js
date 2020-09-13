@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags'
-import { COLORS, MESSAGES } from '../../utils/constants';
+import { CLRS, MESSAGES } from '../../utils/constants';
 import moment from 'moment'
 
 export default class User extends Command {
@@ -39,7 +39,7 @@ export default class User extends Command {
             • Nickname: ${member.nickname || 'None'}
             • Boost Since: ${member.premiumSince ? moment(member.premiumSince).format('MMMM D, YYY') : 'N/A'}
             • Top Role: ${member.roles.highest}`)
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         if (presence[1]) {
             infoEmbed.addField('❯ Spotify', stripIndents`

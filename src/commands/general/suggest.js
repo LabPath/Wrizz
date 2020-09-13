@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
-import { MESSAGES, COLORS, randomID } from '../../utils/constants'
+import { MESSAGES, CLRS, randomID } from '../../utils/constants'
 import { MessageEmbed } from 'discord.js'
 import { PGSQL } from '../../utils/postgresql'
 import moment from 'moment'
@@ -64,7 +64,7 @@ export default class Suggest extends Command {
         .setAuthor(member.user.tag, member.user.displayAvatarURL())
         .setDescription(content)
         .setFooter(`ID: ${_id} • ${moment().format('MMMM D, YYYY - hh:mm:ss A')}`)
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         if (message.attachments.first()) suggestEmbed.setImage(message.attachments.first().url)
 

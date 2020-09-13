@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo';
-import { MESSAGES, COLORS } from '../../utils/constants';
+import { MESSAGES, CLRS } from '../../utils/constants';
 import moment from 'moment'
 import { MessageEmbed } from 'discord.js';
 import { stripIndents } from 'common-tags';
@@ -43,7 +43,7 @@ export default class TagInfo extends Command {
             • Edits: ${tag.edits}`)
         .addField('❯ Created At', moment(tag.created_at).format('MM/DD/YYYY @ HH:mm:ss'))
         .addField('❯ Updated At', moment(tag.updated_at).format('MM/DD/YYYY @ HH:mm:ss'))
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
 		return message.util.send(infoEmbed);
 	}

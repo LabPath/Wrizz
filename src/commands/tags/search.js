@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES, COLORS, flatten } from '../../utils/constants';
+import { MESSAGES, CLRS, flatten } from '../../utils/constants';
 import { MessageEmbed } from 'discord.js';
 import { PGSQL } from '../../utils/postgresql';
 
@@ -43,7 +43,7 @@ export default class TagSearch extends Command {
         .setTitle(`❯ Search results for \`${name}\``)
         .setDescription(results.length ? `\`${results.join('` `')}\`` : `No results found for \`${name}\``)
         .setFooter(message.author.tag, message.author.displayAvatarURL())
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
 		return message.util.send(resultEmbed)
 	}

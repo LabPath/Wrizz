@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo'
-import { MESSAGES, COLORS } from '../../utils/constants'
+import { MESSAGES, CLRS } from '../../utils/constants'
 import { MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags'
 
@@ -28,7 +28,7 @@ export default class Guides extends Command {
         .addField('❯ Resources', stripIndents`
             • [Guide Collection](https://bread.gitbook.io/guides/)
             • [r/Whitesushii](https://www.reddit.com/r/whitesushii/)`, true)
-        .setColor(COLORS.DEFAULT)
+        .setColor(CLRS.DEFAULT)
 
         message.util.send(guideEmbed)
     }
