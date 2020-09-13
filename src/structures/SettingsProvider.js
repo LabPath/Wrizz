@@ -4,18 +4,17 @@ import { sequelize } from '../models/index'
 import { PGSQL } from '../utils/postgresql'
 
 export default class SettingsProvider extends Provider {
-    constructor(model = sequelize) {
+    constructor(db = sequelize) {
         super()
         
-        this.model = model
+        this.sequelize = db
     }
 
     async init() {
-        await this.model.sync().then(async() => {
-            const settings = await this.model.models.settings.findAll()
+        await this.sequelize.sync().then(async() => {
+            const settings = await this.sequelize.models.settings.findAll()
             for (const setting of settings) {
                 this.items.set(setting.guild_id, setting.settings)
-
             }
         })
     }
@@ -43,13 +42,13 @@ export default class SettingsProvider extends Provider {
         const data = this.items.get(id) || {}
         delete data[key]
 
-        return await this.model.models.settings.upsert({ guild_id: id, settings: data })
+        return await this.sequelize.models.settings.upsert({ guild_id: id, settings: data })
     }
 
     async clear(guild) {
         const id = this.constructor.getGuildID(guild)
         this.items.delete(id)
-        return this.model.destroy()
+        return this.sequelize.destroy() // TODO: create delete query
     }
 
     static getGuildID(guild) {
