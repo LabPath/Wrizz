@@ -1,22 +1,22 @@
+import { MessageEmbed } from 'discord.js'
+import { stripIndents } from 'common-tags'
+import { read } from 'jimp'
 import _ from 'chalk'
 import ms from 'ms'
-import { read } from 'jimp'
-import { stripIndents } from 'common-tags'
-import { MessageEmbed } from 'discord.js'
 
-export const COLORS = {
-    INIT: init             => _.hex('B1CCE5')(init),
-    WARN: warn             => _.hex('FFA420')(warn),
-    DEBUG: debug           => _.hex('FFC44D')(debug),
-    ERROR: error           => _.hex('EC0000')(error),
-    READY: ready           => _.hex('B1CCE5')(ready),
-    AKAIRO: akairo         => _.hex('A5051E')(akairo),
-    _REDDIT: reddit        => _.hex('FF5700')(reddit),
-    DESTROY: destroy       => _.hex('4DC3FF')(destroy),
-    CONNECT: connect       => _.hex('B1CCE5')(connect),
-    DISCORD: discord       => _.hex('7289DA')(discord),
-    REJECTION: rejection   => _.hex('FFA420')(rejection),
-    DISCONNECT: disconnect => _.hex('4DC3FF')(disconnect),
+export const CLRS = {
+    INIT: $ => _.blue($),
+    ERROR: $ => _.red($),
+    PGSQL: $ => _.blue($),
+    READY: $ => _.green($),
+    AKAIRO: $ => _.hex('A5051E')($),
+    _REDDIT: $ => _.hex('FF5700')($),
+    DISCORD: $ => _.hex('7289DA')($),
+    CONNECT: $ => _.green($),
+    DESTROY: $ => _.yellow($),
+    COMMAND: $ => _.green($),
+    REJECTION: $ => _.red($),
+    DISCONNECT: $ => _.yellow($),
 
     0: '6C369D',
     10: '6C369D',
@@ -71,15 +71,14 @@ export const MESSAGES = {
 
             MAP: {
                 DESCRIPTION: stripIndents`
-                    View the latest Arcane Labyrinth map or query a map by date
+                    View the latest Arcane Labyrinth map or query a map with a date string
                     
-                    ❯ Accepted date strings
-                    • YYYY-MM-DD
-                    • MMM DD
-                    • MMM DD YYYY`,
+                    ❯ Accepted Date Strings
+                    • YYYY-[M]M-[D]D (Can omit leading 0)
+                    • [M]M-[D]D-[YY]YY (Can omit leading 0 & first two year digits)`,
 
-                ERR_FETCH: 'There was an error while fetching the latest map',
-                ERR_NO_MAP: date => `Unable to find a map with a date of \`${date}\``,
+                ERR_FETCH: 'there was an error while fetching the latest map',
+                ERR_NO_MAP: date => `unable to find a map with a date of \`${date}\``,
                 ERR_DATE: date => `\`${date}\` is an invalid date string`
             },
 
@@ -94,6 +93,10 @@ export const MESSAGES = {
 
                 ERR_EXISTS: (author, hero) => `${author}, a hero with the name \`${hero}\` doesn't exist`,
                 ERR_EXISTS2: (author, level) => `${author}, \`${level}\` is an invalid level unlock`
+            },
+
+            TODAY: {
+                DESCRIPTION: 'Get the current info of what\'s happening in AFK Arena'
             }
         },
 
@@ -177,7 +180,7 @@ export const MESSAGES = {
                     [2] Member Logs
                     [3] Suggestions\`\`\``)
                 .setFooter(author.tag, author.displayAvatarURL())
-                .setColor(COLORS.DEFAULT),
+                .setColor(CLRS.DEFAULT),
                 CHANNEL: (type, author) => `${author}, what would you like the ${type} channel to be?`,
                 SUCCESS: (num, channel) => `successfully set the ${num === 1 ? 'Moderation Logs' : num === 2 ? 'Member Logs' : 'Suggestions'} channel to \`#${channel}\``,
 
