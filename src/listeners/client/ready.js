@@ -1,8 +1,9 @@
 import { Listener } from 'discord-akairo';
-import { TYPE, EVENT } from '../../utils/logger';
-import { COLORS } from '../../utils/constants'
+import { sequelize } from '../../models/index'
+import { TYPE, EVT } from '../../utils/logger';
+import { CLRS } from '../../utils/constants'
 
-export default class ReadyListener extends Listener {
+export default class Ready extends Listener {
     constructor() {
         super('ready', {
             emitter: 'client',
@@ -12,10 +13,14 @@ export default class ReadyListener extends Listener {
     }
 
     async exec() {
-        this.client.logger.info(this.client.user.tag, {
-            type: COLORS.DISCORD(TYPE.DISCORD),
-            event: COLORS.READY(EVENT.READY)
-        })
+        this.client.logger.info(this.client.user.tag, { type: CLRS.DISCORD(TYPE.DISCORD), event: CLRS.READY(EVT.READY) })
+
+        try {
+            await sequelize.authenticate()
+            this.client.logger.info('Connected to PostgreSQL', { type: CLRS.PGSQL(TYPE.PGSQL), event: CLRS.CONNECT(EVT.CONNECT) })
+        } catch (err) {
+            this.client.logger.error(err, { type: CLRS.PGSQL(TYPE.PGSQL), event: CLRS.ERROR(EVT.ERROR) })
+        }
 
         await this.client.redditWatcher.init()
     }
