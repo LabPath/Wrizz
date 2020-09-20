@@ -10,8 +10,6 @@ export default class Tag extends Command {
 				usage: '<method> <arguments>',
 				examples: [
                     'add foo bar',
-                    'alias --add foo fu',
-                    'alias --del foo fee',
                     'delete foo',
                     'edit foo baz',
                     'info foo',
@@ -26,14 +24,13 @@ export default class Tag extends Command {
 	*args() {
 		const method = yield {
 			type: [
-                ['tag-add', 'add', 'create'],
-                ['tag-alias', 'alias', 'pseudo'],
-                ['tag-delete', 'delete', 'del', 'remove'],
+                ['tag-add', 'add'],
+                ['tag-delete', 'delete', 'del'],
                 ['tag-edit', 'edit', 'modify'],
                 ['tag-search', 'search', 'find'],
-                ['tag-show', 'show', 'display', 'view']
+                ['tag-show', 'show', 'display']
 			],
-			otherwise: message => {
+			otherwise: (message) => {
                 const prefix = this.handler.prefix(message)
                 return MESSAGES.COMMANDS.TAGS.INFO.METHODS(prefix)
             }

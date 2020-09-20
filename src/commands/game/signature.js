@@ -1,7 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { CLRS, MESSAGES, flatten } from '../../utils/constants'
-import { PGSQL } from '../../utils/postgresql'
+import { MESSAGES, c } from '../../utils/constants'
 
 export default class Signature extends Command {
     constructor() {
@@ -9,16 +8,14 @@ export default class Signature extends Command {
             aliases: ['signature', 'si', 'sig'],
             description: {
                 content: MESSAGES.COMMANDS.GAME.SIGNATURE.DESCRIPTION,
-                usage: '<hero> [level]',
+                usage: '<hero> [--level=]',
             },
             category: 'game',
             args: [
                 {
                     id: 'hero',
-                    type: 'hero',
                     prompt: {
                         start: message => MESSAGES.COMMANDS.GAME.SIGNATURE.HERO(message.author),
-                        retry: (message, { phrase }) => MESSAGES.COMMANDS.GAME.SIGNATURE.ERR_EXISTS(message.author, phrase)
                     }
                 },
                 {
@@ -37,25 +34,25 @@ export default class Signature extends Command {
     }
 
     async exec(message, { hero, level }) {
-        let result = await PGSQL.HERO.SIGNATURE(hero)
-        result = flatten(result)
+        const [exists] = this.client.query.heroType(hero, message)
+        if (exists) return
 
-        const siEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${result.si_item}`)
-        .setDescription(`*${result.si_desc}*`)
-        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${result.si_skill}`, result[`si_lv${level}`])
-        .setColor(CLRS[level])
+        const embed = new MessageEmbed()
+        .setAuthor(`${hero.name}  |  ${hero.si_item}`)
+        .setDescription(`*${hero.si_desc}*`)
+        .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${hero.si_skill}`, hero[`si_lv${level}`])
+        .setColor(c[level])
 
         if (level === 'all') {
-            siEmbed.fields = []
-            siEmbed
-                .addField('Unlock', result.si_lv0)
-                .addField('+10 Unlock', result.si_lv10)
-                .addField('+20 Unlock', result.si_lv20)
-                .addField('+30 Unlock', result.si_lv30)
-                .setColor(CLRS.DEFAULT)
+            embed.fields = []
+            embed
+                .addField('Unlock', hero.si_lv0)
+                .addField('+10 Unlock', hero.si_lv10)
+                .addField('+20 Unlock', hero.si_lv20)
+                .addField('+30 Unlock', hero.si_lv30)
+                .setColor(c[hero.faction.toLowerCase()])
         }
 
-        return message.util.send(siEmbed)
+        return message.util.send(embed)
     }
 }

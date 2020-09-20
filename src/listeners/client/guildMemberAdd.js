@@ -1,7 +1,5 @@
 import { Listener } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
-import { CLRS } from '../../utils/constants'
-import moment from 'moment'
 
 export default class GuildMemberAdd extends Listener {
 	constructor() {
@@ -20,7 +18,7 @@ export default class GuildMemberAdd extends Listener {
             .setAuthor(`${member.user.tag} | ${member.id}`, member.user.displayAvatarURL())
             .setTimestamp(new Date())
             .setFooter(`Join | ${member.guild.memberCount} Members`)
-            .setColor(CLRS.JOIN)
+            .setColor('26DE81')
 
 			return this.client.channels.cache.get(memberlogs).send(embed);
 		}

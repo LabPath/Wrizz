@@ -1,5 +1,5 @@
 import { Command } from 'discord-akairo'
-import { MESSAGES, CLRS } from '../../utils/constants'
+import { MESSAGES, c } from '../../utils/constants'
 import { MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags'
 
@@ -15,21 +15,19 @@ export default class Guides extends Command {
     }
 
     async exec(message) {
-        const guideEmbed = new MessageEmbed()
+        
+        const embed = new MessageEmbed()
         .setTitle('Guides & Resources')
-        .setDescription(stripIndents`
-            " *dude this list is getting longer than cvs receipts* "
-            — Bread`)
         .addField('❯ Guides', stripIndents`
-            • [General](https://app.gitbook.com/@bread/s/guides/relevant-guides/general)
-            • [Mechanics](https://app.gitbook.com/@bread/s/guides/relevant-guides/mechanics)
-            • [Gameplay](https://app.gitbook.com/@bread/s/guides/relevant-guides/gameplay)
-            • [Events](https://app.gitbook.com/@bread/s/guides/relevant-guides/events)`, true)
+            • [General](https://bread.gitbook.io/guides/general)
+            • [Mechanics](https://bread.gitbook.io/guides/mechanics)
+            • [Gameplay](https://bread.gitbook.io/guides/gameplay)
+            • [Events](https://bread.gitbook.io/guides/events)`, true)
         .addField('❯ Resources', stripIndents`
             • [Guide Collection](https://bread.gitbook.io/guides/)
             • [r/Whitesushii](https://www.reddit.com/r/whitesushii/)`, true)
-        .setColor(CLRS.DEFAULT)
+        .setColor(c.default)
 
-        message.util.send(guideEmbed)
+        message.util.send(embed)
     }
 }

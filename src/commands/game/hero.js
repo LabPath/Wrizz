@@ -1,8 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { CLRS, MESSAGES, flatten } from '../../utils/constants'
-import { PGSQL } from '../../utils/postgresql'
 import { stripIndents } from 'common-tags'
+import { MESSAGES, c } from '../../utils/constants'
 export default class Hero extends Command {
     constructor() {
         super('hero', {
@@ -15,10 +14,8 @@ export default class Hero extends Command {
             args: [
                 {
                     id: 'hero',
-                    type: 'hero',
                     prompt: {
                         start: message => MESSAGES.COMMANDS.GAME.HERO.NAME(message.author),
-                        retry: (message, { phrase }) => MESSAGES.COMMANDS.GAME.HERO.ERR_EXISTS(message.author, phrase)
                     }
                 },
             ]
@@ -26,26 +23,26 @@ export default class Hero extends Command {
     }
 
     async exec(message, { hero }) {
-        const prefix = this.handler.prefix(message)
+        const [exists] = this.client.query.heroType(hero, message)
+        if (exists) return
         
-        let result = await PGSQL.HERO.INFO(hero)
-        result = flatten(result)
+        const prefix = this.handler.prefix(message)
 
-        const heroEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${result.title}`)
+        const embed = new MessageEmbed()
+        .setAuthor(`${hero.name}  |  ${hero.title}`)
         .setDescription(stripIndents`
-            *\`${prefix}si ${hero}\` to view the hero's signature item
-            \`${prefix}fn ${hero}\` to view the hero's furniture ability*`)
-        .addField('Faction', result.faction, true)
-        .addField('Role', result.role, true)
-        .addField('Type', result.type, true)
-        .addField('Class', result.class, true)
-        .addField('Trait', result.trait, true)
-        .addField('Armor', result.armor, true)
-        .addField('Signature Item', result.si_item, true)
-        .addField('Furniture Ability', result.fn_ability, true)
-        .setColor(CLRS[result.faction.toUpperCase()])
+            *\`${prefix}si ${hero.name}\` to view the hero's signature item
+            \`${prefix}fn ${hero.name}\` to view the hero's furniture ability*`)
+        .addField('Faction', hero.faction, true)
+        .addField('Role', hero.role, true)
+        .addField('Type', hero.type, true)
+        .addField('Class', hero.class, true)
+        .addField('Trait', hero.trait, true)
+        .addField('Armor', hero.armor, true)
+        .addField('Signature Item', hero.si_item, true)
+        .addField('Furniture Ability', hero.fn_ability, true)
+        .setColor(c[hero.faction.toLowerCase()])
 
-        return message.util.send(heroEmbed)
+        return message.util.send(embed)
     }
 }

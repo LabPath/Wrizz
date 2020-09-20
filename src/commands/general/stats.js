@@ -1,8 +1,8 @@
+import { dependencies as deps } from '../../../package.json'
 import { stripIndents } from 'common-tags'
 import { MessageEmbed } from 'discord.js'
 import { Command } from 'discord-akairo'
-import { CLRS } from '../../utils/constants'
-import { cpu } from 'node-os-utils'
+import { c } from '../../utils/constants'
 import ms from 'ms'
 
 export default class Stats extends Command {
@@ -17,30 +17,28 @@ export default class Stats extends Command {
     }
 
     async exec(message) {
-        const owner = this.client.users.cache.get(process.env.OWNER_ID)
-        const usage = await cpu.usage()
+        const { owner } = await this.client.fetchApplication()
 
-        const statsEmbed = new MessageEmbed()
+        const embed = new MessageEmbed()
         .setAuthor(`${this.client.user.tag} (${this.client.user.id})`, this.client.user.displayAvatarURL())
         .setDescription('[Report an Issue](https://github.com/vBread/Wrizz/issues)')
         .addField('❯ General', stripIndents`
-            • Servers: ${this.client.guilds.cache.size}
+            • Age: ${ms(Date.now() - this.client.user.createdAt)}
             • Users: ${this.client.users.cache.size}
             • Uptime: ${ms(this.client.uptime)}
-            • Commands: ${this.client.commandHandler.aliases.map(a => a).length}`, true)
-        .addField('❯ Technical', stripIndents`
-            • Age: ${ms(Date.now() - this.client.user.createdAt)}
-            • Bot Ping: ${this.client.ws.ping}ms
-            • RAM Usage: ${(process.memoryUsage().heapUsed / 1e+6).toFixed(1)}mb
-            • CPU Usage: ${usage.toFixed(1)}%`, true)
+            • Servers: ${this.client.guilds.cache.size}
+            • Commands: ${this.client.commands.aliases.map(a => a).length}`, true)
         .addField('❯ Development', stripIndents`
-            • Discord.js: [v12.3.1](https://github.com/discordjs/discord.js)
+            • Hosting: [Digital Ocean](https://www.digitalocean.com/)
+            • Discord.js: [${deps['discord.js'].replace('^', 'v')}](https://github.com/discordjs/discord.js)
             • Framework: [Akairo](https://github.com/discord-akairo/discord-akairo)
             • Repository: [GitHub](https://github.com/vBread/Wrizz)
-            • Hosting: [Digital Ocean](https://www.digitalocean.com/)`, true)
+            • RAM Usage: ${(process.memoryUsage().heapUsed / 1e+6).toFixed(1)}mb`, true)
         .setFooter(`Developed by ${owner.tag}`, owner.displayAvatarURL())
-        .setColor(CLRS.DEFAULT)
+        .setColor(c.default)
 
-        return message.util.send(statsEmbed)
+        return await message.util.send(embed)
     }
 }
+
+// • Ping: ${this.client.ws.ping}ms

@@ -1,8 +1,7 @@
-import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES, CLRS, flatten } from '../../utils/constants';
+import { Command } from 'discord-akairo';
+import { MESSAGES, c } from '../../utils/constants';
 import { MessageEmbed } from 'discord.js';
-import { PGSQL } from '../../utils/postgresql';
 
 export default class TagSearch extends Command {
     constructor() {
@@ -28,23 +27,19 @@ export default class TagSearch extends Command {
 
 	async exec(message, { name }) {
         const results = []
-        name = Util.cleanContent(name, message);
 
+        name = Util.cleanContent(name, message);
 		if (name.length > 32) return message.util.reply(MESSAGES.COMMANDS.TAGS.SEARCH.ERR_NAME_LENGTH)
 
-        const result = await PGSQL.TAGS.SEARCH(name, message)
-        const tags = flatten(result)
+        const result = await this.client.query.tagSearch(name, message)
+        if (!result.length) return message.util.reply(MESSAGES.COMMANDS.TAGS.SEARCH.ERR_RESULTS(name))
 
-        for (const tag of [tags]) {
-            results.push(tag.name)
-        }
+        for (const tag of result) results.push(tag.name)
 
-        const resultEmbed = new MessageEmbed()
-        .setTitle(`❯ Search results for \`${name}\``)
-        .setDescription(results.length ? `\`${results.join('` `')}\`` : `No results found for \`${name}\``)
-        .setFooter(message.author.tag, message.author.displayAvatarURL())
-        .setColor(CLRS.DEFAULT)
+        const embed = new MessageEmbed()
+        .addField(`Search Results: \`${name}\``, `\`${results.join('` `')}\``)
+        .setColor(c.default)
 
-		return message.util.send(resultEmbed)
+		return message.util.send(embed)
 	}
 }

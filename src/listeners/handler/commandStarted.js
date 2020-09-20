@@ -1,20 +1,20 @@
 import { Listener } from 'discord-akairo';
-import { TYPE, EVT } from '../../utils/logger'
-import { CLRS } from '../../utils/constants';
+import { TYPE, EVT } from '../../utils/log'
+import { c } from '../../utils/constants';
 
 export default class CommandStarted extends Listener {
 	constructor() {
 		super('commandStarted', {
-			emitter: 'commandHandler',
 			event: 'commandStarted',
+			emitter: 'commands',
 			category: 'handler',
 		});
 	}
 
 	async exec(message, command, args) {
-        this.client.logger.info(`Command '${command.id}' ran by ${message.author.tag} [${Object.values(args)}]`, {
-            type: CLRS.AKAIRO(TYPE.AKAIRO),
-            event: CLRS.COMMAND(EVT.COMMAND)
+        this.client.log.info(`Command '${command.id}' ran by ${message.author.tag} [${Object.values(args)}]`, {
+            type: c.akairo(TYPE.AKAIRO),
+            event: c.cmd(EVT.COMMAND)
         });
 	}
 }

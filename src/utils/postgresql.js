@@ -1,253 +1,173 @@
-import { sequelize } from "../models"
+import { sequelize } from '../models'
+import { QueryTypes } from 'sequelize'
+export default class Query {
+    async authenticate() {
+        try {
+            await sequelize.authenticate()
+        } catch (err) {
+            throw new Error(err)
+        }
+    }
 
-export const PGSQL = {
-    HERO: {
-        FURNITURE(hero) {
-            const result = sequelize.query(`
-                SELECT name,
-                       fn_ability,
-                       fn_lv3, 
-                       fn_lv9
-                FROM heroes
-                WHERE name = '${hero}'
-            `)
-            return result
-        },
+    heroType(hero) {
+        return sequelize.query(`
+            SELECT *
+            FROM heroes
+            WHERE LOWER(name) = '${hero}'
+        `, { type: QueryTypes.SELECT }) || undefined
+    }
 
-        INFO(hero) {
-            const result = sequelize.query(`
-                SELECT name,
-                       title,
-                       faction,
-                       role,
-                       type,
-                       class,
-                       trait,
-                       armor,
-                       si_item,
-                       fn_ability
-                FROM heroes
-                WHERE name = '${hero}'`
+    // reminderAdd(remind) {
+    //     sequelize.query(`
+    //         INSERT INTO reminders (
+    //             author,
+    //             guild_id,
+    //             channel_id,
+    //             _content,
+    //             _start,
+    //             _end
+    //         )
+    //         VALUES (
+    //             '${remind.author}',
+    //             '${remind.guild_id}',
+    //             '${remind.channel_id}',
+    //             '${remind.content}',
+    //             '${remind.start}',
+    //             '${remind.end}'
+    //         )
+    //     `)
+    // }
+
+    // reminderEnd(author) {
+    //     sequelize.query(`
+    //         DELETE
+    //         FROM reminders
+    //         WHERE author = '${author}'
+    //     `, { type: QueryTypes.DELETE })
+    // }
+
+    settingsSet(id, data) {
+        sequelize.query(`
+            INSERT INTO settings (
+                guild_id,
+                settings
             )
-            return result || null
-        },
+            VALUES (
+                '${id}',
+                '${JSON.stringify(data)}'
+            )
+            ON CONFLICT 
+            ON CONSTRAINT guild_id
+            DO UPDATE
+            SET settings = '${JSON.stringify(data)}'
+        `)
+    }
 
-        SIGNATURE(hero) {
-            const result = sequelize.query(`
-                SELECT name,
-                       si_item,
-                       si_skill, 
-                       si_desc,
-                       si_lv0, 
-                       si_lv10, 
-                       si_lv20, 
-                       si_lv30
-                FROM heroes
-                WHERE name = '${hero}'
-            `)
-            return result
-        },
+    suggestionAdd(author, guild, suggestID, msgID) {
+        sequelize.query(`
+            INSERT INTO suggestions (
+                author,
+                guild_id,
+                message_id,
+                suggest_id
+            )
+            VALUES (
+                '${author}',
+                '${guild}',
+                '${msgID}',
+                '${suggestID}'
+            )
+        `)
+    }
 
-        TYPE(phrase) {
-            const result = sequelize.query(`
-                SELECT *
-                FROM heroes
-                WHERE LOWER(name) = '${phrase}'
-            `)
-            return result || null
-        }
-    },
+    suggestionClose(guild, id) {
+        return sequelize.query(`
+            DELETE FROM suggestions
+            WHERE suggest_id = '${id}'
+            AND guild_id = '${guild}'
+            RETURNING 
+            suggest_id,
+            message_id
+        `, { type: QueryTypes.DELETE }) || undefined
+    }
 
-    PROFILE: {
-        ADD(user) {
+    tagAdd(name, content, message) {
+        sequelize.query(`
+            INSERT INTO tags (
+                name, 
+                content, 
+                author, 
+                guild_id,
+                created_at,
+                updated_at
+            )
+            VALUES (
+                '${name}', 
+                '${content}', 
+                '${message.author.id}', 
+                '${message.guild.id}',
+                NOW(),
+                NOW()
+            )
+        `, { type: QueryTypes.INSERT })
+    }
 
-        },
+    tagDelete(tag) {
+        sequelize.query(`
+            DELETE FROM tags
+            WHERE id = ${tag.id}
+        `, { type: QueryTypes.DELETE })
+    }
 
-        FETCH(user) {
-            const result = sequelize.query(`
-                SELECT *
-                FROM players
-                WHERE author = '${user}'
-            `)
-            return result || null
-        }
-    },
+    tagEdit(tag, content, message) {
+        sequelize.query(`
+            UPDATE tags
+            SET content = '${content}',
+                edits = ${tag.edits} + 1,
+                updated_at = NOW()
+            WHERE name = '${tag.name}'
+            AND guild_id = '${message.guild.id}'
+        `, { type: QueryTypes.SELECT })
+    }
 
-    REMINDERS: {
-        ADD(remind) {
-            sequelize.query(`
-                INSERT INTO reminders (
-                    author,
-                    guild_id,
-                    channel_id,
-                    reference,
-                    _content,
-                    _start,
-                    _end
-                )
-                VALUES (
-                    '${remind.author}',
-                    '${remind.guild_id}',
-                    '${remind.channel_id}',
-                    '${remind.reference}',
-                    '${remind.content}',
-                    '${remind.start}',
-                    '${remind.end}'
-                )
-            `)
-        },
+    tagSearch(name, message) {
+        return sequelize.query(`
+            SELECT *
+            FROM tags
+            WHERE guild_id = '${message.guild.id}'
+            AND name LIKE '%${name}%' 
+        `, { type: QueryTypes.SELECT })
+    }
 
-        FINISH(author) {
-            sequelize.query(`
-                DELETE
-                FROM reminders
-                WHERE author = '${author}'
-            `)
-        },
-    
-        FORGET(remind) {
-            sequelize.query(`
-                DELETE
-                FROM reminders
-                WHERE author = '${remind.author}'
-            `)
-        },
-    },
+    tagShow(name, message) {
+        return sequelize.query(`
+            UPDATE tags
+            SET uses = uses + 1
+            WHERE guild_id = '${message.guild.id}'
+            AND name = '${name}'
+            RETURNING content
+        `, { type: QueryTypes.SELECT }) || undefined
+    }
 
-    SETTINGS: {
-        SET(id, data) {
-            sequelize.query(`
-                INSERT INTO settings (
-                    guild_id,
-                    settings
-                )
-                VALUES (
-                    '${id}',
-                    '${JSON.stringify(data)}'
-                )
-                ON CONFLICT 
-                ON CONSTRAINT guild_id
-                DO UPDATE
-                SET settings = '${JSON.stringify(data)}'
-            `)
-        }
-    },
+    tagType(input, message) {
+        return sequelize.query(`
+            SELECT *
+            FROM tags
+            WHERE guild_id = '${message.guild.id}'
+            AND name = '${input}'
+        `, { type: QueryTypes.SELECT })
+    }
 
-    SUGGEST: {
-        NEW(author, guild, suggestID, msgID) {
-            sequelize.query(`
-                INSERT INTO suggestions (
-                    author,
-                    guild_id,
-                    message_id,
-                    suggest_id
-                )
-                VALUES (
-                    '${author}',
-                    '${guild}',
-                    '${msgID}',
-                    '${suggestID}'
-                )
-            `)
-        },
 
-        CLOSE(guild, id) {
-            const result = sequelize.query(`
-                DELETE FROM suggestions
-                WHERE suggest_id = '${id}'
-                AND guild_id = '${guild}'
-                RETURNING 
-                suggest_id,
-                message_id
-            `)
-            return result || false
-        }
-    },
+    userAdd(user) {
 
-    TAGS: {
-        ADD(name, content, message) {
-            sequelize.query(`
-                INSERT INTO tags (
-                    author, 
-                    guild_id,
-                    name, 
-                    aliases, 
-                    content, 
-                    created_at,
-                    updated_at
-                )
-                VALUES (
-                    '${name}', 
-                    '[]', 
-                    '${content}', 
-                    '${message.author.id}', 
-                    '${message.guild.id}',
-                    NOW(),
-                    NOW()
-                )
-            `)
-        },
+    }
 
-        ALIAS(tag) {
-            sequelize.query(`
-                UPDATE tags
-                SET aliases = '${[JSON.stringify(tag.aliases)]}'
-                WHERE name = '${tag.name}'
-            `)
-        },
-
-        DELETE(tag) {
-            sequelize.query(`
-                DELETE FROM tags
-                WHERE id = ${tag.id}
-            `)
-        },
-
-        EDIT(tag, content, message) {
-            sequelize.query(`
-                UPDATE tags
-                SET content = '${content}',
-                    edits = ${tag.edits} + 1,
-                    updated_at = NOW()
-                WHERE name = '${tag.name}'
-                AND guild_id = '${message.guild.id}'
-            `)
-        },
-
-        SEARCH(name, message) {
-            const result = sequelize.query(`
-                SELECT *
-                FROM tags
-                WHERE guild_id = '${message.guild.id}'
-                AND name LIKE '%${name}%' 
-                OR array_to_string(
-                    ARRAY[aliases], ','
-                ) LIKE '%${name}%'
-            `)
-            return result
-        },
-
-        SHOW(name, message) {
-            const result = sequelize.query(`
-                UPDATE tags
-                SET uses = uses + 1
-                WHERE guild_id = '${message.guild.id}'
-                AND name = '${name}'
-                OR aliases @> '["${name}"]'
-                RETURNING content
-            `)
-            return result || false
-        },
-
-        TYPE(phrase, message) {
-            const result = sequelize.query(`
-                SELECT *
-                FROM tags
-                WHERE guild_id = '${message.guild.id}'
-                AND name = '${phrase}'
-                OR aliases @> '["${phrase}"]'
-            `)
-            return result
-        }
+    userFetch(user) {
+        return sequelize.query(`
+            SELECT *
+            FROM players
+            WHERE author = '${user}'
+        `) || undefined
     }
 }

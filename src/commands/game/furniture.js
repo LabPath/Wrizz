@@ -1,7 +1,6 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { CLRS, MESSAGES, flatten } from '../../utils/constants'
-import { PGSQL } from '../../utils/postgresql'
+import { c, MESSAGES } from '../../utils/constants'
 
 export default class Furniture extends Command {
     constructor() {
@@ -15,10 +14,8 @@ export default class Furniture extends Command {
             args: [
                 {
                     id: 'hero',
-                    type: 'hero',
                     prompt: {
                         start: message => MESSAGES.COMMANDS.GAME.FURNITURE.HERO(message.author),
-                        retry: (message, { phrase }) => MESSAGES.COMMANDS.GAME.FURNITURE.ERR_EXISTS(message.author, phrase)
                     }
                 },
             ]
@@ -26,14 +23,15 @@ export default class Furniture extends Command {
     }
 
     async exec(message, { hero }) {
-        const result = await PGSQL.HERO.FURNITURE(hero)
-        
-        const fnEmbed = new MessageEmbed()
-        .setAuthor(`${hero}  |  ${flatten(result, 'fn_ability')}`)
-        .addField('3/3 Mythic Furniture', flatten(result, 'fn_lv3'))
-        .addField('9/9 Mythic Furniture', flatten(result, 'fn_lv9'))
-        .setColor(CLRS.DEFAULT)
+        const [exists] = this.client.query.heroType(hero, message)
+        if (exists) return
 
-        return message.util.send(fnEmbed)
+        const embed = new MessageEmbed()
+        .setAuthor(`${hero.name}  |  ${hero.fn_ability}`)
+        .addField('3/3 Mythic Furniture', hero.fn_lv3)
+        .addField('9/9 Mythic Furniture', hero.fn_lv9)
+        .setColor(c[hero.faction.toLowerCase()])
+
+        return message.util.send(embed)
     }
 }

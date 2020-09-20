@@ -1,20 +1,20 @@
 import { Listener } from 'discord-akairo';
-import { TYPE, EVT } from '../../utils/logger'
-import { CLRS } from '../../utils/constants';
+import { TYPE, EVT } from '../../utils/log'
+import { c } from '../../utils/constants';
 
 export default class Error extends Listener {
 	constructor() {
 		super('error', {
-			emitter: 'commandHandler',
+			emitter: 'commands',
 			event: 'error',
 			category: 'commandHandler',
 		});
 	}
 
 	exec(error) {
-		this.client.logger.error(error, {
-            type: CLRS.AKAIRO(TYPE.AKAIRO),
-            event: CLRS.ERROR(EVT.ERROR)
+		this.client.log.error(error, {
+            type: c.akairo(TYPE.AKAIRO),
+            event: c.err(EVT.ERROR)
         });
 	}
 }

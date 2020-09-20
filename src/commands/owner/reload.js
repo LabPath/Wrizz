@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo'
-import { MESSAGES, CLRS } from '../../utils/constants';
-import { EVT } from '../../utils/logger';
+import { TYPE, EVT } from '../../utils/log';
+import { c } from '../../utils/constants';
+import _ from 'chalk'
 
 export default class Reload extends Command {
     constructor() {
@@ -20,15 +21,17 @@ export default class Reload extends Command {
     async exec({ command }) {
 
         if (!command) {
-            this.client.commandHandler.reloadAll()
-            return this.client.logger.info('Reloaded all commands', {
-                type: CLRS.AKAIRO,
+            this.client.commands.reloadAll()
+            return this.client.log.info('Commands reloaded', {
+                type: c.akairo(TYPE.AKAIRO),
+                event: _.yellow(EVT.RELOAD)
             })
         }
 
-        this.client.commandHandler.reload(command)
-        return this.client.logger.info(`Reloaded ${command}`, {
-            type: CLRS.AKAIRO,
+        this.client.commands.reload(command)
+        return this.client.log.info(`'${command}' reloaded`, {
+            type: c.akairo(TYPE.AKAIRO),
+            event: _.yellow(EVT.RELOAD)
         })
     }
 }

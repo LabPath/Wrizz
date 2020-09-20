@@ -26,8 +26,8 @@ export default class Prefix extends Command {
 	}
 
 	async exec(message, { prefix, reset }) {
-		if (!prefix) return message.util.send(MESSAGES.COMMANDS.MOD.PREFIX.CURRENT(message.guild.name, this.handler.prefix(message)));
-        if (prefix.length > 3) return message.util.send(MESSAGES.COMMANDS.MOD.PREFIX.ERR_LENGTH)
+		if (!prefix && !reset) return message.util.send(MESSAGES.COMMANDS.MOD.PREFIX.CURRENT(message.guild.name, this.handler.prefix(message)));
+        if (!reset && prefix.length > 3) return message.util.send(MESSAGES.COMMANDS.MOD.PREFIX.ERR_LENGTH)
 
         if (reset) {
             this.client.settings.set(message.guild, 'prefix', process.env.PREFIX);

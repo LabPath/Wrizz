@@ -1,22 +1,23 @@
 import { Command } from 'discord-akairo'
-import { CLRS, MESSAGES } from '../../utils/constants';
-import { TYPE, EVT } from '../../utils/logger';
+import { TYPE, EVT } from '../../utils/log';
+import { c } from '../../utils/constants';
+import _ from 'chalk'
 
 export default class Kill extends Command {
     constructor() {
         super('kill', {
-            aliases: ['kill', 'off'],
+            aliases: ['kill', 'destroy'],
             category: 'owner',
             ownerOnly: true,
         })
     }
 
     async exec() {
-        this.client.logger.info('Session killed', {
-            type: CLRS.DISCORD(TYPE.DISCORD),
-            event: CLRS.DESTROY(EVT.DESTROY)
+        this.client.log.info('Session killed', {
+            type: c.discord(TYPE.DISCORD),
+            event: _.yellow(EVT.DESTROY)
         })
 
-        await this.client.destroy()
+        this.client.destroy()
     }
 }

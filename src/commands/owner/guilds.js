@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags';
-import { CLRS } from '../../utils/constants';
+import { c } from '../../utils/constants';
 import moment from 'moment'
 
 export default class Guilds extends Command {
@@ -25,7 +25,7 @@ export default class Guilds extends Command {
         const guilds = this.client.guilds.cache.sort((a, b) => b.memberCount - a.memberCount)
 
         const listEmbed = new MessageEmbed()
-        .setColor(CLRS.DEFAULT)
+        .setColor(c.default)
 
         if (guild) {
             listEmbed

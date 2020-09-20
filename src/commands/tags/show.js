@@ -1,12 +1,11 @@
-import { Command } from 'discord-akairo';
 import { Util } from 'discord.js';
-import { MESSAGES, flatten } from '../../utils/constants';
-import { PGSQL } from '../../utils/postgresql'
+import { Command } from 'discord-akairo';
+import { MESSAGES } from '../../utils/constants';
 
 export default class TagShow extends Command {
     constructor() {
 		super('tag-show', {
-            aliases: ['show', 'display', 'view'],
+            aliases: ['show', 'display'],
 			category: 'tag',
 			description: {
 				content: MESSAGES.COMMANDS.TAGS.SHOW.DESCRIPTION,
@@ -19,7 +18,7 @@ export default class TagShow extends Command {
                     match: 'content',
 					prompt: {
 						start: message => MESSAGES.COMMANDS.TAGS.SHOW.NAME(message.author),
-					},
+					}
 				},
 			],
 		});
@@ -28,11 +27,9 @@ export default class TagShow extends Command {
 	async exec(message, { name }) {
         name = Util.cleanContent(name, message);
 
-        const result = await PGSQL.TAGS.SHOW(name, message)
-        if (!result[0][0]) return
+        const [tag] = await this.client.query.tagShow(name, message)
+        if (!tag) return
 
-        const tag = flatten(result, 'content')
-
-		return message.util.send(tag);
+		return message.util.send(tag.content);
 	}
 }

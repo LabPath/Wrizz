@@ -1,10 +1,10 @@
 import { get } from 'superagent'
 import { Command } from 'discord-akairo'
 import { MessageEmbed } from 'discord.js'
-import { CLRS, MESSAGES } from '../../utils/constants'
+import { MESSAGES } from '../../utils/constants'
+import RedditClient from '../../structures/RedditClient'
 import moment from 'moment'
 import glob from 'glob'
-import RedditEmbed from '../../structures/reddit/RedditEmbed'
 
 export default class Map extends Command {
     constructor() {
@@ -28,10 +28,12 @@ export default class Map extends Command {
     }
 
     async exec(message, { date }) {
+        const r = new RedditClient()
+
         if (!date) {
             try {
                 const { body } = await get('https://www.reddit.com/r/Lab_path/new.json?sort=new').query({ limit: 1 });
-                return message.util.send(new RedditEmbed(body.data.children[0].data, true));
+                return message.util.send(r.embed(body.data.children[0].data));
             } catch (err) {
                 return message.util.reply(MESSAGES.COMMANDS.GAME.MAP.ERR_FETCH)
             }
@@ -45,13 +47,13 @@ export default class Map extends Command {
 
                 const img = file.toString().split('/').pop().replace(/<|>|#/g, '')
 
-                const mapEmbed = new MessageEmbed()
+                const embed = new MessageEmbed()
                 .attachFiles(file)
                 .setTitle(`${moment(date).format('MMMM DD, YYYY')}`)
                 .setImage(`attachment://${img}`)
-                .setColor(CLRS.REDDIT)
+                .setColor('FF5700')
 
-                return message.util.send(mapEmbed)
+                return message.util.send(embed)
             }
             return message.util.reply(MESSAGES.COMMANDS.GAME.MAP.ERR_NO_MAP(date.split('T')[0]))
         })

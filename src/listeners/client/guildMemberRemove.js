@@ -1,7 +1,5 @@
 import { Listener } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
-import { CLRS } from '../../utils/constants'
-import moment from 'moment'
 
 export default class GuildMemberRemove extends Listener {
 	constructor() {
@@ -20,7 +18,7 @@ export default class GuildMemberRemove extends Listener {
             .setAuthor(`${member.user.tag} | ${member.id}`, member.user.displayAvatarURL())
             .setTimestamp(new Date())
             .setFooter(`Leave | ${member.guild.memberCount} Members`)
-            .setColor(CLRS.LEAVE)
+            .setColor('FC5C65')
 
 			return this.client.channels.cache.get(memberlogs).send(embed);
 		}

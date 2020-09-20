@@ -1,7 +1,6 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
-import { CLRS, MESSAGES } from '../../utils/constants';
-import { capitalCase } from 'change-case'
+import { MESSAGES, c, capital as C } from '../../utils/constants';
 
 export default class Help extends Command {
     constructor() {
@@ -25,29 +24,29 @@ export default class Help extends Command {
         const prefix = this.handler.prefix(message)
 
         if (!cmd) {
-            const helpEmbed = new MessageEmbed()
+            const embed = new MessageEmbed()
             .setAuthor(`Command List  |  Prefix: ${prefix}`, this.client.user.displayAvatarURL())
-            .setColor(CLRS.DEFAULT)
+            .setColor(c.default)
 
             for (const category of this.handler.categories.values()) {
-                helpEmbed.addField(`❯ ${capitalCase(category.id)}`, category.filter(cmd => cmd.aliases.length > 0).map(cmd => `\`${cmd.aliases[0]}\``).join(' '))
+                embed.addField(`❯ ${C(category.id)}`, category.filter(cmd => cmd.aliases.length > 0).map(cmd => `\`${cmd.aliases[0]}\``).join(' '))
             }
-            return message.util.send(helpEmbed)
+            return message.util.send(embed)
         }
 
         const cmdEmbed = new MessageEmbed()
-        .setAuthor(`${capitalCase(cmd.category.id)}  |  ${prefix + cmd.aliases[0]}`)
+        .setAuthor(`${C(cmd.category.id)}  |  ${prefix + cmd.aliases[0]}`)
         .setDescription(cmd.description.content)
         .addField('❯ Aliases', 
-            cmd.aliases.length > 1 
+            cmd.aliases.length > 1
                 ? `\`${cmd.aliases.slice(1).join('` `')}\`` 
                 : 'No Aliases')
-        .setColor(CLRS.DEFAULT)
+        .setColor(c.default)
 
-        if (cmd.description.hasOwnProperty('usage'))
+        if (cmd.description.usage)
         cmdEmbed.addField('❯ Usage', `\`${prefix + cmd.aliases[0]} ${cmd.description.usage}\``)
 
-        if (cmd.description.hasOwnProperty('examples'))
+        if (cmd.description.examples)
         cmdEmbed.addField('❯ Examples', `${cmd.description.examples.map(ex => `\`${prefix + cmd.aliases[0]} ${ex}\`\n`).join(' ')}`)
 
         return message.util.send(cmdEmbed)

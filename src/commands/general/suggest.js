@@ -1,8 +1,7 @@
-import { Command } from 'discord-akairo'
 import { Util } from 'discord.js'
-import { MESSAGES, CLRS, randomID } from '../../utils/constants'
+import { Command } from 'discord-akairo'
+import { MESSAGES, c, randomID } from '../../utils/constants'
 import { MessageEmbed } from 'discord.js'
-import { PGSQL } from '../../utils/postgresql'
 import moment from 'moment'
 
 export default class Suggest extends Command {
@@ -44,7 +43,7 @@ export default class Suggest extends Command {
             else return
         }
 
-        const channel = this.client.settings.get(message.guild, 'suggestChannel')
+        const channel = this.client.settings.get(message.guild, 'suggestions')
         
         if (!channel) {
             return message.util.reply(MESSAGES.COMMANDS.GENERAL.SUGGEST.DISABLED(message.guild.name))
@@ -60,18 +59,18 @@ export default class Suggest extends Command {
         content = Util.cleanContent(content, message);
 
         const _id = randomID(6)
-        const suggestEmbed = new MessageEmbed()
+        const embed = new MessageEmbed()
         .setAuthor(member.user.tag, member.user.displayAvatarURL())
         .setDescription(content)
         .setFooter(`ID: ${_id} • ${moment().format('MMMM D, YYYY - hh:mm:ss A')}`)
-        .setColor(CLRS.DEFAULT)
+        .setColor(c.default)
 
-        if (message.attachments.first()) suggestEmbed.setImage(message.attachments.first().url)
+        if (message.attachments.first()) embed.setImage(message.attachments.first().url)
 
-        const msg = await message.util.send(suggestEmbed)
+        const msg = await message.util.send(embed)
         await msg.react('🔼')
         await msg.react('🔽')
         
-        await PGSQL.SUGGEST.NEW(message.author.id, message.guild.id, _id, msg.id)
+        this.client.query.suggestionAdd(message.author.id, message.guild.id, _id, msg.id)
     }
 }

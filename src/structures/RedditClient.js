@@ -1,6 +1,8 @@
-import { Server } from 'ws'
-import cs from 'clean-stack'
+import { MessageEmbed } from 'discord.js'
+import moment from 'moment-timezone'
 import request from 'request'
+import cs from 'clean-stack'
+
 let date = Math.floor(Date.now() / 1000)
 
 const fetch = async () => {
@@ -36,22 +38,39 @@ const fetch = async () => {
 };
 
 export default class RedditClient {
-    constructor() {
-        this.events = new Server({ port: 1034 });
+    constructor(client) {
+        this.client = client
     };
 
-    on(event, listener) {
-        this.events.on(event, listener);
-        return this.events;
-    };
-
-    async start() {
+    async init() {
         setInterval(async () => {
             const data = await fetch();
             if (data.length !== 0) {
-                this.events.emit('post', data);
+                this.post(data);
             }
         }, 3000);
-        this.events.emit('ready', null);
     };
+
+    post(data) {
+        const guild = this.client.guilds.cache.get(process.env.GUILD_ID)
+        const channel = guild.channels.cache.get(process.env.CHANNEL_ID)
+        const role = guild.roles.cache.get('725477327215132693')
+
+        channel.send(role ? role : '', this.embed(data[0], false))
+    }    
+
+    embed(post, cmd) {
+        const time = moment.tz(post.created_utc * 1000, 'America/New_York')
+        const embed = new MessageEmbed()
+
+        if (!cmd) embed.setTitle(`${time.add(1, 'd').format('MMMM DD, YYYY')}`)
+        
+        embed
+            .setURL(`https://reddit.com/${post.permalink}`)
+            .setImage(post.url)
+            .setFooter(`Posted by u/${post.author} | ${time.format('h:mm:ss A')}`)
+            .setColor('FF5700')
+
+        return embed
+    }
 };
