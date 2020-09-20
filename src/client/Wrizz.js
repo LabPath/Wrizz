@@ -7,7 +7,6 @@ import {
 
 import RedditClient from '../structures/RedditClient'
 import SettingsProvider from '../structures/SettingsProvider'
-import ReminderHandler from '../structures/ReminderHandler'
 import Query from '../utils/postgresql'
 import _ from 'chalk'
 import { c, MESSAGES } from '../utils/constants'
@@ -24,7 +23,6 @@ export default class Wrizz extends AkairoClient {
         this.query = new Query()
         this.reddit = new RedditClient(this)
         this.settings = new SettingsProvider(this)
-        this.reminders = new ReminderHandler(this)
         
         this.commands = new C(this, {
             directory: `${__dirname}/../commands`,
@@ -64,7 +62,6 @@ export default class Wrizz extends AkairoClient {
         this.log.info('Modules loaded ✔️', { type: c.akairo(TYPE.AKAIRO), event: c.init(EVT.INIT) })
 
         await this.settings.init()
-        await this.reminders.init()
         this.log.info('Structures loaded ✔️', { type: c.akairo(TYPE.AKAIRO), event: c.init(EVT.INIT) })
 
         await this.reddit.init()
