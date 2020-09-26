@@ -1,15 +1,9 @@
 node_modules/*
 
-tmp/*
+dist/*
 
 .env
 
 logs/*
 
-src/commands/owner/test.js
-
 concepts/*
-
-scripts/
-
-src/assets/*
