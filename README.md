@@ -11,7 +11,6 @@
   [![discord][discord-badge]][discord-link]
   [![subreddit][reddit-badge]][reddit-sub]
   [![digitalocean][host-badge]][host-link]
-  [![vscode][vsc-badge]][vsc-link]
   [![npm][npm-badge]][npm-link]
   [![javascript][js-badge]][js-docs]
 
@@ -48,17 +47,14 @@ Ex. `?prefix !`
 View a hero's signature item or a specific level unlock  
 Ex. `?signature eironn`, `?signature rowan --level=20`, `?signature shemira -l=30`
 
-[js-badge]: https://img.shields.io/badge/MADE%20WITH-TYPESCRIPT-red?style=for-the-badge&color=007ACC&logo=typescript
-[js-docs]: https://devdocs.io/typescript/
+[ts-badge]: https://img.shields.io/badge/MADE%20WITH-TYPESCRIPT-red?style=for-the-badge&color=007ACC&logo=typescript
+[ts-docs]: https://devdocs.io/typescript/
 
 [discord-badge]: https://img.shields.io/discord/669974531959554057?color=%237289DA&label=LabPath&logo=discord&style=for-the-badge
 [discord-link]: https://discord.gg/U3A27t5
 
 [reddit-badge]: https://img.shields.io/badge/SUBREDDIT-r%2FLAB__PATH-white?style=for-the-badge&logo=reddit&color=ff4500
 [reddit-sub]: https://www.reddit.com/r/Lab_path/
-
-[vsc-badge]: https://img.shields.io/badge/IDE-VISUAL%20STUDIO%20CODE-WHITE?style=for-the-badge&logo=visual-studio-code&color=23a8f2&logoColor=23a8f2
-[vsc-link]: https://code.visualstudio.com/
 
 [npm-badge]: https://img.shields.io/badge/DISCORD.JS-v12.3.1-white?style=for-the-badge&logo=npm&color=cb3837
 [npm-link]: https://github.com/discordjs/discord.js
