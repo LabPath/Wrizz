@@ -12,7 +12,7 @@
   [![subreddit][reddit-badge]][reddit-sub]
   [![digitalocean][host-badge]][host-link]
   [![npm][npm-badge]][npm-link]
-  [![javascript][js-badge]][js-docs]
+  [![typescript][ts-badge]][ts-docs]
 
 </div>
 
