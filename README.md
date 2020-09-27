@@ -17,10 +17,39 @@
 
 </div>
 
-<br></br>
+# Commands
 
-[js-badge]: https://img.shields.io/badge/MADE%20WITH-JAVASCRIPT-red?style=for-the-badge&color=F2D223&logo=javascript
-[js-docs]: https://devdocs.io/javascript/
+## `?emblems`
+Display the emblems requirements for signature item upgrades
+
+## `?furniture <hero>` [`?fn`]
+View the furniture ability and respective upgrades for the given hero  
+Ex. `?furniture athalia`
+
+## `?guides`
+Receive a set of links for guides made by the community
+
+## `?help [command]`
+View information for the given command  
+Ex. `?help map`
+
+## `?hero <hero>`
+View general information about the given hero
+
+## `?map [-d=, --date=]`
+Display the latest Arcane Labyrinth map from [r/LabPath](https://www.reddit.com/r/Lab_path/) or query a map from a specific date  
+Ex. `?map --date=2020-06-25`, `?map -d=4-12-20`
+
+## `?prefix [prefix]`
+Change the server's prefix. The default prefix is `?`, along with a mention prefix built in (`@Wrizz`)  
+Ex. `?prefix !`
+
+## `?signature <hero> [-l=, --level=]` [`?si`, `?sig`]
+View a hero's signature item or a specific level unlock  
+Ex. `?signature eironn`, `?signature rowan --level=20`, `?signature shemira -l=30`
+
+[js-badge]: https://img.shields.io/badge/MADE%20WITH-TYPESCRIPT-red?style=for-the-badge&color=007ACC&logo=typescript
+[js-docs]: https://devdocs.io/typescript/
 
 [discord-badge]: https://img.shields.io/discord/669974531959554057?color=%237289DA&label=LabPath&logo=discord&style=for-the-badge
 [discord-link]: https://discord.gg/U3A27t5
