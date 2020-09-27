@@ -157,6 +157,32 @@
     },
     {
         "hero": {
+            "name": "Zaphrael",
+            "title": "The Righteous",
+            "faction": "Celestial",
+            "role": "Continuous Damage",
+            "type": "Intelligence",
+            "class": "Mage",
+            "trait": "Dura's Sorcery",
+            "armor": "Padded"
+        },
+        "si": {
+            "item": "Arc of Justice",
+            "desc": "An illustrious spear consisting of heavenly lightning. Its frightening heat and power is able to turn enemies into ashes in an instance",
+            "skill": "Zeal",
+            "lv0": "After using the ability \"Lightning Arc\", Zaphrael's Normal Melee Attacks become even more powerful, dealing 60% damage 9 times to the enemy, also interrupting their current action",
+            "lv10": "Damage is increased to 70%",
+            "lv20": "Damage is increased to 80%",
+            "lv30": "The ability \"Thunderstorm\" targets an additional 1 enemy targets"
+        },
+        "fn": {
+            "ability": "Divine Intervention",
+            "lv3": "When an enemy deals damage to Zaphrael they are stunned for 0.5 seconds. Stunned enemies cannot be stunned again for 8 seconds. This ability shall still stun its target even if its damage was completely mitigated by the enemy",
+            "lv9": "When an enemy deals damage to Zaphrael they are stunned for 2 seconds. Stunned enemies cannot be stunned again for 8 seconds. This ability shall still stun its target even if its damage was completely mitigated by the enemy"
+        }
+    },
+    {
+        "hero": {
             "name": "Ezizh",
             "title": "Hellborn",
             "faction": "Hypogean",
@@ -283,6 +309,32 @@
             "ability": "Fiendish Negation",
             "lv3": "The duration for the majority of de-buffs affecting Mezoth is reduced by 50% when Mezoth's health is above 40%",
             "lv9": "The duration for the majority of de-buffs affecting Mezoth is reduced by 50% when Mezoth's health is above 80%"
+        }
+    },
+    {
+        "hero": {
+            "name": "Lucretia",
+            "title": "The Betrayed",
+            "faction": "Hypogean",
+            "role": "Continuous Damage",
+            "type": "Intelligence",
+            "class": "Ranger",
+            "trait": "Dura's Celerity",
+            "armor": "Leather"
+        },
+        "si": {
+            "item": "Dark Star",
+            "desc": "Born out of hatred and vengeance, the Dark Star encompasses a burning power like none other. The most peculiar observation about this powerful weapon, is that its hilt bears the symbol of an ancient temple cleric, from many millennia ago",
+            "skill": "Animus",
+            "lv0": "When any non-summoned allies die, Lucretia gains 100 energy points",
+            "lv10": "When any non-summoned allies die, Lucretia gains 200 energy points",
+            "lv20": "When any non-summoned allies die, Lucretia's Attack Rating is increased by 30% for 12 seconds. This ability can be stacked. Time durations for the stacked effects are calculated individually",
+            "lv30": "When any non-summoned allies die, Lucretia's Attack Rating is increased by 50% for 12 seconds. This ability can be stacked. Time durations for the stacked effects are calculated individually"
+        },
+        "fn": {
+            "ability": "Blazing Fury",
+            "lv3": "When enemies have used their Ultimate abilities for a combined number of 2 times, the effects caused by the flames of the ability \"Hellfire\" are strengthened. Enemies that are damaged by the flames have their Energy Recovery rates reduced by 50%",
+            "lv9": "When enemies have used their Ultimate abilities for a combined number of 7 times, the flame effects of the ability \"Hellfire\" are strengthened and the flames shall no longer disappear. Enemies that are damaged by the flames will be unable to use their Ultimate abilities for a short duration"
         }
     },
     {
