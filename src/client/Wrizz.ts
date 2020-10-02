@@ -1,6 +1,6 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { sql } from '../utils/postgresql';
+import { sql } from '../utils/PostgreSQL';
 import RedditClient from './structures/RedditClient';
 
 export default class Wrizz extends AkairoClient {

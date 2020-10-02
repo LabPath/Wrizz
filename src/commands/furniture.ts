@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import { cmd, factions } from '../utils/constants';
+import { cmd, factions } from '../utils/Constants';
 import { sql } from '../utils/PostgreSQL';
 
 export default class Furniture extends Command {

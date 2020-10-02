@@ -1,5 +1,5 @@
 import { get } from 'superagent';
-import { cmd } from '../utils/constants';
+import { cmd } from '../utils/Constants';
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import RedditClient from '../client/structures/RedditClient';

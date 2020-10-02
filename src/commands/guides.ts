@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import { stripIndents } from 'common-tags';
-import { cmd } from '../utils/constants';
+import { cmd } from '../utils/Constants';
 
 export default class Guides extends Command {
     constructor() {

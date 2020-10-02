@@ -1,6 +1,6 @@
 import { Command, PrefixSupplier } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { cmd } from '../utils/constants';
+import { cmd } from '../utils/Constants';
 import { sql } from '../utils/PostgreSQL';
 
 export default class Prefix extends Command {

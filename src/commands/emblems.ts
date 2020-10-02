@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { cmd } from '../utils/constants';
+import { cmd } from '../utils/Constants';
 
 export default class Emblems extends Command {
     constructor() {

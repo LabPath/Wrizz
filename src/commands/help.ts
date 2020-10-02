@@ -1,6 +1,6 @@
 import { Command, PrefixSupplier } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import { cmd } from '../utils/constants';
+import { cmd } from '../utils/Constants';
 
 export default class Help extends Command {
     constructor() {
