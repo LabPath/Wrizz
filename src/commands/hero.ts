@@ -22,7 +22,7 @@ export default class Hero extends Command {
     }
 
     async exec(message: Message, { name }) {
-        const prefix = (this.handler.prefix as PrefixSupplier)(message);
+        const prefix = await (this.handler.prefix as PrefixSupplier)(message);
         if (!name) return;
 
         const [hero] = await sql`
