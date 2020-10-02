@@ -4,7 +4,7 @@
     "description": "An AFK Arena Discord bot, providing useful tools to access in-game information.",
     "scripts": {
         "start": "node -r dotenv/config ./dist/client/Wrizz.js",
-        "build": "tsc -b",
+        "build": "rm -rf ./dist/ && tsc -b",
         "rename": "node ./scripts/BatchRename.js"
     },
     "repository": {
