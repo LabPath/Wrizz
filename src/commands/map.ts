@@ -12,7 +12,7 @@ export default class Map extends Command {
             aliases: ['map'],
             description: {
                 content: cmd.map.description,
-                usage: '[--date=YYYY-MM-DD]',
+                usage: '[-d=, --date=]',
                 examples: ['--date=2020-01-27', '-d=2019-9-5', '--date=4-12-20']
             },
             args: [
@@ -36,13 +36,13 @@ export default class Map extends Command {
                     new RedditClient(this.client).embed(body.data.children[0].data, false)
                 );
             } catch (err) {
-                return message.util?.reply(cmd.map.err_fetch);
+                return message.util?.send(cmd.map.err_fetch);
             }
         }
 
         date = new Date(date).toISOString();
 
-        glob(`./Lab Path/Maps/All/*${date.split('T')[0]}*.png`, (err, files) => {
+        glob(`./Lab Path/Maps/**/*${date.split('T')[0]}*.png`, (err, files) => {
             let file: any;
 
             if (files.length) {
@@ -58,7 +58,7 @@ export default class Map extends Command {
 
                 return message.util?.send(embed);
             }
-            return message.util?.reply(cmd.map.err_map(date.split('T')[0]));
+            return message.util?.send(cmd.map.err_map(date.split('T')[0]));
         });
     }
 }
