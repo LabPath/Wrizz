@@ -10,7 +10,8 @@ export default class Prefix extends Command {
             userPermissions: ['MANAGE_GUILD'],
             description: {
                 content: cmd.prefix.description,
-                usage: '[prefix]'
+                usage: '[prefix]',
+                examples: ['?']
             },
             args: [
                 {
