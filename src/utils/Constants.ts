@@ -20,51 +20,47 @@ export const factions = {
 
 export const cmd = {
     emblems: {
-        description: 'View the emblem requirements for SI level ups'
+        description: 'Display the emblems requirements for signature item upgrades'
     },
 
     furniture: {
-        description: "View a hero's furniture ability upgrades",
-        hero: (author: User) => `${author}, which hero's furniture would you like to view?`,
-        err_hero: (hero: string) => `a hero with the name \`${hero}\` doesn't exist`
+        description: 'View the furniture ability and respective upgrades for the given hero',
+        err_hero: (hero: string) => `A hero with the name \`${hero}\` doesn't exist`
     },
 
     guides: {
-        description: ''
+        description: 'Receive a set of links for guides made by the community'
     },
 
     hero: {
-        description: "View a hero's general info",
-        name: (author: User) => `${author}, which hero would you like to view?`,
-        err_hero: (hero: string) => `a hero with the name \`${hero}\` doesn't exist`
+        description: 'View general information about the given hero',
+        err_hero: (hero: string) => `A hero with the name \`${hero}\` doesn't exist`
     },
 
     map: {
         description: stripIndents`
-            View the latest Arcane Labyrinth map or query a map with a date string
+            Display the latest Arcane Labyrinth map from r/LabPath or query a map from a specific date
                     
             ❯ Accepted Date Strings
             • YYYY-[M]M-[D]D (Can omit leading 0)
             • [M]M-[D]D-[YY]YY (Can omit leading 0 & first two year digits)`,
 
-        err_fetch: 'there was an error while fetching the latest map',
-        err_map: (date: string) => `unable to find a map with a date of \`${date}\``,
+        err_fetch: 'There was an error while fetching the latest map',
+        err_map: (date: string) => `Unable to find a map with a date of \`${date}\``,
         err_date: (date: string) => `\`${date}\` is an invalid date string`
     },
 
     signature: {
-        description: "View a hero's signature item upgrades",
-        hero: (author: User) => `${author}, which hero's signature item would you like to view?`,
-        level: (author: User) => `${author}, which level unlock would you like to view?`,
-        err_hero: (hero: string) => `a hero with the name \`${hero}\` doesn't exist`
+        description: 'View a hero\'s signature item or a specific level unlock',
+        err_hero: (hero: string) => `A hero with the name \`${hero}\` doesn't exist`
     },
 
     help: {
-        description: 'View specific info on a command or a full list'
+        description: 'View information for the given command'
     },
 
     prefix: {
-        description: 'Set the server prefix',
+        description: 'Change the server\'s prefix. e default prefix is `!`, along with a mention prefix built in (`@Wrizz`)',
         current: (prefix: any) => `The current prefix is \`${prefix}\``,
         success: (prefix: string) => `Set the server prefix to \`${prefix}\``
     }

@@ -9,7 +9,8 @@ export default class Signature extends Command {
             aliases: ['signature', 'si', 'sig'],
             description: {
                 content: cmd.signature.description,
-                usage: '<hero> [--level=]'
+                usage: '<hero> [-=l, --level=]',
+                examples: ['eironn, rowan --level=20, shemira -l=30']
             },
             args: [
                 {

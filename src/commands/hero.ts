@@ -10,7 +10,8 @@ export default class Hero extends Command {
             aliases: ['hero'],
             description: {
                 content: cmd.hero.description,
-                usage: '<hero>'
+                usage: '<hero>',
+                examples: ['athalia']
             },
             args: [
                 {
@@ -36,10 +37,9 @@ export default class Hero extends Command {
 
         const embed = new MessageEmbed()
             .setAuthor(`${hero.name}  |  ${hero.title}`)
-            .setDescription(
-                stripIndents`
-            *\`${prefix}si ${hero.name}\` to view the hero's signature item
-            \`${prefix}fn ${hero.name}\` to view the hero's furniture ability*`
+            .setDescription(stripIndents`
+                *\`${prefix}si ${hero.name}\` to view the hero's signature item
+                \`${prefix}fn ${hero.name}\` to view the hero's furniture ability*`
             )
             .addField('Faction', hero.faction, true)
             .addField('Role', hero.role, true)

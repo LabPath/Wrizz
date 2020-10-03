@@ -9,7 +9,8 @@ export default class Furniture extends Command {
             aliases: ['furniture', 'fn'],
             description: {
                 content: cmd.furniture.description,
-                usage: '<hero>'
+                usage: '<hero>',
+                examples: ['athalia']
             },
             args: [
                 {
