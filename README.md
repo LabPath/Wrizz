@@ -18,34 +18,34 @@
 
 # Commands
 
-## `?emblems`
+## `!emblems`
 Display the emblems requirements for signature item upgrades
 
-## `?furniture <hero>` [`?fn`]
+## `!furniture <hero>` [`!fn`]
 View the furniture ability and respective upgrades for the given hero  
-Ex. `?furniture athalia`
+Ex. `!furniture athalia`
 
-## `?guides`
+## `!guides`
 Receive a set of links for guides made by the community
 
-## `?help [command]`
+## `!help [command]`
 View information for the given command  
-Ex. `?help map`
+Ex. `!help map`
 
-## `?hero <hero>`
+## `!hero <hero>`
 View general information about the given hero
 
-## `?map [-d=, --date=]`
+## `!map [-d=, --date=]`
 Display the latest Arcane Labyrinth map from [r/LabPath](https://www.reddit.com/r/Lab_path/) or query a map from a specific date  
-Ex. `?map --date=2020-06-25`, `?map -d=4-12-20`
+Ex. `!map --date=2020-06-25`, `!map -d=4-12-20`
 
-## `?prefix [prefix]`
-Change the server's prefix. The default prefix is `?`, along with a mention prefix built in (`@Wrizz`)  
-Ex. `?prefix !`
+## `!prefix [prefix]`
+Change the server's prefix. The default prefix is `!`, along with a mention prefix built in (`@Wrizz`)  
+Ex. `!prefix ?`
 
-## `?signature <hero> [-l=, --level=]` [`?si`, `?sig`]
+## `!signature <hero> [-l=, --level=]` [`!si`, `!sig`]
 View a hero's signature item or a specific level unlock  
-Ex. `?signature eironn`, `?signature rowan --level=20`, `?signature shemira -l=30`
+Ex. `!signature eironn`, `!signature rowan --level=20`, `!signature shemira -l=30`
 
 [ts-badge]: https://img.shields.io/badge/MADE%20WITH-TYPESCRIPT-red?style=for-the-badge&color=007ACC&logo=typescript
 [ts-docs]: https://devdocs.io/typescript/
