@@ -1,13 +1,12 @@
-import { get } from 'superagent';
 import { cmd } from '../utils/Constants';
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import RedditClient from '../client/structures/RedditClient';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import glob from 'glob';
+import fetch from 'node-fetch';
 
 export default class Map extends Command {
-    constructor() {
+    public constructor() {
         super('map', {
             aliases: ['map'],
             description: {
@@ -26,15 +25,12 @@ export default class Map extends Command {
         });
     }
 
-    async exec(message: Message, { date }) {
+    public async exec(message: Message, { date }) {
         if (!date) {
             try {
-                const { body } = await get('https://www.reddit.com/r/Lab_path/new.json?sort=new').query({
-                    limit: 1
-                });
-                return message.util?.send(
-                    new RedditClient(this.client).embed(body.data.children[0].data, false)
-                );
+                const { data } = await (await fetch('https://www.reddit.com/r/Lab_path/hot.json?limit=1')).json()
+
+                return message.util?.send(this.embed(data.children[0].data));
             } catch (err) {
                 return message.util?.send(cmd.map.err_fetch);
             }
@@ -42,23 +38,34 @@ export default class Map extends Command {
 
         date = new Date(date).toISOString();
 
-        glob(`./Lab Path/Maps/**/*${date.split('T')[0]}*.png`, (err, files) => {
-            let file: any;
+        glob(`./Lab Path/Maps/**/*${date.split('T')[0]}*.png`, (err, [file]) => {
 
-            if (files.length) {
-                files.length > 1 ? (file = files[0]) : file;
-
+            if (file) {
                 const img = file.toString().split('/').pop().replace(/<|>|#/g, '');
 
                 const embed = new MessageEmbed()
-                    .attachFiles(file)
-                    .setTitle(`${moment(date).format('MMMM DD, YYYY')}`)
+                    .attachFiles(file as any)
+                    .setTitle(moment(date).format('MMMM DD, YYYY'))
                     .setImage(`attachment://${img}`)
-                    .setColor('FF5700');
+                    .setColor(0xFF5700);
 
                 return message.util?.send(embed);
             }
             return message.util?.send(cmd.map.err_map(date.split('T')[0]));
         });
+    }
+
+    public embed(post: any): MessageEmbed {
+        const time = moment.tz(post.created_utc * 1000, 'America/New_York');
+
+        const embed = new MessageEmbed()
+            .setTitle(time.add(1, 'd').format('MMMM DD, YYYY'))
+            .setURL(`https://reddit.com/${post.permalink}`)
+            .setImage(post.url)
+            .setFooter(`Posted by u/${post.author}`)
+            .setTimestamp(post.created_utc * 1000)
+            .setColor(0xFF5700);
+
+        return embed
     }
 }
