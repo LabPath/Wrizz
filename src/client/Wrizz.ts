@@ -1,31 +1,28 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { sql } from '../utils/PostgreSQL';
-import RedditClient from './structures/RedditClient';
 
+declare module 'discord-akairo' {
+    interface AkairoClient {
+        commands: CommandHandler;
+        listener: ListenerHandler;
+    }
+}
 export default class Wrizz extends AkairoClient {
-    reddit: RedditClient;
-    commands: CommandHandler;
-    listener: ListenerHandler;
+    public commands: CommandHandler;
+    public listener: ListenerHandler;
 
-    constructor() {
+    public constructor() {
         super({ ownerID: process.env.OWNER_ID }, { disableMentions: 'everyone' });
-
-        this.reddit = new RedditClient(this);
 
         this.commands = new CommandHandler(this, {
             prefix: async (message: Message): Promise<any> => {
                 const [guild] = await sql`
                     SELECT prefix
                     FROM settings
-                    WHERE guild_id = ${message.guild.id!}
-                `;
+                    WHERE guild_id = ${message.guild.id!}`;
 
-                if (guild) {
-                    return guild.prefix;
-                } else {
-                    return process.env.PREFIX;
-                }
+                return guild?.prefix ?? process.env.PREFIX;
             },
             directory: `${__dirname}/../commands`,
             allowMention: true,
@@ -38,7 +35,7 @@ export default class Wrizz extends AkairoClient {
         });
     }
 
-    async init() {
+    private async init(): Promise<void> {
         this.commands.useListenerHandler(this.listener);
         this.listener.setEmitters({
             commands: this.commands,
@@ -47,13 +44,9 @@ export default class Wrizz extends AkairoClient {
 
         this.commands.loadAll();
         this.listener.loadAll();
-        console.log('Modules loaded ✔️');
-
-        await this.reddit.init();
-        console.log('Connection established ✔️');
     }
 
-    async start() {
+    public async start(): Promise<any> {
         await this.init();
         return this.login(process.env.TOKEN);
     }

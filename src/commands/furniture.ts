@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import { cmd, factions } from '../utils/Constants';
 import { sql } from '../utils/PostgreSQL';
-
+import { getHero } from 'afk-arena'
 export default class Furniture extends Command {
     constructor() {
         super('furniture', {
