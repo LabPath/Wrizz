@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "An AFK Arena Discord bot, providing useful tools to access in-game information.",
     "scripts": {
-        "start": "node -r dotenv/config ./dist/client/Wrizz.js",
+        "start:prod": "node -r dotenv/config ./dist/client/Wrizz.js",
+        "start:dev": "nodemon -r dotenv/config ./dist/client/Wrizz.js",
         "build": "rm -rf ./dist/ && tsc -b",
         "rename": "node ./scripts/BatchRename.js"
     },
@@ -14,20 +15,22 @@
     "author": "Bread#0110",
     "license": "Apache-2.0",
     "dependencies": {
-        "@types/glob": "^7.1.3",
-        "@types/superagent": "^4.1.10",
+        "afk-arena": "file:../../packages/afk-arena",
         "common-tags": "^1.8.0",
         "discord-akairo": "^8.0.0",
         "discord.js": "^12.3.1",
         "dotenv": "^8.2.0",
         "glob": "^7.1.6",
-        "google-spreadsheet": "^3.0.13",
         "moment": "^2.28.0",
         "moment-timezone": "^0.5.31",
         "ms": "^2.1.2",
-        "postgres": "^2.0.0-beta.0",
-        "request": "^2.88.2",
-        "superagent": "^5.3.1",
+        "node-fetch": "^2.6.1",
+        "postgres": "^2.0.0-beta.0"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.3",
+        "@types/node-fetch": "^2.5.7",
+        "nodemon": "^2.0.6",
         "typescript": "^4.0.3"
     }
 }
