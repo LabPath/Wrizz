@@ -2,7 +2,7 @@ import { cmd } from '../utils/Constants';
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import moment from 'moment-timezone';
-import glob from 'glob';
+import readdirp from 'readdirp'
 import fetch from 'node-fetch';
 
 export default class Map extends Command {
@@ -38,21 +38,21 @@ export default class Map extends Command {
 
         date = new Date(date).toISOString();
 
-        glob(`./Lab Path/Maps/**/*${date.split('T')[0]}*.png`, (err, [file]) => {
+        const dir = readdirp(`${__dirname}/../../Lab Path`, {
+            fileFilter: `*${date.split('T')[0]}*.png`
+        })
 
-            if (file) {
-                const img = file.toString().split('/').pop().replace(/<|>|#/g, '');
+        for await (const file of dir) {
+            const embed = new MessageEmbed()
+                .attachFiles([file.fullPath])
+                .setTitle(moment(date).format('MMMM DD, YYYY'))
+                .setImage(`attachment://${file.basename.replace(/<|>|#/g, '')}`)
+                .setColor(0xFF5700);
 
-                const embed = new MessageEmbed()
-                    .attachFiles(file as any)
-                    .setTitle(moment(date).format('MMMM DD, YYYY'))
-                    .setImage(`attachment://${img}`)
-                    .setColor(0xFF5700);
+            return message.util?.send(embed);
+        }
 
-                return message.util?.send(embed);
-            }
-            return message.util?.send(cmd.map.err_map(date.split('T')[0]));
-        });
+        return message.util?.send(cmd.map.err_map(date.split('T')[0]));
     }
 
     public embed(post: any): MessageEmbed {
