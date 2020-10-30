@@ -3,7 +3,7 @@ import { MessageEmbed, Message } from 'discord.js';
 import { cmd } from '../utils/Constants';
 
 export default class Help extends Command {
-    constructor() {
+    public constructor() {
         super('help', {
             aliases: ['help'],
             description: {
@@ -20,9 +20,9 @@ export default class Help extends Command {
         });
     }
 
-    async exec(message: Message, { cmd }) {
+    public async exec(message: Message, { cmd }) {
         const prefix = await (this.handler.prefix as PrefixSupplier)(message);
-        const embed = new MessageEmbed().setColor('249EA0');
+        const embed = new MessageEmbed().setColor(0x249EA0);
 
         if (!cmd) {
             embed.setAuthor(`Command List  |  Prefix: ${prefix}`, this.client.user.displayAvatarURL());

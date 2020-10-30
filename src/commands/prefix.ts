@@ -4,7 +4,7 @@ import { cmd } from '../utils/Constants';
 import { sql } from '../utils/PostgreSQL';
 
 export default class Prefix extends Command {
-    constructor() {
+    public constructor() {
         super('prefix', {
             aliases: ['prefix'],
             userPermissions: ['MANAGE_GUILD'],
@@ -21,7 +21,7 @@ export default class Prefix extends Command {
         });
     }
 
-    async exec(message: Message, { prefix }) {
+    public async exec(message: Message, { prefix }) {
         if (!prefix) {
             return message.util?.send(
                 cmd.prefix.current(await (this.handler.prefix as PrefixSupplier)(message))
