@@ -1,21 +1,20 @@
 import { stripIndents } from 'common-tags';
-import { User } from 'discord.js';
 
-export const levels = {
-    0: '6C369D',
-    10: '6C369D',
-    20: 'F1C232',
-    30: 'CC0300'
+export enum Levels {
+    default = 0x6C369D,
+    unlock1 = 0x6C369D,
+    unlock2 = 0xF1C232,
+    unlock3 = 0xCC0300
 };
 
-export const factions = {
-    Mauler: 'FFC300',
-    Wilder: '4EF771',
-    Hypogean: '7E00A0',
-    Graveborn: '006C04',
-    Celestial: 'FEFEFE',
-    Lightbearer: '009FCC',
-    Dimensional: '9498FF'
+export enum Factions {
+    Celestial = 0xFEFEFE,
+    Hypogean = 0x7E00A0,
+    Lightbearer = 0x009FCC,
+    Mauler = 0xFFC300,
+    Wilder = 0x4EF771,
+    Graveborn = 0x006C04,
+    Dimensional = 0x9498FF
 };
 
 export const cmd = {
