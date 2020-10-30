@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import { cmd, levels, factions } from '../utils/Constants';
-import { sql } from '../utils/PostgreSQL';
+import { Factions, Levels, cmd } from '../utils/Constants';
+import { AFK, Hero } from 'afk-arena'
 
 export default class Signature extends Command {
     constructor() {
@@ -32,35 +32,37 @@ export default class Signature extends Command {
         });
     }
 
-    async exec(message: Message, { name, level }) {
+    public async exec(message: Message, { name, level }) {
         if (!name) return;
 
-        const [hero] = await sql`
-            SELECT *
-            FROM heroes
-            WHERE LOWER(name) = ${name}`;
+        const Unlocks = {
+            '0': 'default',
+            '10': 'unlock1',
+            '20': 'unlock2',
+            '30': 'unlock3'
+        }
 
+        const hero = await new AFK(name).info() as Hero
         if (!hero) {
             return message.util?.send(cmd.signature.err_hero(name));
         }
 
+        const { signature } = hero
+
         const embed = new MessageEmbed()
-            .setAuthor(`${hero.name}  |  ${hero.si_name}`)
-            .setDescription(`*${hero.si_desc}*`)
-            .addField(
-                `${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${hero.si_skill}`,
-                hero[`si_lvl${level}`]
-            )
-            .setColor(levels[level]);
+            .setAuthor(`${hero.name}  |  ${signature.item}`)
+            .setDescription(`*${signature.description}*`)
+            .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${signature.skill}`, signature[Unlocks[level]])
+            .setColor(Levels[level]);
 
         if (level === 'all') {
             embed.fields = [];
             embed
-                .addField('Unlock', hero.si_lvl0)
-                .addField('+10 Unlock', hero.si_lvl10)
-                .addField('+20 Unlock', hero.si_lvl20)
-                .addField('+30 Unlock', hero.si_lvl30)
-                .setColor(factions[hero.faction]);
+                .addField('Unlock', signature.default)
+                .addField('+10 Unlock', signature.unlock1)
+                .addField('+20 Unlock', signature.unlock2)
+                .addField('+30 Unlock', signature.unlock3)
+                .setColor(Factions[hero.faction]);
         }
 
         return message.util?.send(embed);

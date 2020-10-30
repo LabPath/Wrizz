@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import { cmd, factions } from '../utils/Constants';
-import { sql } from '../utils/PostgreSQL';
+import { Factions, cmd } from '../utils/Constants';
+import { AFK, Hero } from 'afk-arena'
 
 export default class Furniture extends Command {
     constructor() {
@@ -24,20 +24,16 @@ export default class Furniture extends Command {
     async exec(message: Message, { name }) {
         if (!name) return;
 
-        const [hero] = await sql`
-            SELECT *
-            FROM heroes
-            WHERE LOWER(name) = ${name}`;
-
+        const hero = await new AFK(name).info() as Hero
         if (!hero) {
             return message.util?.send(cmd.furniture.err_hero(name));
         }
 
         const embed = new MessageEmbed()
-            .setAuthor(`${hero.name}  |  ${hero.fn_ability}`)
-            .addField('3/3 Mythic Furniture', hero.fn_lvl3)
-            .addField('9/9 Mythic Furniture', hero.fn_lvl9)
-            .setColor(factions[hero.faction]);
+            .setAuthor(`${hero.name}  |  ${hero.furniture.ability}`)
+            .addField('3/3 Mythic Furniture', hero.furniture.unlock1)
+            .addField('9/9 Mythic Furniture', hero.furniture.unlock2)
+            .setColor(Factions[hero.faction]);
 
         return message.util?.send(embed);
     }
