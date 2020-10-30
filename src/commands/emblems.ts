@@ -13,6 +13,6 @@ export default class Emblems extends Command {
     }
 
     public async exec(message: Message) {
-        return message.util?.send({ files: ['./src/assets/images/emblems.png'] });
+        return message.util?.send('https://imgur.com/Yn8XWw7.png');
     }
 }
