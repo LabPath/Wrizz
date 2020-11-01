@@ -1,7 +1,6 @@
 import { Command, PrefixSupplier } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { cmd } from '../utils/Constants';
-import { sql } from '../utils/PostgreSQL';
 
 export default class Prefix extends Command {
     public constructor() {
@@ -28,7 +27,7 @@ export default class Prefix extends Command {
             );
         }
 
-        await sql`
+        await this.client.sql`
             INSERT INTO settings (
                 guild_id,
                 prefix
