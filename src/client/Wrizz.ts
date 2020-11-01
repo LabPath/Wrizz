@@ -1,23 +1,25 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { sql } from '../utils/PostgreSQL';
+import postgres, { Sql } from 'postgres';
 
 declare module 'discord-akairo' {
     interface AkairoClient {
         commands: CommandHandler;
         listener: ListenerHandler;
+        sql: Sql<any>
     }
 }
 export default class Wrizz extends AkairoClient {
     public commands: CommandHandler;
     public listener: ListenerHandler;
+    public sql: Sql<any> = postgres();
 
     public constructor() {
         super({ ownerID: process.env.OWNER_ID }, { disableMentions: 'everyone' });
 
         this.commands = new CommandHandler(this, {
             prefix: async (message: Message): Promise<any> => {
-                const [guild] = await sql`
+                const [guild] = await this.sql`
                     SELECT prefix
                     FROM settings
                     WHERE guild_id = ${message.guild.id!}`;
