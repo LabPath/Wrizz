@@ -1,5 +1,5 @@
 <div align=center>
-	<img src="https://imgur.com/a/hTAelyU.png" width=200>
+	<img src="https://i.imgur.com/naXVPkb.png" width=200>
 
 <h1>
 	Wrizz |
