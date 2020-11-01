@@ -1,9 +1,9 @@
 <div align=center>
-	<img src="https://imgur.com/Ret6yZD.png" width=200>
+	<img src="https://imgur.com/a/hTAelyU.png" width=200>
 
 <h1>
 	Wrizz |
-	<a href="https://discord.com/api/oauth2/authorize?client_id=671430846468849666&permissions=8&scope=bot">
+	<a href="https://discord.com/api/oauth2/authorize?client_id=671430846468849666&permissions=379904&scope=bot">
 		Invite
 	</a>
 </h1>
@@ -56,7 +56,7 @@ Ex. `!signature eironn`, `!signature rowan --level=20`, `!signature shemira -l=3
 [reddit-badge]: https://img.shields.io/badge/SUBREDDIT-r%2FLAB__PATH-white?style=for-the-badge&logo=reddit&color=ff4500
 [reddit-sub]: https://www.reddit.com/r/Lab_path/
 
-[npm-badge]: https://img.shields.io/badge/DISCORD.JS-v12.3.1-white?style=for-the-badge&logo=npm&color=cb3837
+[npm-badge]: https://img.shields.io/badge/DISCORD.JS-v12.4.1-white?style=for-the-badge&logo=npm&color=cb3837
 [npm-link]: https://github.com/discordjs/discord.js
 
 [host-badge]: https://img.shields.io/badge/HOSTED%20WITH-DIGITAL%20OCEAN-white?style=for-the-badge&logo=digitalocean&color=0080ff&logoColor=0080ff
