@@ -1,12 +1,12 @@
 {
     "name": "wrizz",
-    "version": "1.0.0",
-    "description": "An AFK Arena Discord bot, providing useful tools to access in-game information.",
+    "version": "1.1.0",
+    "description": "An AFK Arena Discord bot, providing useful commands to access in-game information.",
     "scripts": {
         "start:prod": "node -r dotenv/config ./dist/client/Wrizz.js",
         "start:dev": "nodemon -r dotenv/config ./dist/client/Wrizz.js",
         "build": "rm -rf ./dist/ && tsc -b",
-        "rename": "node ./scripts/BatchRename.js"
+        "rename": "ts-node ./scripts/Rename.ts"
     },
     "repository": {
         "type": "git",
@@ -30,6 +30,7 @@
     "devDependencies": {
         "@types/node-fetch": "^2.5.7",
         "nodemon": "^2.0.6",
+        "ts-node": "^9.0.0",
         "typescript": "^4.0.3"
     }
 }
