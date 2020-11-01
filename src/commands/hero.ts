@@ -5,7 +5,7 @@ import { Factions, cmd } from '../utils/Constants';
 import { AFK, Hero } from 'afk-arena'
 
 export default class HeroInfo extends Command {
-    constructor() {
+    public constructor() {
         super('hero', {
             aliases: ['hero'],
             description: {
@@ -22,7 +22,7 @@ export default class HeroInfo extends Command {
         });
     }
 
-    async exec(message: Message, { name }) {
+    public async exec(message: Message, { name }) {
         const prefix = await (this.handler.prefix as PrefixSupplier)(message);
         if (!name) return;
 

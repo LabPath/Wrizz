@@ -4,7 +4,7 @@ import { Factions, Levels, cmd } from '../utils/Constants';
 import { AFK, Hero } from 'afk-arena'
 
 export default class Signature extends Command {
-    constructor() {
+    public constructor() {
         super('signature', {
             aliases: ['signature', 'si', 'sig'],
             description: {

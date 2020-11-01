@@ -4,7 +4,7 @@ import { Factions, cmd } from '../utils/Constants';
 import { AFK, Hero } from 'afk-arena'
 
 export default class Furniture extends Command {
-    constructor() {
+    public constructor() {
         super('furniture', {
             aliases: ['furniture', 'fn'],
             description: {
@@ -21,7 +21,7 @@ export default class Furniture extends Command {
         });
     }
 
-    async exec(message: Message, { name }) {
+    public async exec(message: Message, { name }) {
         if (!name) return;
 
         const hero = await new AFK(name).info() as Hero
