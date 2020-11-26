@@ -15,7 +15,7 @@
     "author": "Bread#0110",
     "license": "Apache-2.0",
     "dependencies": {
-        "afk-arena": "file:../../Packages/afk-arena",
+        "afk-arena": "^1.1.0",
         "common-tags": "^1.8.0",
         "discord-akairo": "^8.0.0",
         "discord.js": "^12.3.1",
