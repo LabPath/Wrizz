@@ -41,9 +41,9 @@ export default class HeroInfo extends Command {
             .addField('Role', hero.role, true)
             .addField('Type', hero.type, true)
             .addField('Class', hero.class, true)
-            .addField('Trait', hero.receiving, true)
+            .addField('Trait', hero.trait, true)
             .addField('Armor', hero.armor, true)
-            .addField('Signature Item', hero.signature.item, true)
+            .addField('Signature Item', hero.signature.name, true)
             .addField('Furniture Ability', hero.furniture.ability, true)
             .setColor(Factions[hero.faction]);
 

@@ -50,7 +50,7 @@ export default class Signature extends Command {
         const { signature } = hero
 
         const embed = new MessageEmbed()
-            .setAuthor(`${hero.name}  |  ${signature.item}`)
+            .setAuthor(`${hero.name}  |  ${signature.name}`)
             .setDescription(`*${signature.description}*`)
             .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${signature.skill}`, signature[Unlocks[level]])
             .setColor(Levels[level]);
@@ -58,7 +58,7 @@ export default class Signature extends Command {
         if (level === 'all') {
             embed.fields = [];
             embed
-                .addField('Unlock', signature.default)
+                .addField('Unlock', signature.unlock)
                 .addField('+10 Unlock', signature.unlock1)
                 .addField('+20 Unlock', signature.unlock2)
                 .addField('+30 Unlock', signature.unlock3)
