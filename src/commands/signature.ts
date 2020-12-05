@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
-import { Factions, Levels, cmd } from '../utils/Constants';
-import { AFK, Hero } from 'afk-arena'
+import { Factions, Levels, cmd, Unlocks } from '../utils/Constants';
+import { AFK } from 'afk-arena'
 
 export default class Signature extends Command {
     public constructor() {
@@ -9,8 +9,14 @@ export default class Signature extends Command {
             aliases: ['signature', 'si', 'sig'],
             description: {
                 content: cmd.signature.description,
-                usage: '<hero> [-=l, --level=]',
-                examples: ['eironn, rowan --level=20, shemira -l=30']
+                options: [
+                    {
+                        flags: '[-l=, --level=]',
+                        description: cmd.signature.options
+                    }
+                ],
+                usage: '<hero> [-l=, --level=]',
+                examples: ['eironn', 'rowan --level=20', 'shemira -l=30']
             },
             args: [
                 {
@@ -21,12 +27,11 @@ export default class Signature extends Command {
                     id: 'level',
                     type: (_, num) => {
                         if (!num) return null;
-                        if (!['all', '0', '10', '20', '30'].includes(num)) return null;
+                        if (!['0', '10', '20', '30'].includes(num)) return null;
                         return num;
                     },
                     match: 'option',
-                    flag: ['--level=', '-lvl='],
-                    default: 'all'
+                    flag: ['--level=', '-lvl=']
                 }
             ]
         });
@@ -35,14 +40,7 @@ export default class Signature extends Command {
     public async exec(message: Message, { name, level }) {
         if (!name) return;
 
-        const Unlocks = {
-            '0': 'default',
-            '10': 'unlock1',
-            '20': 'unlock2',
-            '30': 'unlock3'
-        }
-
-        const hero = await new AFK(name).info() as Hero
+        const [hero] = await AFK.Hero.get(name)
         if (!hero) {
             return message.util?.send(cmd.signature.err_hero(name));
         }
@@ -50,12 +48,12 @@ export default class Signature extends Command {
         const { signature } = hero
 
         const embed = new MessageEmbed()
-            .setAuthor(`${hero.name}  |  ${signature.name}`)
+            .setAuthor(`${hero.name} | ${signature.name}`)
             .setDescription(`*${signature.description}*`)
-            .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'}  |  ${signature.skill}`, signature[Unlocks[level]])
+            .addField(`${level !== '0' ? `+${level} Unlock` : 'Unlock'} | ${signature.skill}`, signature[Unlocks[level]])
             .setColor(Levels[level]);
 
-        if (level === 'all') {
+        if (!level) {
             embed.fields = [];
             embed
                 .addField('Unlock', signature.unlock)

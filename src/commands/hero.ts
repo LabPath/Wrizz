@@ -2,7 +2,7 @@ import { Command, PrefixSupplier } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import { stripIndents } from 'common-tags';
 import { Factions, cmd } from '../utils/Constants';
-import { AFK, Hero } from 'afk-arena'
+import { AFK } from 'afk-arena'
 
 export default class HeroInfo extends Command {
     public constructor() {
@@ -26,7 +26,7 @@ export default class HeroInfo extends Command {
         const prefix = await (this.handler.prefix as PrefixSupplier)(message);
         if (!name) return;
 
-        const hero = await new AFK(name).info() as Hero
+        const [hero] = await AFK.Hero.get(name)
         if (!hero) {
             return message.util?.send(cmd.hero.err_hero(name));
         }

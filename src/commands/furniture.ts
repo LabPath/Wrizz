@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import { Factions, cmd } from '../utils/Constants';
-import { AFK, Hero } from 'afk-arena'
+import { AFK } from 'afk-arena'
 
 export default class Furniture extends Command {
     public constructor() {
@@ -24,7 +24,7 @@ export default class Furniture extends Command {
     public async exec(message: Message, { name }) {
         if (!name) return;
 
-        const hero = await new AFK(name).info() as Hero
+        const [hero] = await AFK.Hero.get(name)
         if (!hero) {
             return message.util?.send(cmd.furniture.err_hero(name));
         }
