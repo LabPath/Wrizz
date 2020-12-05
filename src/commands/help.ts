@@ -2,6 +2,10 @@ import { Command, PrefixSupplier } from 'discord-akairo';
 import { MessageEmbed, Message } from 'discord.js';
 import { cmd } from '../utils/Constants';
 
+interface CommandOption {
+    flags: string
+    description: string
+}
 export default class Help extends Command {
     public constructor() {
         super('help', {
@@ -20,12 +24,12 @@ export default class Help extends Command {
         });
     }
 
-    public async exec(message: Message, { cmd }) {
+    public async exec(message: Message, { cmd }: { cmd: Command }) {
         const prefix = await (this.handler.prefix as PrefixSupplier)(message);
-        const embed = new MessageEmbed().setColor(0x249EA0);
+        const embed = new MessageEmbed().setColor(0xFEFEFE);
 
         if (!cmd) {
-            embed.setAuthor(`Command List  |  Prefix: ${prefix}`, this.client.user.displayAvatarURL());
+            embed.setAuthor(`Command List | Prefix: ${prefix}`, this.client.user.displayAvatarURL());
 
             for (const category of this.handler.categories.values()) {
                 embed.setDescription(
@@ -40,11 +44,11 @@ export default class Help extends Command {
         const { aliases, description } = cmd;
 
         embed
-            .setAuthor(prefix + aliases[0])
+            .setAuthor(`${prefix + aliases[0]} ${aliases.length > 1 ? `(${aliases.slice(1).join(', ')})` : ''}`)
             .setDescription(description.content)
 
-        if (aliases.length > 1) {
-            embed.addField('❯ Aliases', `\`${aliases.slice(1).join('` `')}\``)
+        if (description.options.length > 0) {
+            embed.addField('❯ Options', description.options.map((opt: CommandOption) => `\`${opt.flags}\`\n${opt.description}`))
         }
             
         if (description.usage) {
