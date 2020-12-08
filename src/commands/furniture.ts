@@ -21,7 +21,7 @@ export default class Furniture extends Command {
         });
     }
 
-    public async exec(message: Message, { name }) {
+    public async exec(message: Message, { name }: { name: string }) {
         if (!name) return;
 
         const [hero] = await AFK.Hero.get(name)

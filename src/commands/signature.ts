@@ -11,7 +11,7 @@ export default class Signature extends Command {
                 content: cmd.signature.description,
                 options: [
                     {
-                        flags: '[-l=, --level=]',
+                        flag: '[-l=, --level=]',
                         description: cmd.signature.options
                     }
                 ],
@@ -25,9 +25,11 @@ export default class Signature extends Command {
                 },
                 {
                     id: 'level',
-                    type: (_, num) => {
-                        if (!num) return null;
-                        if (!['0', '10', '20', '30'].includes(num)) return null;
+                    type: (_, num: string) => {
+                        if (!num || !['0', '10', '20', '30'].includes(num)) {
+                            return null;
+                        }
+
                         return num;
                     },
                     match: 'option',
@@ -37,7 +39,7 @@ export default class Signature extends Command {
         });
     }
 
-    public async exec(message: Message, { name, level }) {
+    public async exec(message: Message, { name, level }: { name: string, level: string }) {
         if (!name) return;
 
         const [hero] = await AFK.Hero.get(name)

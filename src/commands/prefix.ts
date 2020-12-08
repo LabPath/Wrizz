@@ -20,7 +20,7 @@ export default class Prefix extends Command {
         });
     }
 
-    public async exec(message: Message, { prefix }) {
+    public async exec(message: Message, { prefix }: { prefix: string }) {
         if (!prefix) {
             return message.util?.send(
                 cmd.prefix.current(await (this.handler.prefix as PrefixSupplier)(message))

@@ -22,7 +22,7 @@ export default class HeroInfo extends Command {
         });
     }
 
-    public async exec(message: Message, { name }) {
+    public async exec(message: Message, { name }: { name: string }) {
         const prefix = await (this.handler.prefix as PrefixSupplier)(message);
         if (!name) return;
 
