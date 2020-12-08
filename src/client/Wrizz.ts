@@ -20,9 +20,9 @@ export default class Wrizz extends AkairoClient {
         this.commands = new CommandHandler(this, {
             prefix: async (message: Message): Promise<string> => {
                 const [guild] = await this.sql<{ prefix: string }>`
-            SELECT prefix
-            FROM settings
-            WHERE guild_id = ${message.guild.id}`
+                    SELECT prefix
+                    FROM settings
+                    WHERE guild_id = ${message.guild.id}`
 
                 return guild?.prefix ?? process.env.PREFIX;
             },
