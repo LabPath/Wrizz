@@ -3,7 +3,7 @@ import { MessageEmbed, Message } from 'discord.js';
 import { cmd } from '../utils/Constants';
 
 interface CommandOption {
-    flags: string
+    flag: string
     description: string
 }
 export default class Help extends Command {
@@ -48,7 +48,7 @@ export default class Help extends Command {
             .setDescription(description.content)
 
         if (description.options.length > 0) {
-            embed.addField('❯ Options', description.options.map((opt: CommandOption) => `\`${opt.flags}\`\n${opt.description}`))
+            embed.addField('❯ Options', description.options.map((opt: CommandOption) => `\`${opt.flag}\`\n${opt.description}\n`))
         }
             
         if (description.usage) {
