@@ -14,17 +14,17 @@ export default class Guides extends Command {
     }
 
     public async exec(message: Message) {
+        const base = 'https://www.reddit.com/r/whitesushii/wiki/index'
+
         const embed = new MessageEmbed()
-            .setTitle('Guides & Resources')
-            .addField('❯ Guides', stripIndents`
-                • [General](https://bread.gitbook.io/guides/general)
-                • [Mechanics](https://bread.gitbook.io/guides/mechanics)
-                • [Gameplay](https://bread.gitbook.io/guides/gameplay)
-                • [Events](https://bread.gitbook.io/guides/events)`, true)
-            .addField('❯ Resources', stripIndents`
-                • [Guide Collection](https://bread.gitbook.io/guides/)
-                • [r/Whitesushii](https://www.reddit.com/r/whitesushii/)`, true)
-            .setColor('249EA0');
+            .setAuthor('Guides', 'https://imgur.com/tLARjuI.jpg', 'https://www.reddit.com/r/whitesushii/')
+            .setDescription(stripIndents`
+                • [Index](${base})
+                • [General](${base}#wiki_general)
+                • [Mechanics](${base}#wiki_mechanics)
+                • [Gameplay](${base}#wiki_gameplay)
+                • [Events](${base}#wiki_events)`)
+            .setColor(0xFEFEFE);
 
         return message.util?.send(embed);
     }
