@@ -1,21 +1,10 @@
 import { stripIndents } from 'common-tags';
 
-export const dateRegex = /\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2][0-9]|3[0-1])/
-
-export const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-];
+export const LONG_DATE_FORMAT = {
+    month: 'long',
+    day: '2-digit',
+    year: 'numeric'
+}
 
 export const Unlocks = {
     '0': 'default',
@@ -61,16 +50,19 @@ export const cmd = {
     },
 
     map: {
-        description: `Display the latest Arcane Labyrinth map from [r/LabPath](${process.env.REDDIT_URL})`,
-        options: stripIndents`
-            Search a map by date in \`YYYY-MM-DD\` format
+        description: `Display the latest Arcane Labyrinth or Dismal Maze map from [r/LabPath](${process.env.REDDIT_URL})`,
+        options: {
+            date: stripIndents`
+                Search a map by date in \`ISO 8601\` (\`YYYY-MM-DD\`) format
 
-            YYYY: A four-digit year; currently either 2019 or 2020
-            MM: A two-digit month; zero padded (e.g. 04 = April)
-            DD: A two-digit date; zero padded (e.g. 27)
-            
-            2020-01-01 --> January 1st, 2020
-        `,
+                YYYY: A four-digit year; currently either 2019 or 2020
+                MM: A two-digit month; zero padded (e.g. 04 = April)
+                DD: A two-digit date; zero padded (e.g. 27)
+                
+                2020-01-01 = January 1st, 2020
+            `,
+            mode: 'Select which mode\'s map to return'
+        },
         err_fetch: 'There was an error while fetching the latest map',
         err_map: (id: string) => `There was an error while fetching submission \`${id}\`. You could try the url itself: https://redd.it/${id}`,
     },
